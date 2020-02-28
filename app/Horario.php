@@ -9,6 +9,6 @@ class Horario extends Model
     protected $fillable = ['Fecha', 'Tipo_viaje', 'Coche_Matricula', 'Hora'];
 
     public function coche(){
-        return $this->beongsTo('App\Coche', 'Coche_Matricula', 'Matricula');
+        return $this->belongsTo('App\Coche', 'Coche_Matricula', 'Matricula');
     }
 }
