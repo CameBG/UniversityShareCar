@@ -9,7 +9,7 @@ class Coche extends Model
     protected $fillable = ['Matricula', 'Marca', 'Modelo', 'Pasajeros', 'Conductor_DNI'];
 
     public function conductor() {
-        return $this->belongsTo('App\Conductor');
+        return $this->belongsTo('App\Conductor', 'Conductor_DNI', 'DNI');
     }
 
     public function horarios(){
