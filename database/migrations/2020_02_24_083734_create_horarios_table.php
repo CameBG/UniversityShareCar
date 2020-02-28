@@ -18,6 +18,8 @@ class CreateHorariosTable extends Migration
             $table->string('Tipo_viaje');
             $table->string('Coche_Matricula');
             $table->time('Hora'); // NO NULO
+            $table->string('Origen');
+            $table->string('Destino');
             $table->timestamps();
             
             $table->primary(['Fecha', 'Tipo_viaje', 'Coche_Matricula']);
