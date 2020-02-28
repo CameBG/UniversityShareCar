@@ -13,6 +13,6 @@ class Coche extends Model
     }
 
     public function horarios(){
-        return $this->hasMany('App\Horario');
+        return $this->hasMany('App\Horario', 'Coche_Matricula', 'Matricula');
     }
 }
