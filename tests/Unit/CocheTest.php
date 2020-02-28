@@ -5,14 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Coche;
 use App\Conductor;
-use Illuminate\Database\Eloquent\Model;
-//use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-//use Illuminate\Foundation\Testing\DatabaseMigrations;
-
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CocheTest extends TestCase
 {
@@ -42,6 +35,6 @@ class CocheTest extends TestCase
         $conductor = $coche->conductor;
 
         $this->assertEquals("12345678A", $conductor->DNI);
-        //$this->assertEquals("Antonio", $conductor->Nombre);
+        $this->assertEquals("Antonio", $conductor->Nombre);
     }
 }
