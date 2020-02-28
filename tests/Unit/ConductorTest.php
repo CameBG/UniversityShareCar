@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Conductor;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class CocheTest extends TestCase
+class ConductorTest extends TestCase
 {
     /**
      * A basic unit test example.
@@ -18,7 +18,7 @@ class CocheTest extends TestCase
 
     public function testRecogerDatos()
     {
-        Conductor::create(['DNI' => '12345678B', 'Nombre' => 'Juan',    'Edad' => 21, 'Correo' => 'juan@dss.com']);
+        Conductor::create(['DNI' => '12345678B', 'Nombre' => 'Juan', 'Edad' => 21, 'Correo' => 'juan@dss.com']);
 
         $conductor = Conductor::query()->first();
         
