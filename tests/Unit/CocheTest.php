@@ -22,7 +22,7 @@ class CocheTest extends TestCase
     public function testRecogerDatos()
     {
         Conductor::create(['DNI' => '12345678A', 'Nombre' => 'Antonio', 'Edad' => 20, 'Correo' => 'antonio@dss.com']);
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Pasajeros' => 4, 'Conductor_DNI' => '12345678A']);
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Precio' => 1, 'Conductor_DNI' => '12345678A']);
         Slot::create(['Fecha' => '2020-02-21', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC', 'Hora' => '08:15']);
 
         $coche = Coche::query()->first();
@@ -30,7 +30,8 @@ class CocheTest extends TestCase
         $this->assertEquals("A1234BC", $coche->Matricula);
         $this->assertEquals("Mercedes", $coche->Marca);
         $this->assertEquals('modelo1', $coche->Modelo);
-        $this->assertEquals(4, $coche->Pasajeros);
+        $this->assertEquals(4, $coche->Plazas);
+        $this->assertEquals(1, $coche->Precio);
         $this->assertEquals('12345678A', $coche->Conductor_DNI);
 
         $conductor = $coche->conductor;
@@ -49,10 +50,10 @@ class CocheTest extends TestCase
         Conductor::create(['DNI' => '12345678B', 'Nombre' => 'Juan',    'Edad' => 21, 'Correo' => 'juan@dss.com'   ]);
         Conductor::create(['DNI' => '12345678L', 'Nombre' => 'Jorge',   'Edad' => 21, 'Correo' => 'jorge@dss.com'  ]);
 
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1',     'Pasajeros' => 4, 'Conductor_DNI' => '12345678A']);
-        Coche::create(['Matricula' => 'X5678YZ', 'Marca' => 'Hyundai',  'Modelo' => 'modeloX',     'Pasajeros' => 4, 'Conductor_DNI' => '12345678A']);
-        Coche::create(['Matricula' => 'RT5555A', 'Marca' => 'Mercedes', 'Modelo' => 'modeloPeque', 'Pasajeros' => 2, 'Conductor_DNI' => '12345678B']);
-        Coche::create(['Matricula' => 'ON4328A', 'Marca' => 'Dacia',    'Modelo' => 'modeloG',     'Pasajeros' => 3, 'Conductor_DNI' => '12345678L']);
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1',     'Plazas' => 4, 'Precio' => 1, 'Conductor_DNI' => '12345678A']);
+        Coche::create(['Matricula' => 'X5678YZ', 'Marca' => 'Hyundai',  'Modelo' => 'modeloX',     'Plazas' => 4, 'Precio' => 1, 'Conductor_DNI' => '12345678A']);
+        Coche::create(['Matricula' => 'RT5555A', 'Marca' => 'Mercedes', 'Modelo' => 'modeloPeque', 'Plazas' => 2, 'Precio' => 1.5, 'Conductor_DNI' => '12345678B']);
+        Coche::create(['Matricula' => 'ON4328A', 'Marca' => 'Dacia',    'Modelo' => 'modeloG',     'Plazas' => 3, 'Precio' => 1, 'Conductor_DNI' => '12345678L']);
 
         // Nombre del conductor del modeloPeque
         $conductor = Coche::query()->join('conductors', 'coches.Conductor_DNI', 'conductors.DNI')->where('Modelo', 'modeloPeque')->first();
@@ -66,10 +67,10 @@ class CocheTest extends TestCase
         $conductor = new Conductor(['DNI' => '12345678D', 'Nombre' => 'Andrea',  'Edad' => 30, 'Correo' => 'andrea@dss.com']);
         $conductor->save();
 
-        $c_valid = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Dacia',    'Modelo' => 'modeloG', 'Pasajeros' => 3, 'Conductor_DNI' => '12345678D']);
+        $c_valid = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Dacia', 'Modelo' => 'modeloG', 'Plazas' => 3,  'Precio' => 1, 'Conductor_DNI' => '12345678D']);
         $c_valid->save();
 
-        $this->assertDatabaseHas('coches', ['Matricula' => 'ON4328A', 'Marca' => 'Dacia',    'Modelo' => 'modeloG', 'Pasajeros' => 3, 'Conductor_DNI' => '12345678D']);
+        $this->assertDatabaseHas('coches', ['Matricula' => 'ON4328A', 'Marca' => 'Dacia', 'Modelo' => 'modeloG', 'Plazas' => 3, 'Conductor_DNI' => '12345678D']);
     }
 
     public function testDuplicatePK(){
@@ -79,10 +80,10 @@ class CocheTest extends TestCase
         $conductor = new Conductor(['DNI' => '12345678D', 'Nombre' => 'Andrea',  'Edad' => 30, 'Correo' => 'andrea@dss.com']);
         $conductor->save();
         
-        $c_valid = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Dacia',    'Modelo' => 'modeloG',     'Pasajeros' => 3, 'Conductor_DNI' => '12345678D']);
+        $c_valid = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Dacia', 'Modelo' => 'modeloG', 'Plazas' => 3,  'Precio' => 1, 'Conductor_DNI' => '12345678D']);
         $c_valid->save();
 
-        $c_invalid = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Mercedes',    'Modelo' => 'modelo5',     'Pasajeros' => 2, 'Conductor_DNI' => '12345678D']);
+        $c_invalid = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Mercedes', 'Modelo' => 'modelo5', 'Plazas' => 2,  'Precio' => 1, 'Conductor_DNI' => '12345678D']);
         $c_invalid->save();
     }
 
@@ -93,7 +94,7 @@ class CocheTest extends TestCase
         $conductor = new Conductor(['DNI' => '12345678D', 'Nombre' => 'Andrea',  'Edad' => 30, 'Correo' => 'andrea@dss.com']);
         $conductor->save();
 
-        $c_invalid = new Coche(['Matricula' => NULL, 'Marca' => 'Mercedes',    'Modelo' => 'modelo5',     'Pasajeros' => 2, 'Conductor_DNI' => '12345678D']);
+        $c_invalid = new Coche(['Matricula' => NULL, 'Marca' => 'Mercedes', 'Modelo' => 'modelo5', 'Plazas' => 2,  'Precio' => 1, 'Conductor_DNI' => '12345678D']);
         $c_invalid->save();
     }
 
@@ -101,7 +102,7 @@ class CocheTest extends TestCase
 
         $this->expectException(QueryException::class);
 
-        $c_valid = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Dacia',    'Modelo' => 'modeloG', 'Pasajeros' => 3, 'Conductor_DNI' => '12345678D']);
+        $c_valid = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Dacia', 'Modelo' => 'modeloG', 'Plazas' => 3,  'Precio' => 1, 'Conductor_DNI' => '12345678D']);
         $c_valid->save();
     }
 }
