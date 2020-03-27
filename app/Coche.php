@@ -12,7 +12,7 @@ class Coche extends Model
         return $this->belongsTo('App\Conductor', 'Conductor_DNI', 'DNI');
     }
 
-    public function horarios(){
-        return $this->hasMany('App\Horario', 'Coche_Matricula', 'Matricula');
+    public function slots(){
+        return $this->hasMany('App\Slot', 'Coche_Matricula', 'Matricula');
     }
 }

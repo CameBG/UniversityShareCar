@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Conductor;
 use App\Coche;
-use App\Horario;
+use App\Slot;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Database\QueryException;
 
@@ -23,7 +23,7 @@ class CocheTest extends TestCase
     {
         Conductor::create(['DNI' => '12345678A', 'Nombre' => 'Antonio', 'Edad' => 20, 'Correo' => 'antonio@dss.com']);
         Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Pasajeros' => 4, 'Conductor_DNI' => '12345678A']);
-        Horario::create(['Fecha' => '2020-02-21', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC', 'Hora' => '08:15', 'Origen' => 'Novelda', 'Destino' => 'UA']);
+        Slot::create(['Fecha' => '2020-02-21', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC', 'Hora' => '08:15']);
 
         $coche = Coche::query()->first();
 
@@ -38,10 +38,9 @@ class CocheTest extends TestCase
         $this->assertEquals("12345678A", $conductor->DNI);
         $this->assertEquals("Antonio", $conductor->Nombre);
 
-        $horario = $coche->horarios()->first();
+        $slot = $coche->slots()->first();
 
-        $this->assertEquals("A1234BC", $horario->Coche_Matricula);
-        $this->assertEquals("Novelda", $horario->Origen);
+        $this->assertEquals("A1234BC", $slot->Coche_Matricula);
     }
 
     public function testQuery()
