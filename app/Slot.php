@@ -11,4 +11,8 @@ class Slot extends Model
     public function coche(){
         return $this->belongsTo('App\Coche', 'Coche_Matricula', 'Matricula');
     }
+
+    public function lineaSlots(){
+        return $this->hasMany('App\LinaSlot', 'Slot_id', 'id');
+    }
 }
