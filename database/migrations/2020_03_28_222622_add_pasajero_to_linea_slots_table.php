@@ -14,7 +14,7 @@ class AddPasajeroToLineaSlotsTable extends Migration
     public function up()
     {
         Schema::table('linea_slots', function (Blueprint $table) {
-            $table->string('Pasajero_id', 9);
+            $table->string('Pasajero_id', 9)->nullable();
 
             $table->foreign('Pasajero_id')->references('DNI')->on('pasajeros');
         });
