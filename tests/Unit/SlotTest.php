@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Conductor;
 use App\Coche;
 use App\Slot;
+use App\Ruta;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Database\QueryException;
 
@@ -20,8 +21,10 @@ class SlotTest extends TestCase
     
     public function testRecogerDatos()
     {
+        Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
+        $ruta_id = Ruta::query()->first()->id;
         Conductor::create(['DNI' => '12345678A', 'Nombre' => 'Antonio', 'Edad' => 20, 'Correo' => 'antonio@dss.com']);
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4,  'Precio' => 1, 'Conductor_DNI' => '12345678A']);
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4,  'Precio' => 1, 'Conductor_DNI' => '12345678A', 'Ruta_id' => $ruta_id]);
         Slot::create(['Fecha' => '2020-02-20', 'Hora' => '08:15', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC']);
 
         $slot = Slot::query()->first();
@@ -46,8 +49,11 @@ class SlotTest extends TestCase
     {
         Conductor::create(['DNI' => '12345678A', 'Nombre' => 'Antonio', 'Edad' => 20, 'Correo' => 'antonio@dss.com']);
 
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Precio' => 1,   'Conductor_DNI' => '12345678A']);
-        Coche::create(['Matricula' => 'X5678YZ', 'Marca' => 'Hyundai',  'Modelo' => 'modeloX', 'Plazas' => 4, 'Precio' => 1.5, 'Conductor_DNI' => '12345678A']);
+        Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
+        $ruta_id = Ruta::query()->first()->id;
+
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Precio' => 1,   'Conductor_DNI' => '12345678A', 'Ruta_id' => $ruta_id]);
+        Coche::create(['Matricula' => 'X5678YZ', 'Marca' => 'Hyundai',  'Modelo' => 'modeloX', 'Plazas' => 4, 'Precio' => 1.5, 'Conductor_DNI' => '12345678A', 'Ruta_id' => $ruta_id]);
 
         Slot::create(['Fecha' => '2020-02-21', 'Hora' => '08:15', 'Tipo_viaje' => 'Ida',    'Coche_Matricula' => 'A1234BC']);
         Slot::create(['Fecha' => '2020-02-20', 'Hora' => '13:15', 'Tipo_viaje' => 'Vuelta', 'Coche_Matricula' => 'A1234BC']);
@@ -69,6 +75,10 @@ class SlotTest extends TestCase
         $conductor->Correo = 'andrea@dss.com';
         $conductor->save();
 
+        $ruta = new Ruta();
+        $ruta->Localidad = 'Novelda';
+        $ruta->Universidad = 'UA';
+        $ruta->save();
         $coche = new Coche();
         $coche->Matricula = 'ON4328A';
         $coche->Marca = 'Mercedes';
@@ -76,6 +86,7 @@ class SlotTest extends TestCase
         $coche->Plazas = 4;
         $coche->Precio = 1;
         $coche->Conductor_DNI = '12345678D';
+        $coche->Ruta_id = $ruta->id;
         $coche->save();
 
         $slot = new Slot();
@@ -95,7 +106,10 @@ class SlotTest extends TestCase
         $conductor = new Conductor(['DNI' => '12345678D', 'Nombre' => 'Andrea',  'Edad' => 30, 'Correo' => 'andrea@dss.com']);
         $conductor->save();
         
-        $coche = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Dacia',    'Modelo' => 'modeloG', 'Plazas' => 3, 'Precio' => 1, 'Conductor_DNI' => '12345678D']);
+        $ruta = new Ruta(['Localidad' => 'Santa Pola', 'Universidad' => 'UA']);
+        $ruta->save();
+
+        $coche = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Dacia',    'Modelo' => 'modeloG', 'Plazas' => 3, 'Precio' => 1, 'Conductor_DNI' => '12345678D', 'Ruta_id' => $ruta->id]);
         $coche->save();
 
         $h_invalid = new Slot(['Fecha' => NULL, 'Hora' => '13:15', 'Tipo_viaje' => 'Vuelta', 'Coche_Matricula' => 'ON4328A']);

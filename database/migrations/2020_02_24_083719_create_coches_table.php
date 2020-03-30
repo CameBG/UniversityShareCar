@@ -20,10 +20,12 @@ class CreateCochesTable extends Migration
             $table->unsignedInteger('Plazas'); //NO NULO
             $table->double('Precio'); //NO NULO
             $table->string('Conductor_DNI');
+            $table->integer('Ruta_id')->unsigned();
             $table->timestamps();
 
             $table->primary('Matricula');
             $table->foreign('Conductor_DNI')->references('DNI')->on('conductors')->onDelete('cascade');
+            $table->foreign('Ruta_id')->references('id')->on('rutas');
         });
     }
 
