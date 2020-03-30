@@ -15,9 +15,8 @@ protected $fillable = ['Matricula', 'Marca', 'Modelo', 'Plazas', 'Precio', 'Cond
     public function slots(){
         return $this->hasMany('App\Slot', 'Coche_Matricula', 'Matricula');
     }
+
     public function ruta() {
         return $this->belongsTo('App\Ruta', 'Ruta_id', 'id');
     }
-    
-    
 }
