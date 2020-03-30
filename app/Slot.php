@@ -13,6 +13,6 @@ class Slot extends Model
     }
 
     public function lineaSlots(){
-        return $this->hasMany('App\LinaSlot', 'Slot_id', 'id');
+        return $this->hasMany('App\LineaSlot', 'Slot_id', 'id');
     }
 }

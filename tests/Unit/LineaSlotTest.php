@@ -28,18 +28,23 @@ class LineaSlotTest extends TestCase
         Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Precio' => 1, 'Conductor_DNI' => '12345678A', 'Ruta_id' => $ruta_id]);
         Slot::create(['Fecha' => '2020-02-21', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC', 'Hora' => '08:15']);
         
-        $slotId = Conductor::query()->first()->coches()->first()->slots()->first();
-        $this->assertEquals(1, $slotId->id);
+        $slot = Conductor::query()->first()->coches()->first()->slots()->first();
+        $this->assertEquals(1, $slot->id);
 
         $plazas = Conductor::query()->first()->coches()->first()->Plazas;
         $this->assertEquals(4, $plazas);
 
         for($indice = 1; $indice <= $plazas; $indice++){
-            LineaSlot::create(['Slot_id' => $slotId->id, 'numAsiento' => $indice]);
+            LineaSlot::create(['Slot_id' => $slot->id, 'numAsiento' => $indice]);
         }
         
+        // de linea sacas un slot, el coche y el conductor
         $conductor = LineaSlot::query()->first()->slot->coche->conductor;
         $this->assertEquals('Antonio', $conductor->Nombre);
+
+        // de un slot sacas una linea
+        $linea = $slot->lineaSlots()->first();
+        $this->assertEquals('1', $linea->numAsiento);
     }
 
     public function numAsientos()
