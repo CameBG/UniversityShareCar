@@ -17,7 +17,10 @@ class CreatePasajerosTable extends Migration
             $table->string('DNI', 9);
             $table->string('Nombre');
             $table->unsignedInteger('Edad');
-            $table->string('Correo');
+            $table->string('Genero')->nullable();
+            $table->string('Correo');            
+            $table->string('Imagen')->nullable();
+            $table->string('Telefono', 9)->nullable();
             $table->timestamps();
 
             $table->primary('DNI');

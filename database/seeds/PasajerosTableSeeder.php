@@ -13,7 +13,7 @@ class PasajerosTableSeeder extends Seeder
     public function run()
     {
         Pasajero::query()->delete();
-        Pasajero::create(['DNI' => '11111111A', 'Nombre' => 'Came', 'Edad' => 20, 'Correo' => 'came@dss.com']);
+        Pasajero::create(['DNI' => '11111111A', 'Nombre' => 'Came', 'Edad' => 20, 'Genero' => 'Mujer', 'Correo' => 'came@dss.com', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
         Pasajero::create(['DNI' => '11111111B', 'Nombre' => 'Edgar', 'Edad' => 20, 'Correo' => 'edgar@dss.com']);
         Pasajero::create(['DNI' => '11111111C', 'Nombre' => 'Sandra', 'Edad' => 23, 'Correo' => 'sandra@dss.com']);
         Pasajero::create(['DNI' => '11111111D', 'Nombre' => 'Tudor', 'Edad' => 21, 'Correo' => 'tudor@dss.com']);

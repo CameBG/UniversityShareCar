@@ -26,14 +26,17 @@ class PasajeroTest extends TestCase
         Conductor::create(['DNI' => '12345678A', 'Nombre' => 'Antonio', 'Edad' => 20, 'Correo' => 'antonio@dss.com']);
         Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Precio' => 1, 'Conductor_DNI' => '12345678A']);
         Slot::create(['Fecha' => '2020-02-21', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC', 'Hora' => '08:15']);  
-        Pasajero::create(['DNI' => '11111111E', 'Nombre' => 'Estefania', 'Edad' => 33, 'Correo' => 'estefania@dss.com']);
-        
+        Pasajero::create(['DNI' => '11111111E', 'Nombre' => 'Estefania', 'Edad' => 33, 'Genero' => 'Mujer', 'Correo' => 'estefania@dss.com', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+    
         $pasajero = Pasajero::query()->first();
 
         $this->assertEquals('11111111E', $pasajero->DNI);
         $this->assertEquals("Estefania", $pasajero->Nombre);
         $this->assertEquals(33, $pasajero->Edad);
         $this->assertEquals("estefania@dss.com", $pasajero->Correo);
+        $this->assertEquals("Mujer", $pasajero->Genero);
+        $this->assertEquals("ruta/imagen", $pasajero->Imagen);
+        $this->assertEquals("666666666", $pasajero->Telefono);
 
         $slotId = Slot::query()->first()->id;
 
