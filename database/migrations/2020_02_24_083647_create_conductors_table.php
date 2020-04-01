@@ -14,13 +14,15 @@ class CreateConductorsTable extends Migration
     public function up()
     {
         Schema::create('conductors', function (Blueprint $table) {
-            $table->string('DNI', 9);
+            $table->string('Correo');
             $table->string('Nombre');
             $table->unsignedInteger('Edad');
-            $table->string('Correo');
             $table->timestamps();
+            $table->unsignedBigInteger('Ruta_id');
+            $table->string('Punto_de_Recogida');
 
-            $table->primary('DNI');
+            $table->primary('Correo');
+            $table->foreign('Ruta_id')->references('id')->on('rutas');
         });
     }
 

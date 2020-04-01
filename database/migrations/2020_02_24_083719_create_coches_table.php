@@ -19,13 +19,11 @@ class CreateCochesTable extends Migration
             $table->string('Modelo');
             $table->unsignedInteger('Plazas'); //NO NULO
             $table->double('Precio'); //NO NULO
-            $table->string('Conductor_DNI');
-            $table->integer('Ruta_id')->unsigned();
+            $table->string('Conductor_Correo');
             $table->timestamps();
 
             $table->primary('Matricula');
-            $table->foreign('Conductor_DNI')->references('DNI')->on('conductors')->onDelete('cascade');
-            $table->foreign('Ruta_id')->references('id')->on('rutas');
+            $table->foreign('Conductor_Correo')->references('Correo')->on('conductors')->onDelete('cascade');
         });
     }
 

@@ -22,9 +22,10 @@ class RutaTest extends TestCase
     {
         Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
         $ruta_id = Ruta::query()->first()->id;
-        Conductor::create(['DNI' => '12345678A', 'Nombre' => 'Antonio', 'Edad' => 20, 'Correo' => 'antonio@dss.com']);
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4,  'Precio' => 1, 'Conductor_DNI' => '12345678A', 'Ruta_id' => $ruta_id]);
-        Coche::create(['Matricula' => 'A1234BD', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4,  'Precio' => 1, 'Conductor_DNI' => '12345678A', 'Ruta_id' => $ruta_id]);
+        Conductor::create(['Correo' => 'emailej1A@dss.es', 'Nombre' => 'Antonio', 'Edad' => 20, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
+        Conductor::create(['Correo' => 'emailej2A@dss.es', 'Nombre' => 'Andrea', 'Edad' => 25, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4,  'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
+        Coche::create(['Matricula' => 'A1234BD', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4,  'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
        
 
         $ruta = Ruta::query()->first();
@@ -32,14 +33,14 @@ class RutaTest extends TestCase
         $this->assertEquals("Novelda", $ruta->Localidad);
         $this->assertEquals("UA", $ruta->Universidad);
         
-        $coche = $ruta->coches()->get();
+        $coche = $ruta->conductores()->first()->coches()->first();
 
-        $this->assertEquals("A1234BC", $coche[0]->Matricula);
-        $this->assertEquals("A1234BD", $coche[1]->Matricula);
+        $this->assertEquals("A1234BC", $coche->Matricula);
 
-        $conductor = $ruta->coches()->first()->conductor;
+        $conductor = $ruta->conductores()->get();
         
-        $this->assertEquals("12345678A", $conductor->DNI);
+        $this->assertEquals("emailej1A@dss.es", $conductor[0]->Correo);
+        $this->assertEquals("emailej2A@dss.es", $conductor[1]->Correo);
         
     }
 
