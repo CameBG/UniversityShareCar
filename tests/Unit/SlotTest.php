@@ -23,8 +23,8 @@ class SlotTest extends TestCase
     {
         Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
         $ruta_id = Ruta::query()->first()->id;
-        Conductor::create(['DNI' => '12345678A', 'Nombre' => 'Antonio', 'Edad' => 20, 'Correo' => 'antonio@dss.com']);
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4,  'Precio' => 1, 'Conductor_DNI' => '12345678A', 'Ruta_id' => $ruta_id]);
+        Conductor::create(['Correo' => 'emailej1A@dss.es', 'Nombre' => 'Antonio', 'Edad' => 20, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4,  'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
         Slot::create(['Fecha' => '2020-02-20', 'Hora' => '08:15', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC']);
 
         $slot = Slot::query()->first();
@@ -41,19 +41,19 @@ class SlotTest extends TestCase
 
         $conductor = $coche->conductor;
 
-        $this->assertEquals("12345678A", $conductor->DNI);
+        $this->assertEquals("emailej1A@dss.es", $conductor->Correo);
         $this->assertEquals("Antonio", $conductor->Nombre);
     }
 
     public function testQuery()
     {
-        Conductor::create(['DNI' => '12345678A', 'Nombre' => 'Antonio', 'Edad' => 20, 'Correo' => 'antonio@dss.com']);
-
         Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
         $ruta_id = Ruta::query()->first()->id;
 
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Precio' => 1,   'Conductor_DNI' => '12345678A', 'Ruta_id' => $ruta_id]);
-        Coche::create(['Matricula' => 'X5678YZ', 'Marca' => 'Hyundai',  'Modelo' => 'modeloX', 'Plazas' => 4, 'Precio' => 1.5, 'Conductor_DNI' => '12345678A', 'Ruta_id' => $ruta_id]);
+        Conductor::create(['Correo' => 'emailej1A@dss.es', 'Nombre' => 'Antonio', 'Edad' => 20, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
+
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Precio' => 1,   'Conductor_Correo' => 'emailej1A@dss.es']);
+        Coche::create(['Matricula' => 'X5678YZ', 'Marca' => 'Hyundai',  'Modelo' => 'modeloX', 'Plazas' => 4, 'Precio' => 1.5, 'Conductor_Correo' => 'emailej1A@dss.es']);
 
         Slot::create(['Fecha' => '2020-02-21', 'Hora' => '08:15', 'Tipo_viaje' => 'Ida',    'Coche_Matricula' => 'A1234BC']);
         Slot::create(['Fecha' => '2020-02-20', 'Hora' => '13:15', 'Tipo_viaje' => 'Vuelta', 'Coche_Matricula' => 'A1234BC']);
@@ -61,32 +61,32 @@ class SlotTest extends TestCase
         Slot::create(['Fecha' => '2020-02-24', 'Hora' => '13:15', 'Tipo_viaje' => 'Vuelta', 'Coche_Matricula' => 'X5678YZ']);
 
         // Nombre del conductor que va a las 13:15
-        $conductor = Slot::query()->join('coches', 'slots.Coche_Matricula', 'coches.Matricula')->join('conductors', 'coches.Conductor_DNI', 'conductors.DNI')->where('Hora', '13:15:00')->first();
+        $conductor = Slot::query()->join('coches', 'slots.Coche_Matricula', 'coches.Matricula')->join('conductors', 'coches.Conductor_Correo', 'conductors.Correo')->where('Hora', '13:15:00')->first();
     
         $this->assertEquals("Antonio", $conductor->Nombre);
     }
 
    public function testCrear() {
-
-        $conductor = new Conductor();
-        $conductor->DNI = '12345678D';
-        $conductor->Nombre = 'Andrea';
-        $conductor->Edad = 30;
-        $conductor->Correo = 'andrea@dss.com';
-        $conductor->save();
-
         $ruta = new Ruta();
         $ruta->Localidad = 'Novelda';
         $ruta->Universidad = 'UA';
         $ruta->save();
+
+        $conductor = new Conductor();
+        $conductor->Correo = 'emailej1D@dss.es';
+        $conductor->Nombre = 'Andrea';
+        $conductor->Edad = 30;
+        $conductor->Ruta_id = $ruta->id;
+        $conductor->Punto_de_Recogida = 'punto1';
+        $conductor->save();
+
         $coche = new Coche();
         $coche->Matricula = 'ON4328A';
         $coche->Marca = 'Mercedes';
         $coche->Modelo = 'modelo1';
         $coche->Plazas = 4;
         $coche->Precio = 1;
-        $coche->Conductor_DNI = '12345678D';
-        $coche->Ruta_id = $ruta->id;
+        $coche->Conductor_Correo = 'emailej1D@dss.es';
         $coche->save();
 
         $slot = new Slot();
@@ -103,13 +103,13 @@ class SlotTest extends TestCase
 
         $this->expectException(QueryException::class);
 
-        $conductor = new Conductor(['DNI' => '12345678D', 'Nombre' => 'Andrea',  'Edad' => 30, 'Correo' => 'andrea@dss.com']);
-        $conductor->save();
-        
         $ruta = new Ruta(['Localidad' => 'Santa Pola', 'Universidad' => 'UA']);
         $ruta->save();
 
-        $coche = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Dacia',    'Modelo' => 'modeloG', 'Plazas' => 3, 'Precio' => 1, 'Conductor_DNI' => '12345678D', 'Ruta_id' => $ruta->id]);
+        $conductor = new Conductor(['Correo' => 'emailej1D@dss.es', 'Nombre' => 'Andrea',  'Edad' => 30, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta->id]);
+        $conductor->save();
+        
+        $coche = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Dacia',    'Modelo' => 'modeloG', 'Plazas' => 3, 'Precio' => 1, 'Conductor_Correo' => 'emailej1D@dss.es']);
         $coche->save();
 
         $h_invalid = new Slot(['Fecha' => NULL, 'Hora' => '13:15', 'Tipo_viaje' => 'Vuelta', 'Coche_Matricula' => 'ON4328A']);
