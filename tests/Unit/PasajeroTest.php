@@ -29,14 +29,16 @@ class PasajeroTest extends TestCase
         Conductor::create(['Nombre' => 'Antonio', 'Edad' => 20, 'Correo' => 'antonio@dss.com', 'Punto_de_Recogida' => 'casa', 'Ruta_id' => $ruta_id]);
         Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Precio' => 1, 'Conductor_Correo' => 'antonio@dss.com']);
         Slot::create(['Fecha' => '2020-02-21', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC', 'Hora' => '08:15']);  
-        Pasajero::create(['DNI' => '11111111E', 'Nombre' => 'Estefania', 'Edad' => 33, 'Correo' => 'estefania@dss.com']);
-        
+        Pasajero::create(['Correo' => 'estefania@dss.com', 'Nombre' => 'Estefania', 'Edad' => 33, 'Genero' => 'Mujer', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+    
         $pasajero = Pasajero::query()->first();
 
-        $this->assertEquals('11111111E', $pasajero->DNI);
-        $this->assertEquals("Estefania", $pasajero->Nombre);
-        $this->assertEquals(33, $pasajero->Edad);
-        $this->assertEquals("estefania@dss.com", $pasajero->Correo);
+        $this->assertEquals('estefania@dss.com', $pasajero->Correo);
+        $this->assertEquals('Estefania', $pasajero->Nombre);
+        $this->assertEquals(33, $pasajero->Edad);  
+        $this->assertEquals('Mujer', $pasajero->Genero);
+        $this->assertEquals('ruta/imagen', $pasajero->Imagen);
+        $this->assertEquals('666666666', $pasajero->Telefono);
 
         $slotId = Slot::query()->first()->id;
 
@@ -44,7 +46,7 @@ class PasajeroTest extends TestCase
 
         for($indice = 1; $indice <= $plazas; $indice++){
             if($indice == 3) {
-                LineaSlot::create(['Slot_id' => $slotId, 'numAsiento' => $indice, 'Pasajero_id' => $pasajero->DNI]);
+                LineaSlot::create(['Slot_id' => $slotId, 'numAsiento' => $indice, 'Pasajero_id' => $pasajero->Correo]);
             }
             else {
                 LineaSlot::create(['Slot_id' => $slotId, 'numAsiento' => $indice]);
@@ -52,7 +54,7 @@ class PasajeroTest extends TestCase
         }
 
         $linea_pasajero = LineaSlot::query()->where('numAsiento', 3)->first()->pasajero;
-        $this->assertEquals('11111111E', $linea_pasajero->DNI);
+        $this->assertEquals('estefania@dss.com', $linea_pasajero->Correo);
 
         $linea_vacia = LineaSlot::query()->where('numAsiento', 2)->first();
         $this->assertEquals(null, $linea_vacia->Pasajero_id);
