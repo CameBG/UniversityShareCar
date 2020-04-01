@@ -14,16 +14,15 @@ class CreatePasajerosTable extends Migration
     public function up()
     {
         Schema::create('pasajeros', function (Blueprint $table) {
-            $table->string('DNI', 9);
+            $table->string('Correo');
             $table->string('Nombre');
             $table->unsignedInteger('Edad');
-            $table->string('Genero')->nullable();
-            $table->string('Correo');            
+            $table->string('Genero')->nullable();           
             $table->string('Imagen')->nullable();
             $table->string('Telefono', 9)->nullable();
             $table->timestamps();
 
-            $table->primary('DNI');
+            $table->primary('Correo');
         });
     }
 

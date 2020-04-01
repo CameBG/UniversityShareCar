@@ -13,25 +13,25 @@ class PasajerosTableSeeder extends Seeder
     public function run()
     {
         Pasajero::query()->delete();
-        Pasajero::create(['DNI' => '11111111A', 'Nombre' => 'Came', 'Edad' => 20, 'Genero' => 'Mujer', 'Correo' => 'came@dss.com', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
-        Pasajero::create(['DNI' => '11111111B', 'Nombre' => 'Edgar', 'Edad' => 20, 'Correo' => 'edgar@dss.com']);
-        Pasajero::create(['DNI' => '11111111C', 'Nombre' => 'Sandra', 'Edad' => 23, 'Correo' => 'sandra@dss.com']);
-        Pasajero::create(['DNI' => '11111111D', 'Nombre' => 'Tudor', 'Edad' => 21, 'Correo' => 'tudor@dss.com']);
-        Pasajero::create(['DNI' => '11111111E', 'Nombre' => 'Estefania', 'Edad' => 33, 'Correo' => 'estefania@dss.com']);
-        Pasajero::create(['DNI' => '22222222A', 'Nombre' => 'Paco', 'Edad' => 40, 'Correo' => 'paco@dss.com']);
-        Pasajero::create(['DNI' => '22222222B', 'Nombre' => 'Jose', 'Edad' => 18, 'Correo' => 'jose@dss.com']);
-        Pasajero::create(['DNI' => '22222222C', 'Nombre' => 'Javi', 'Edad' => 19, 'Correo' => 'javi@dss.com']);
-        Pasajero::create(['DNI' => '22222222D', 'Nombre' => 'Fran', 'Edad' => 18, 'Correo' => 'fran@dss.com']);
-        Pasajero::create(['DNI' => '22222222E', 'Nombre' => 'Sofia', 'Edad' => 21, 'Correo' => 'sofia@dss.com']);
-        Pasajero::create(['DNI' => '33333333A', 'Nombre' => 'Felipe', 'Edad' => 22, 'Correo' => 'felipe@dss.com']);
-        Pasajero::create(['DNI' => '33333333B', 'Nombre' => 'Daniel', 'Edad' => 21, 'Correo' => 'daniel@dss.com']);
-        Pasajero::create(['DNI' => '33333333C', 'Nombre' => 'Alejandro', 'Edad' => 22, 'Correo' => 'alejandro@dss.com']);
-        Pasajero::create(['DNI' => '33333333D', 'Nombre' => 'Roberto', 'Edad' => 23, 'Correo' => 'roberto@dss.com']);
-        Pasajero::create(['DNI' => '33333333E', 'Nombre' => 'Fernando', 'Edad' => 26, 'Correo' => 'fernando@dss.com']);
-        Pasajero::create(['DNI' => '44444444A', 'Nombre' => 'Andrea', 'Edad' => 17, 'Correo' => 'andrea@dss.com']);
-        Pasajero::create(['DNI' => '44444444B', 'Nombre' => 'Alejandra', 'Edad' => 18, 'Correo' => 'alejandra@dss.com']);
-        Pasajero::create(['DNI' => '44444444C', 'Nombre' => 'Maria', 'Edad' => 18, 'Correo' => 'maria@dss.com']);
-        Pasajero::create(['DNI' => '44444444D', 'Nombre' => 'Lorena', 'Edad' => 18, 'Correo' => 'lorena@dss.com']);
-        Pasajero::create(['DNI' => '44444444E', 'Nombre' => 'Sara', 'Edad' => 18, 'Correo' => 'sara@dss.com']);    
+        Pasajero::create(['Correo' => 'came@dss.com', 'Nombre' => 'Came', 'Edad' => 20, 'Genero' => 'Mujer', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'edgar@dss.com', 'Nombre' => 'Edgar', 'Edad' => 20, 'Genero' => 'Hombre', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'sandra@dss.com', 'Nombre' => 'Sandra', 'Edad' => 23, 'Genero' => 'Mujer', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'tudor@dss.com', 'Nombre' => 'Tudor', 'Edad' => 21, 'Genero' => 'Hombre', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'estefania@dss.com', 'Nombre' => 'Estefania', 'Edad' => 33, 'Genero' => 'Mujer', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'paco@dss.com', 'Nombre' => 'Paco', 'Edad' => 40, 'Genero' => 'Hombre', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'jose@dss.com', 'Nombre' => 'Jose', 'Edad' => 18, 'Genero' => 'Hombre', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'javi@dss.com', 'Nombre' => 'Javi', 'Edad' => 19, 'Genero' => 'Hombre', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'fran@dss.com', 'Nombre' => 'Fran', 'Edad' => 18, 'Genero' => 'Hombre', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'sofia@dss.com', 'Nombre' => 'Sofia', 'Edad' => 21, 'Genero' => 'Hombre', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'felipe@dss.com', 'Nombre' => 'Felipe', 'Edad' => 22, 'Genero' => 'Hombre', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'daniel@dss.com', 'Nombre' => 'Daniel', 'Edad' => 21, 'Genero' => 'Hombre', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'alejandro@dss.com', 'Nombre' => 'Alejandro', 'Edad' => 22, 'Genero' => 'Hombre', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'roberto@dss.com', 'Nombre' => 'Roberto', 'Edad' => 23, 'Genero' => 'Hombre', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'fernando@dss.com', 'Nombre' => 'Fernando', 'Edad' => 26, 'Genero' => 'Hombre', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
+        Pasajero::create(['Correo' => 'andrea@dss.com', 'Nombre' => 'Andrea', 'Edad' => 17]);
+        Pasajero::create(['Correo' => 'alejandra@dss.com', 'Nombre' => 'Alejandra', 'Edad' => 18]);
+        Pasajero::create(['Correo' => 'maria@dss.com', 'Nombre' => 'Maria', 'Edad' => 18]);
+        Pasajero::create(['Correo' => 'lorena@dss.com', 'Nombre' => 'Lorena', 'Edad' => 18]);
+        Pasajero::create(['Correo' => 'sara@dss.com', 'Nombre' => 'Sara', 'Edad' => 18]);    
     }
 }

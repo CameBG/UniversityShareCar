@@ -12,6 +12,6 @@ class LineaSlot extends Model
         return $this->belongsTo('App\Slot', 'Slot_id', 'id');
     }
     public function pasajero() {
-        return $this->belongsTo('App\Pasajero', 'Pasajero_id', 'DNI');
+        return $this->belongsTo('App\Pasajero', 'Pasajero_id', 'Correo');
     }
 }
