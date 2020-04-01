@@ -20,6 +20,9 @@ class CreateConductorsTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('Ruta_id');
             $table->string('Punto_de_Recogida');
+            $table->string('Genero')->nullable();        
+            $table->string('Imagen')->nullable();
+            $table->string('Telefono', 9)->nullable();
 
             $table->primary('Correo');
             $table->foreign('Ruta_id')->references('id')->on('rutas');
