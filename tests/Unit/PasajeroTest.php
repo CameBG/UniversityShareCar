@@ -24,10 +24,10 @@ class PasajeroTest extends TestCase
 
     public function testRecogerDatos()
     {
-        Conductor::create(['DNI' => '12345678A', 'Nombre' => 'Antonio', 'Edad' => 20, 'Correo' => 'antonio@dss.com']);
         Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
         $ruta_id = Ruta::query()->first()->id;
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Precio' => 1, 'Conductor_DNI' => '12345678A', 'Ruta_id' => $ruta_id]);
+        Conductor::create(['Nombre' => 'Antonio', 'Edad' => 20, 'Correo' => 'antonio@dss.com', 'Punto_de_Recogida' => 'casa', 'Ruta_id' => $ruta_id]);
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Precio' => 1, 'Conductor_Correo' => 'antonio@dss.com']);
         Slot::create(['Fecha' => '2020-02-21', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC', 'Hora' => '08:15']);  
         Pasajero::create(['DNI' => '11111111E', 'Nombre' => 'Estefania', 'Edad' => 33, 'Correo' => 'estefania@dss.com']);
         
