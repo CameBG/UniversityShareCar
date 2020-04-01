@@ -18,6 +18,8 @@ class CreateCochesTable extends Migration
             $table->string('Marca');
             $table->string('Modelo');
             $table->unsignedInteger('Plazas'); //NO NULO
+            $table->string('Imagen')->nullable();
+            $table->string('Nombre');
             $table->double('Precio'); //NO NULO
             $table->string('Conductor_Correo');
             $table->timestamps();

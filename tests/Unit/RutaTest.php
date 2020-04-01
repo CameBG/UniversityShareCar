@@ -24,8 +24,8 @@ class RutaTest extends TestCase
         $ruta_id = Ruta::query()->first()->id;
         Conductor::create(['Correo' => 'emailej1A@dss.es', 'Nombre' => 'Antonio', 'Edad' => 20, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
         Conductor::create(['Correo' => 'emailej2A@dss.es', 'Nombre' => 'Andrea', 'Edad' => 25, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4,  'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
-        Coche::create(['Matricula' => 'A1234BD', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4,  'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
+        Coche::create(['Matricula' => 'A1234BD', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
        
 
         $ruta = Ruta::query()->first();

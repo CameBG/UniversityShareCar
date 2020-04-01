@@ -27,7 +27,7 @@ class PasajeroTest extends TestCase
         Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
         $ruta_id = Ruta::query()->first()->id;
         Conductor::create(['Nombre' => 'Antonio', 'Edad' => 20, 'Correo' => 'antonio@dss.com', 'Punto_de_Recogida' => 'casa', 'Ruta_id' => $ruta_id]);
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Precio' => 1, 'Conductor_Correo' => 'antonio@dss.com']);
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1, 'Conductor_Correo' => 'antonio@dss.com']);
         Slot::create(['Fecha' => '2020-02-21', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC', 'Hora' => '08:15']);  
         Pasajero::create(['Correo' => 'estefania@dss.com', 'Nombre' => 'Estefania', 'Edad' => 33, 'Genero' => 'Mujer', 'Imagen' => 'ruta/imagen', 'Telefono' => '666666666']);
     

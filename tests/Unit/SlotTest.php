@@ -24,7 +24,7 @@ class SlotTest extends TestCase
         Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
         $ruta_id = Ruta::query()->first()->id;
         Conductor::create(['Correo' => 'emailej1A@dss.es', 'Nombre' => 'Antonio', 'Edad' => 20, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4,  'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
         Slot::create(['Fecha' => '2020-02-20', 'Hora' => '08:15', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC']);
 
         $slot = Slot::query()->first();
@@ -52,8 +52,8 @@ class SlotTest extends TestCase
 
         Conductor::create(['Correo' => 'emailej1A@dss.es', 'Nombre' => 'Antonio', 'Edad' => 20, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
 
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Precio' => 1,   'Conductor_Correo' => 'emailej1A@dss.es']);
-        Coche::create(['Matricula' => 'X5678YZ', 'Marca' => 'Hyundai',  'Modelo' => 'modeloX', 'Plazas' => 4, 'Precio' => 1.5, 'Conductor_Correo' => 'emailej1A@dss.es']);
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1,   'Conductor_Correo' => 'emailej1A@dss.es']);
+        Coche::create(['Matricula' => 'X5678YZ', 'Marca' => 'Hyundai',  'Modelo' => 'modeloX', 'Plazas' => 4, 'Nombre' => 'Coche2', 'Precio' => 1.5, 'Conductor_Correo' => 'emailej1A@dss.es']);
 
         Slot::create(['Fecha' => '2020-02-21', 'Hora' => '08:15', 'Tipo_viaje' => 'Ida',    'Coche_Matricula' => 'A1234BC']);
         Slot::create(['Fecha' => '2020-02-20', 'Hora' => '13:15', 'Tipo_viaje' => 'Vuelta', 'Coche_Matricula' => 'A1234BC']);
@@ -85,6 +85,7 @@ class SlotTest extends TestCase
         $coche->Marca = 'Mercedes';
         $coche->Modelo = 'modelo1';
         $coche->Plazas = 4;
+        $coche->Nombre = 'coche1';
         $coche->Precio = 1;
         $coche->Conductor_Correo = 'emailej1D@dss.es';
         $coche->save();
@@ -109,7 +110,7 @@ class SlotTest extends TestCase
         $conductor = new Conductor(['Correo' => 'emailej1D@dss.es', 'Nombre' => 'Andrea',  'Edad' => 30, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta->id]);
         $conductor->save();
         
-        $coche = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Dacia',    'Modelo' => 'modeloG', 'Plazas' => 3, 'Precio' => 1, 'Conductor_Correo' => 'emailej1D@dss.es']);
+        $coche = new Coche(['Matricula' => 'ON4328A', 'Marca' => 'Dacia', 'Modelo' => 'modeloG', 'Plazas' => 3, 'Nombre' => 'Coche1', 'Precio' => 1, 'Conductor_Correo' => 'emailej1D@dss.es']);
         $coche->save();
 
         $h_invalid = new Slot(['Fecha' => NULL, 'Hora' => '13:15', 'Tipo_viaje' => 'Vuelta', 'Coche_Matricula' => 'ON4328A']);

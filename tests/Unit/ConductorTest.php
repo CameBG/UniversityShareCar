@@ -25,7 +25,7 @@ class ConductorTest extends TestCase
         Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
         $ruta_id = Ruta::query()->first()->id;
         Conductor::create(['Correo' => 'emailej1A@dss.es', 'Nombre' => 'Antonio', 'Edad' => 20, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4,  'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
+        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
         Slot::create(['Fecha' => '2020-02-21', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC', 'Hora' => '08:15']);
 
         $conductor = Conductor::query()->first();
@@ -67,7 +67,7 @@ class ConductorTest extends TestCase
         $c_valid = new Conductor(['Correo' => 'emailej1D@dss.es', 'Nombre' => 'Andrea',  'Edad' => 30, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
         $c_valid->save();
 
-        $this->assertDatabaseHas('conductors', ['Correo' => 'emailej1D@dss.es', 'Nombre' => 'Andrea',  'Edad' => 30, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
+        $this->assertDatabaseHas('conductors', ['Correo' => 'emailej1D@dss.es', 'Nombre' => 'Andrea', 'Edad' => 30, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
     }
 
     public function testDuplicatePK(){
