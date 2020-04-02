@@ -2,28 +2,22 @@
 
 use Illuminate\Database\Seeder;
 use App\Ruta;
+use App\Conductor;
 
 class RutasTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
+        Conductor::query()->delete();
         Ruta::query()->delete();
         
-        Ruta::create(['Localidad' =>    'Novelda', 'Universidad' => 'UA' ]);
-        Ruta::create(['Localidad' =>    'Novelda', 'Universidad' => 'UMH']);
-
-        Ruta::create(['Localidad' => 'Santa Pola', 'Universidad' => 'UA' ]);
-        Ruta::create(['Localidad' => 'Santa Pola', 'Universidad' => 'UMH']);
-
-        Ruta::create(['Localidad' =>     'Elche', 'Universidad' => 'UA' ]);
-        Ruta::create(['Localidad' =>     'Elche', 'Universidad' => 'UMH']);
-        Ruta::create(['Localidad' =>     'Elche', 'Universidad' => 'UV' ]);
-        
-        Ruta::create(['Localidad' =>     'Alcoy', 'Universidad' => 'UPV']);
+        Ruta::create(['localidad' => 'Novelda',    'universidad' => 'UA' ]);
+        Ruta::create(['localidad' => 'Novelda',    'universidad' => 'UMH']);
+        Ruta::create(['localidad' => 'Santa Pola', 'universidad' => 'UA' ]);
+        Ruta::create(['localidad' => 'Santa Pola', 'universidad' => 'UMH']);
+        Ruta::create(['localidad' => 'Elche',      'universidad' => 'UA' ]);
+        Ruta::create(['localidad' => 'Elche',      'universidad' => 'UMH']);
+        Ruta::create(['localidad' => 'Elche',      'universidad' => 'UV' ]);
+        Ruta::create(['localidad' => 'Alcoy',      'universidad' => 'UPV']);
     }
 }

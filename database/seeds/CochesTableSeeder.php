@@ -6,32 +6,26 @@ use App\Ruta;
 
 class CochesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1',     'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1,   'Conductor_Correo' => 'emailej1A@dss.es']);
-        Coche::create(['Matricula' => 'X5678YZ', 'Marca' => 'Hyundai',  'Modelo' => 'modeloX',     'Plazas' => 4, 'Nombre' => 'Coche2', 'Precio' => 1.5, 'Conductor_Correo' => 'emailej1A@dss.es']);
-        Coche::create(['Matricula' => 'HI5102R', 'Marca' => 'Mercedes', 'Modelo' => 'modeloL',     'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1.5, 'Conductor_Correo' => 'emailej1K@dss.es']);
-        Coche::create(['Matricula' => 'ON4328A', 'Marca' => 'Dacia',    'Modelo' => 'modeloG',     'Plazas' => 3, 'Nombre' => 'Coche1', 'Precio' => 1,   'Conductor_Correo' => 'emailej1L@dss.es']);
+        Coche::query()->delete();
 
-        Coche::create(['Matricula' => 'RT5555A', 'Marca' => 'Mercedes', 'Modelo' => 'modeloPeque', 'Plazas' => 2, 'Nombre' => 'Coche1', 'Precio' => 1,   'Conductor_Correo' => 'emailej1B@dss.es']);
-        Coche::create(['Matricula' => 'LL3333P', 'Marca' => 'Honda',    'Modelo' => 'modelo5',     'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1,   'Conductor_Correo' => 'emailej1C@dss.es']);
-        Coche::create(['Matricula' => 'XD4141D', 'Marca' => 'Subaru',   'Modelo' => 'modelo7A',    'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1.5, 'Conductor_Correo' => 'emailej1D@dss.es']);
-        Coche::create(['Matricula' => 'B1234CD', 'Marca' => 'Audi',     'Modelo' => 'modelo1',     'Plazas' => 3, 'Nombre' => 'Coche1', 'Precio' => 2,   'Conductor_Correo' => 'emailej1E@dss.es']);
-        Coche::create(['Matricula' => 'C1905BG', 'Marca' => 'Dacia',    'Modelo' => 'modeloX',     'Plazas' => 3, 'Nombre' => 'Coche1', 'Precio' => 1,   'Conductor_Correo' => 'emailej1F@dss.es']);
-        Coche::create(['Matricula' => 'MP1808A', 'Marca' => 'Skoda',    'Modelo' => 'modeloS',     'Plazas' => 3, 'Nombre' => 'Coche1', 'Precio' => 1,   'Conductor_Correo' => 'emailej1J@dss.es']);
-
-        Coche::create(['Matricula' => 'AV3032V', 'Marca' => 'Honda',    'Modelo' => 'modeloF',     'Plazas' => 4, 'Nombre' => 'Coche2', 'Precio' => 2,   'Conductor_Correo' => 'emailej1J@dss.es']);
-        Coche::create(['Matricula' => 'GB5456D', 'Marca' => 'Ford',     'Modelo' => 'modeloJ',     'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1,   'Conductor_Correo' => 'emailej1H@dss.es']);
-        Coche::create(['Matricula' => 'A8754MS', 'Marca' => 'BMW',      'Modelo' => 'modeloP',     'Plazas' => 3, 'Nombre' => 'Coche1', 'Precio' => 1,   'Conductor_Correo' => 'emailej1I@dss.es']);
-        Coche::create(['Matricula' => 'D8862AD', 'Marca' => 'Hyundai',  'Modelo' => 'modeloZ',     'Plazas' => 4, 'Nombre' => 'Coche2', 'Precio' => 1,   'Conductor_Correo' => 'emailej1I@dss.es']);
-
-        Coche::create(['Matricula' => 'GI0111S', 'Marca' => 'Audi',     'Modelo' => 'modeloQ',     'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1,   'Conductor_Correo' => 'emailej1P@dss.es']);
-        Coche::create(['Matricula' => 'AA1919M', 'Marca' => 'Jeep',     'Modelo' => 'modeloG',     'Plazas' => 3, 'Nombre' => 'Coche1', 'Precio' => 2,   'Conductor_Correo' => 'emailej1Q@dss.es']);
-        Coche::create(['Matricula' => 'EP1803H', 'Marca' => 'Volvo',    'Modelo' => 'modeloQ',     'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1,   'Conductor_Correo' => 'emailej1O@dss.es']);
+        Coche::create(['matricula' => 'A1234BC', 'nombre' => 'Coche1', 'marca' => 'Mercedes', 'modelo' => 'modelo1',     'plazas' => 4, 'precioViaje' => 1,   'conductor_correo' => 'emailej1A@dss.es']);
+        Coche::create(['matricula' => 'X5678YZ', 'nombre' => 'Coche2', 'marca' => 'Hyundai',  'modelo' => 'modeloX',     'plazas' => 4, 'precioViaje' => 1.5, 'conductor_correo' => 'emailej1A@dss.es']);
+        Coche::create(['matricula' => 'HI5102R', 'nombre' => 'Coche1', 'marca' => 'Mercedes', 'modelo' => 'modeloL',     'plazas' => 4, 'precioViaje' => 1.5, 'conductor_correo' => 'emailej1K@dss.es']);
+        Coche::create(['matricula' => 'ON4328A', 'nombre' => 'Coche1', 'marca' => 'Dacia',    'modelo' => 'modeloG',     'plazas' => 3, 'precioViaje' => 1,   'conductor_correo' => 'emailej1L@dss.es']);
+        Coche::create(['matricula' => 'RT5555A', 'nombre' => 'Coche1', 'marca' => 'Mercedes', 'modelo' => 'modeloPeque', 'plazas' => 2, 'precioViaje' => 1,   'conductor_correo' => 'emailej1B@dss.es']);
+        Coche::create(['matricula' => 'LL3333P', 'nombre' => 'Coche1', 'marca' => 'Honda',    'modelo' => 'modelo5',     'plazas' => 4, 'precioViaje' => 1,   'conductor_correo' => 'emailej1C@dss.es']);
+        Coche::create(['matricula' => 'XD4141D', 'nombre' => 'Coche1', 'marca' => 'Subaru',   'modelo' => 'modelo7A',    'plazas' => 4, 'precioViaje' => 1.5, 'conductor_correo' => 'emailej1D@dss.es']);
+        Coche::create(['matricula' => 'B1234CD', 'nombre' => 'Coche1', 'marca' => 'Audi',     'modelo' => 'modelo1',     'plazas' => 3, 'precioViaje' => 2,   'conductor_correo' => 'emailej1E@dss.es']);
+        Coche::create(['matricula' => 'C1905BG', 'nombre' => 'Coche1', 'marca' => 'Dacia',    'modelo' => 'modeloX',     'plazas' => 3, 'precioViaje' => 1,   'conductor_correo' => 'emailej1F@dss.es']);
+        Coche::create(['matricula' => 'MP1808A', 'nombre' => 'Coche1', 'marca' => 'Skoda',    'modelo' => 'modeloS',     'plazas' => 3, 'precioViaje' => 1,   'conductor_correo' => 'emailej1J@dss.es']);
+        Coche::create(['matricula' => 'AV3032V', 'nombre' => 'Coche2', 'marca' => 'Honda',    'modelo' => 'modeloF',     'plazas' => 4, 'precioViaje' => 2,   'conductor_correo' => 'emailej1J@dss.es']);
+        Coche::create(['matricula' => 'GB5456D', 'nombre' => 'Coche1', 'marca' => 'Ford',     'modelo' => 'modeloJ',     'plazas' => 4, 'precioViaje' => 1,   'conductor_correo' => 'emailej1H@dss.es']);
+        Coche::create(['matricula' => 'A8754MS', 'nombre' => 'Coche1', 'marca' => 'BMW',      'modelo' => 'modeloP',     'plazas' => 3, 'precioViaje' => 1,   'conductor_correo' => 'emailej1I@dss.es']);
+        Coche::create(['matricula' => 'D8862AD', 'nombre' => 'Coche2', 'marca' => 'Hyundai',  'modelo' => 'modeloZ',     'plazas' => 4, 'precioViaje' => 1,   'conductor_correo' => 'emailej1I@dss.es']);
+        Coche::create(['matricula' => 'GI0111S', 'nombre' => 'Coche1', 'marca' => 'Audi',     'modelo' => 'modeloQ',     'plazas' => 4, 'precioViaje' => 1,   'conductor_correo' => 'emailej1P@dss.es']);
+        Coche::create(['matricula' => 'AA1919M', 'nombre' => 'Coche1', 'marca' => 'Jeep',     'modelo' => 'modeloG',     'plazas' => 3, 'precioViaje' => 2,   'conductor_correo' => 'emailej1Q@dss.es']);
+        Coche::create(['matricula' => 'EP1803H', 'nombre' => 'Coche1', 'marca' => 'Volvo',    'modelo' => 'modeloQ',     'plazas' => 4, 'precioViaje' => 1,   'conductor_correo' => 'emailej1O@dss.es']);
     }
 }

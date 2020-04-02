@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ruta extends Model
 {
-    protected $fillable = ['id', 'Localidad', 'Universidad'];
+    protected $fillable = ['localidad', 'universidad'];
 
     public function conductores() {
-        return $this->hasMany('App\Conductor', 'Ruta_id', 'id');
+        return $this->hasMany('App\Conductor', 'ruta_id', 'id');
     }
 }

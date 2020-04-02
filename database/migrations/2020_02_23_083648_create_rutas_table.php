@@ -6,28 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateRutasTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('rutas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('Localidad');
-            $table->string('Universidad');
+            $table->string('localidad');
+            $table->string('universidad');
             $table->timestamps();
             
-            $table->unique(['Localidad', 'Universidad']);
+            $table->unique(['localidad', 'universidad']);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('rutas');

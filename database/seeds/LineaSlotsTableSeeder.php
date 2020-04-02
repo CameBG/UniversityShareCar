@@ -7,28 +7,24 @@ use App\Pasajero;
 
 class LineaSlotsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         LineaSlot::query()->delete();
+        
         $slots = Slot::all();
         $pasajeros = Pasajero::all();
         $aux = 15; //Cantidad de pasajeros que vamos a asignar a las lineas slot, el resto seran null
 
         foreach ($slots as $slot) {
-            $plazas = $slot->coche()->first()->Plazas;
+            $plazas = $slot->coche()->first()->plazas;
 
             for($indice = 1; $indice <= $plazas; $indice++){
                 if($aux >=0) {
-                    LineaSlot::create(['Slot_id' => $slot->id, 'numAsiento' => $indice, 'Pasajero_id' => $pasajeros[$aux]->DNI]);
+                    LineaSlot::create(['slot_id' => $slot->id, 'numAsiento' => $indice, 'pasajero_correo' => $pasajeros[$aux]->correo]);
                     $aux--;
                 }
                 else {
-                    LineaSlot::create(['Slot_id' => $slot->id, 'numAsiento' => $indice, 'Pasajero_id' => null]);
+                    LineaSlot::create(['slot_id' => $slot->id, 'numAsiento' => $indice]);
                 }
             }
         }

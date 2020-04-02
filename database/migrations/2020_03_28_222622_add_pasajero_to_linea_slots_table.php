@@ -6,31 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 class AddPasajeroToLineaSlotsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::table('linea_slots', function (Blueprint $table) {
-            $table->string('Pasajero_id')->nullable();
+        Schema::table('lineaSlots', function (Blueprint $table) {
+            $table->string('pasajero_correo')->nullable();
 
-            $table->foreign('Pasajero_id')->references('Correo')->on('pasajeros');
+            $table->foreign('pasajero_correo')->references('correo')->on('pasajeros');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::table('linea_slots', function (Blueprint $table) {
-            $table->dropForeign('linea_slots_Pasajero_id_foreign');
+        Schema::table('lineaSlots', function (Blueprint $table) {
+            $table->dropForeign('lineaSlots_pasajero_correo_foreign');
             
-            $table->dropColumn('Pasajero_id');
+            $table->dropColumn('pasajero_correo');
         });
     }
 }

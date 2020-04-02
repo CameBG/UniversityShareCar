@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Slot extends Model
 {
-    protected $fillable = ['Fecha', 'Hora', 'Tipo_viaje', 'Coche_Matricula'];
+    protected $fillable = ['fecha', 'hora', 'direccion', 'coche_matricula'];
 
     public function coche(){
-        return $this->belongsTo('App\Coche', 'Coche_Matricula', 'Matricula');
+        return $this->belongsTo('App\Coche', 'coche_matricula', 'matricula');
     }
 
     public function lineaSlots(){
-        return $this->hasMany('App\LineaSlot', 'Slot_id', 'id');
+        return $this->hasMany('App\LineaSlot', 'slot_id', 'id');
     }
 }

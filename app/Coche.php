@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Coche extends Model
 {
-protected $fillable = ['Matricula', 'Marca', 'Modelo', 'Plazas', 'Imagen', 'Nombre', 'Precio', 'Conductor_Correo', 'Ruta_id'];
+protected $fillable = ['matricula', 'nombre', 'marca', 'modelo', 'plazas', 'rutaImagen', 'precioViaje', 'conductor_correo'];
 
     public function conductor() {
-        return $this->belongsTo('App\Conductor', 'Conductor_Correo', 'Correo');
+        return $this->belongsTo('App\Conductor', 'conductor_correo', 'correo');
     }
 
     public function slots(){
-        return $this->hasMany('App\Slot', 'Coche_Matricula', 'Matricula');
+        return $this->hasMany('App\Slot', 'coche_matricula', 'matricula');
     }
 }

@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pasajero extends Model
 {
-    protected $fillable = ['Correo', 'Nombre', 'Edad', 'Genero', 'Imagen', 'Telefono'];
+    protected $fillable = ['correo', 'nombre', 'apellido1', 'apellido2', 'fechaNacimiento', 'genero', 'telefono', 'rutaImagen'];
 
     public function lineaSlots() {
-        return $this->hasMany('App\LineaSlot', 'Pasajero_id', 'Correo');
+        return $this->hasMany('App\LineaSlot', 'pasajero_correo', 'correo');
     }
 }

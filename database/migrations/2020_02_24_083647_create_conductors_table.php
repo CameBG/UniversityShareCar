@@ -6,34 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateConductorsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('conductors', function (Blueprint $table) {
-            $table->string('Correo');
-            $table->string('Nombre');
-            $table->unsignedInteger('Edad');
+            $table->string('correo');
+            $table->string('nombre');
+            $table->string('apellido1')->nullable();
+            $table->string('apellido2')->nullable();
+            $table->date('fechaNacimiento');
+            $table->string('genero')->nullable();
+            $table->string('telefono', 15)->nullable();
+            $table->string('rutaImagen')->nullable();
+            $table->unsignedBigInteger('ruta_id');
+            $table->string('puntoRecogida');
             $table->timestamps();
-            $table->unsignedBigInteger('Ruta_id');
-            $table->string('Punto_de_Recogida');
-            $table->string('Genero')->nullable();        
-            $table->string('Imagen')->nullable();
-            $table->string('Telefono', 9)->nullable();
 
-            $table->primary('Correo');
-            $table->foreign('Ruta_id')->references('id')->on('rutas');
+            $table->primary('correo');
+            $table->foreign('ruta_id')->references('id')->on('rutas');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('conductors');

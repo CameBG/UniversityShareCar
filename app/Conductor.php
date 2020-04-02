@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Conductor extends Model
 {
-    protected $fillable = ['Correo', 'Nombre', 'Edad', 'Punto_de_Recogida', 'Ruta_id'];
+    protected $fillable = ['correo', 'nombre', 'apellido1', 'apellido2', 'fechaNacimiento', 'genero', 'telefono', 'rutaImagen', 'ruta_id', 'puntoRecogida'];
 
     public function coches() {
-        return $this->hasMany('App\Coche', 'Conductor_Correo', 'Correo');
+        return $this->hasMany('App\Coche', 'conductor_correo', 'correo');
     }
     
     public function ruta() {
-        return $this->belongsTo('App\Ruta', 'Ruta_id', 'id');
+        return $this->belongsTo('App\Ruta', 'ruta_id', 'id');
     }
 }

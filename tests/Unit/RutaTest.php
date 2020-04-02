@@ -11,79 +11,75 @@ use Illuminate\Database\QueryException;
 
 class RutaTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
     use DatabaseMigrations;
 
     public function testRecogerDatos()
     {
-        Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
+        Ruta::create(['localidad' => 'Novelda', 'universidad' => 'UA']);
         $ruta_id = Ruta::query()->first()->id;
-        Conductor::create(['Correo' => 'emailej1A@dss.es', 'Nombre' => 'Antonio', 'Edad' => 20, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
-        Conductor::create(['Correo' => 'emailej2A@dss.es', 'Nombre' => 'Andrea', 'Edad' => 25, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
-        Coche::create(['Matricula' => 'A1234BD', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
+        Conductor::create(['correo' => 'emailej1A@dss.es', 'nombre' => 'Antonio', 'fechaNacimiento' => '1980-01-20', 'ruta_id' => $ruta_id, 'puntoRecogida' => 'punto1']);
+        Conductor::create(['correo' => 'emailej2A@dss.es', 'nombre' => 'Andrea',  'fechaNacimiento' => '1980-01-30', 'ruta_id' => $ruta_id, 'puntoRecogida' => 'punto1']);
+        Coche::create(['matricula' => 'A1234BC', 'marca' => 'Mercedes', 'modelo' => 'modelo1', 'plazas' => 4, 'nombre' => 'Coche1', 'precioViaje' => 1, 'conductor_correo' => 'emailej1A@dss.es']);
+        Coche::create(['matricula' => 'A1234BD', 'marca' => 'Mercedes', 'modelo' => 'modelo1', 'plazas' => 4, 'nombre' => 'Coche1', 'precioViaje' => 1, 'conductor_correo' => 'emailej1A@dss.es']);
        
-
         $ruta = Ruta::query()->first();
         
-        $this->assertEquals("Novelda", $ruta->Localidad);
-        $this->assertEquals("UA", $ruta->Universidad);
+        $this->assertEquals("Novelda", $ruta->localidad);
+        $this->assertEquals("UA",      $ruta->universidad);
         
         $coche = $ruta->conductores()->first()->coches()->first();
 
-        $this->assertEquals("A1234BC", $coche->Matricula);
+        $this->assertEquals("A1234BC", $coche->matricula);
 
         $conductor = $ruta->conductores()->get();
         
-        $this->assertEquals("emailej1A@dss.es", $conductor[0]->Correo);
-        $this->assertEquals("emailej2A@dss.es", $conductor[1]->Correo);
-        
+        $this->assertEquals("emailej1A@dss.es", $conductor[0]->correo);
+        $this->assertEquals("emailej2A@dss.es", $conductor[1]->correo);
     }
 
-    public function testQuery(){
-        Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
-        Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UMH']);
-        Ruta::create(['Localidad' => 'Elche', 'Universidad' => 'UPV']);
+    public function testQuery()
+    {
+        Ruta::create(['localidad' => 'Novelda', 'universidad' => 'UA']);
+        Ruta::create(['localidad' => 'Novelda', 'universidad' => 'UMH']);
+        Ruta::create(['localidad' => 'Elche',   'universidad' => 'UPV']);
     
-        $ruta = Ruta::query()->where('Localidad', 'like', 'Novelda')->get();
-        $this->assertEquals("UA", $ruta[0]->Universidad);
-        $this->assertEquals("UMH", $ruta[1]->Universidad);
-    
+        $ruta = Ruta::query()->where('localidad', 'like', 'Novelda')->get();
+
+        $this->assertEquals("UA",  $ruta[0]->universidad);
+        $this->assertEquals("UMH", $ruta[1]->universidad);
     }
 
-    public function testCrear() {
-        $c_valid = new Ruta(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
+    public function testCrear() 
+    {
+        $c_valid = new Ruta(['localidad' => 'Novelda', 'universidad' => 'UA']);
         $c_valid->save();
 
-        $this->assertDatabaseHas('rutas', ['Localidad' => 'Novelda', 'Universidad' => 'UA']);
+        $this->assertDatabaseHas('rutas', ['localidad' => 'Novelda', 'universidad' => 'UA']);
     }
 
-    public function testDuplicatePK(){
+    public function testDuplicatePK()
+    {
+        $this->expectException(QueryException::class);
+
+        $c_valid = new Ruta(['localidad' => 'Novelda', 'universidad' => 'UA']);
+        $c_valid->save();
+
+        $c_invalid = new Ruta(['localidad' => 'Novelda', 'universidad' => 'UA']);
+        $c_invalid->save();
+    }
+
+    public function testNULLPK()
+    {
 
         $this->expectException(QueryException::class);
 
-        $c_valid = new Ruta(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
-        $c_valid->save();
-
-        $c_invalid = new Ruta(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
-        $c_invalid->save();
-    }
-
-    public function testNULLPK(){
-
-        $this->expectException(QueryException::class);
-
-        $c_invalid = new Ruta(['Localidad' => NULL, 'Universidad' => 'UA']);
+        $c_invalid = new Ruta(['localidad' => NULL, 'universidad' => 'UA']);
         $c_invalid->save();
 
-        $c_invalid = new Ruta(['Localidad' => 'Novelda', 'Universidad' => NULL]);
+        $c_invalid = new Ruta(['localidad' => 'Novelda', 'universidad' => NULL]);
         $c_invalid->save();
 
-        $c_invalid = new Ruta(['Localidad' => NULL, 'Universidad' => NULL]);
+        $c_invalid = new Ruta(['localidad' => NULL, 'universidad' => NULL]);
         $c_invalid->save();
     }
 }

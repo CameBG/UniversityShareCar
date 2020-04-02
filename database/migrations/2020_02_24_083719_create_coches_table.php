@@ -6,34 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCochesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('coches', function (Blueprint $table) {
-            $table->string('Matricula');
-            $table->string('Marca');
-            $table->string('Modelo');
-            $table->unsignedInteger('Plazas'); //NO NULO
-            $table->string('Imagen')->nullable();
-            $table->string('Nombre');
-            $table->double('Precio'); //NO NULO
-            $table->string('Conductor_Correo');
+            $table->string('matricula');
+            $table->string('nombre')->nullable();
+            $table->string('marca');
+            $table->string('modelo');
+            $table->unsignedInteger('plazas');
+            $table->double('precioViaje');
+            $table->string('rutaImagen')->nullable();
+            $table->string('conductor_correo');
             $table->timestamps();
 
-            $table->primary('Matricula');
-            $table->foreign('Conductor_Correo')->references('Correo')->on('conductors')->onDelete('cascade');
+            $table->primary('matricula');
+            $table->foreign('conductor_correo')->references('correo')->on('conductors')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('coches');

@@ -12,35 +12,29 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class LineaSlotTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-
     use DatabaseMigrations;
 
     public function testRecogerDatos()
     {
-        Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
+        Ruta::create(['localidad' => 'Novelda', 'universidad' => 'UA']);
         $ruta_id = Ruta::query()->first()->id;
-        Conductor::create(['Correo' => 'emailej1A@dss.es', 'Nombre' => 'Antonio', 'Edad' => 20, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => 4, 'Nombre' => 'Coche1', 'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
-        Slot::create(['Fecha' => '2020-02-21', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC', 'Hora' => '08:15']);
+        Conductor::create(['correo' => 'emailej1A@dss.es', 'nombre' => 'Antonio', 'fechaNacimiento' => '1980-01-20', 'ruta_id' => $ruta_id, 'puntoRecogida' => 'punto1']);
+        Coche::create(['matricula' => 'A1234BC', 'marca' => 'Mercedes', 'modelo' => 'modelo1', 'plazas' => 4, 'nombre' => 'Coche1', 'precioViaje' => 1, 'conductor_correo' => 'emailej1A@dss.es']);
+        Slot::create(['fecha' => '2020-02-21', 'hora' => '08:15', 'direccion' => 'Ida', 'coche_matricula' => 'A1234BC']);
         
         $slot = Conductor::query()->first()->coches()->first()->slots()->first();
         $this->assertEquals(1, $slot->id);
 
-        $plazas = Conductor::query()->first()->coches()->first()->Plazas;
+        $plazas = Conductor::query()->first()->coches()->first()->plazas;
         $this->assertEquals(4, $plazas);
 
         for($indice = 1; $indice <= $plazas; $indice++){
-            LineaSlot::create(['Slot_id' => $slot->id, 'numAsiento' => $indice]);
+            LineaSlot::create(['slot_id' => $slot->id, 'numAsiento' => $indice]);
         }
         
         // de linea sacas un slot, el coche y el conductor
         $conductor = LineaSlot::query()->first()->slot->coche->conductor;
-        $this->assertEquals('Antonio', $conductor->Nombre);
+        $this->assertEquals('Antonio', $conductor->nombre);
 
         // de un slot sacas una linea
         $linea = $slot->lineaSlots()->first();
@@ -49,21 +43,21 @@ class LineaSlotTest extends TestCase
 
     public function numAsientos()
     {
-        $cantidadPlazas = 7;
-        Ruta::create(['Localidad' => 'Novelda', 'Universidad' => 'UA']);
+        $cantidadplazas = 7;
+        
+        Ruta::create(['localidad' => 'Novelda', 'universidad' => 'UA']);
         $ruta_id = Ruta::query()->first()->id;
-        Conductor::create(['Correo' => 'emailej1A@dss.es', 'Nombre' => 'Antonio', 'Edad' => 20, 'Punto_de_Recogida' => 'punto1', 'Ruta_id' => $ruta_id]);
-        Coche::create(['Matricula' => 'A1234BC', 'Marca' => 'Mercedes', 'Modelo' => 'modelo1', 'Plazas' => $cantidadPlazas, 'Precio' => 1, 'Conductor_Correo' => 'emailej1A@dss.es']);
-        Slot::create(['Fecha' => '2020-02-21', 'Tipo_viaje' => 'Ida', 'Coche_Matricula' => 'A1234BC', 'Hora' => '08:15']);
+        Conductor::create(['correo' => 'emailej1A@dss.es', 'nombre' => 'Antonio', 'fechaNacimiento' => '1980-01-20', 'ruta_id' => $ruta_id, 'puntoRecogida' => 'punto1']);
+        Coche::create(['matricula' => 'A1234BC', 'marca' => 'Mercedes', 'modelo' => 'modelo1', 'plazas' => $cantidadplazas, 'precioViaje' => 1, 'conductor_correo' => 'emailej1A@dss.es']);
+        Slot::create(['fecha' => '2020-02-21', 'hora' => '08:15', 'direccion' => 'Ida', 'coche_matricula' => 'A1234BC']);
         
         $slotId = Slot::query()->first()->id;
 
         for($indice = 1; $indice <= $plazas; $indice++){
-            LineaSlot::create(['Slot_id' => $slotId, 'numAsiento' => $indice]);
+            LineaSlot::create(['slot_id' => $slotId, 'numAsiento' => $indice]);
         }
         
         $cantidad = LineaSlot::query()->where('id', $slotId)->count();
-        $this->assertEquals($cantidadPlazas, $cantidad);
+        $this->assertEquals($cantidadplazas, $cantidad);
     }
-
 }
