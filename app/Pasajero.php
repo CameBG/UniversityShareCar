@@ -11,4 +11,7 @@ class Pasajero extends Model
     public function lineaSlots() {
         return $this->hasMany('App\LineaSlot', 'pasajero_correo', 'correo');
     }
+    public static function currentPasajero() {
+        return Pasajero::all()->first();
+    }
 }

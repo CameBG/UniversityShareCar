@@ -40,3 +40,6 @@ Route::post('/coches/crear',     'ConductorController@coches_creado');
 Route::get ('/coches/modificar', 'ConductorController@coches_modificar');
 Route::post('/coches/modificar', 'ConductorController@coches_modificado');
 Route::get ('/coches/borrar',    'ConductorController@coches_borrar');
+
+Route::get ('/pasajero/misreservas', 'PasajeroController@misReservas');
+Route::post('/pasajero/misreservas', 'PasajeroController@misReservas');
