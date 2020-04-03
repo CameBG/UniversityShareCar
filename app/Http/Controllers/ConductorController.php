@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Conductor;
 use App\Pasajero;
+use App\Slot;
 
 class ConductorController extends Controller
 {
@@ -63,5 +64,62 @@ class ConductorController extends Controller
         $filas = $filas->select('pasajeros.nombre as nombrePasajero', 'coches.nombre as nombreCoche', DB::raw('count(*) as asientos'), 'slots.fecha', 'slots.hora', 'slots.direccion')->paginate(2);
 
         return view('conductor.pasajeros', ['filas' => $filas, 'coches' => $coches, 'sort' => $sort, 'sort2' => $sort2, 'personaElegida' => $personaElegida, 'cocheElegido' => $cocheElegido, 'fechaElegida' => $fechaElegida]);
+    }
+
+    public function misHorarios(Request $request){
+        $sort = $request->query('sort');
+        $sort2 = $request->query('sort2');
+
+        $fechaDesde = $request->input('fechaDesde');
+        if (isset($fechaDesde)){
+            $request->validate(['fechaDesde' => 'required|date']);
+        }
+
+        $fechaHasta = $request->input('fechaHasta');
+        if (isset($fechaHasta)){
+            $request->validate(['fechaHasta' => 'required|date']);
+        }
+
+        $select = Conductor::query()
+                ->join('coches', 'conductors.correo', 'coches.conductor_correo')
+                ->join('slots', 'coches.matricula', 'slots.coche_matricula')
+                ->join('lineaSlots', 'slots.id', 'lineaSlots.slot_id')
+                ->leftJoin('pasajeros', 'lineaSlots.pasajero_correo', 'pasajeros.correo')
+                ->where('conductors.correo', Conductor::currentConductor()->correo)
+                ->groupBy('coches.nombre', 'coches.marca', 'coches.modelo', 'slots.fecha', 'slots.hora', 'slots.direccion', 'coches.plazas', 'slots.id');
+
+
+        if(isset($sort)) { 
+            if(isset($sort2) && ($sort === $sort2)) {
+                $sort = null;
+                $select = $select->orderBy($sort2, 'desc');
+            }
+            else {
+                $select = $select->orderBy($sort, 'asc');
+            }
+        }
+        elseif(isset($sort2)) {
+            $select = $select->orderBy($sort2, 'desc');
+        } 
+
+        if(isset($fechaDesde)){
+            if(isset($fechaHasta)){
+                $select = $select->whereBetween('slots.fecha', [$fechaDesde, $fechaHasta]);
+            }
+        }
+
+        $select = $select->select('coches.nombre as nombreCoche', 'coches.plazas as plazas', 'slots.fecha as fecha', 'slots.hora as hora', 'slots.direccion as direccion', 'slots.id as id_elegido', DB::raw('count(pasajeros.correo) as asientos') )
+        ->paginate(2);
+
+        
+        return view('conductor.mishorarios', ['result' => $select, 'sort' => $sort, 'sort2' => $sort2, 'fechaDesde' => $fechaDesde, 'fechaHasta' => $fechaHasta]);          
+    }
+
+    public function borrarHorario(Request $request) {
+        $id_elegido = $request->query('id_elegido');
+
+        Slot::destroy($id_elegido);
+
+        return redirect('mishorarios');
     }
 }

@@ -18,6 +18,10 @@ Route::get('/', function () {
 Route::get('/pasajeros', 'ConductorController@pasajeros');
 Route::post('/pasajeros', 'ConductorController@pasajeros');
 
-Route::get('/mishorarios', 'MisHorariosController@showHorarios');
-Route::post('/mishorarios', 'MisHorariosController@showHorarios');
+Route::get('/mishorarios', 'ConductorController@misHorarios');
+Route::post('/mishorarios', 'ConductorController@misHorarios');
+
+Route::get('/mishorarios/borrar', 'ConductorController@borrarHorario');
+Route::post('/mishorarios/borrar', 'ConductorController@borrarHorario');
+
 

@@ -4,14 +4,14 @@
     <h1> Mis horarios </h1>
     <div style="height:100px">
         <br><br>
-        <form method="POST" action = "{{ action('MisHorariosController@showHorarios',  ['sort' => $sort, 'sort2' => $sort2, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">
+        <form method="POST" action = "{{ action('ConductorController@misHorarios',  ['sort' => $sort, 'sort2' => $sort2, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">
             @csrf
             <div style="float:left" class="form-group row">
-                <i style="floar:left" class="fas fa-calendar-week fa-2x" class="col-sm-2 col-form-label"> </i>
+                <i style="float:left" class="fas fa-calendar-week fa-2x" class="col-sm-2 col-form-label"> </i>
                 &nbsp
                 <input type="text" name="fechaDesde" id="fechaDesde" value="{{ old('fechaDesde') }}" placeholder="{{ $fechaDesde }}"/>
                 &nbsp&nbsp&nbsp
-                <i style="floar:left" class="fas fa-calendar-week fa-2x" class="col-sm-2 col-form-label"> </i>
+                <i style="float:left" class="fas fa-calendar-week fa-2x" class="col-sm-2 col-form-label"> </i>
                 &nbsp
                 <input type="text" name="fechaHasta" id="fechaHasta" value="{{ old('fechaHasta') }}" placeholder="{{ $fechaHasta }}"/>
                 &nbsp&nbsp&nbsp
@@ -35,19 +35,19 @@
     <table class = 'table table-striped'> 
         <tr>
             <th> 
-                <a href="{{ action('MisHorariosController@showHorarios',  ['sort' => 'fecha', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Fecha</a>
+                <a href="{{ action('ConductorController@misHorarios',  ['sort' => 'fecha', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Fecha</a>
             </th>
             <th> 
-                <a href="{{ action('MisHorariosController@showHorarios',  ['sort' => 'hora', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Hora</a>
+                <a href="{{ action('ConductorController@misHorarios',  ['sort' => 'hora', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Hora</a>
             </th>
             <th> 
-                <a href="{{ action('MisHorariosController@showHorarios',  ['sort' => 'direccion', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Ida/Vuelta</a>
+                <a href="{{ action('ConductorController@misHorarios',  ['sort' => 'direccion', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Ida/Vuelta</a>
             </th>
             <th> 
-                <a href="{{ action('MisHorariosController@showHorarios',  ['sort' => 'nombreCoche', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Coche</a>
+                <a href="{{ action('ConductorController@misHorarios',  ['sort' => 'nombreCoche', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Coche</a>
             </th>
             <th> 
-                <a href="{{ action('MisHorariosController@showHorarios',  ['sort' => 'asientos', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Pasajeros</a> 
+                <a href="{{ action('ConductorController@misHorarios',  ['sort' => 'asientos', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Pasajeros</a> 
             </th>
             <th>
                 
@@ -60,7 +60,7 @@
                 <td>{{$r->direccion}}</td>
                 <td>{{$r->nombreCoche}}</td>
                 <td>{{$r->asientos}}/{{$r->plazas}}</td>
-                <td><button style="float:left" type="submit" class="btn btn-primary">❌</button></td>  
+                <td><button style="float:left" type="submit" class="btn btn-primary"><a href="{{ action('ConductorController@borrarHorario',  ['id_elegido'=>$r->id_elegido]) }}">❌</a></button></td>  
             </tr>
         @endforeach
 
