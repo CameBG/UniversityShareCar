@@ -27,7 +27,7 @@
                 &nbsp&nbsp&nbsp
             </div>
             <p style="float:left">&nbsp&nbsp&nbsp</p>
-            <button style="float:left" type="submit" class="btn btn-primary"><a href="nuevohorario" > ➕</a></button>
+            <button style="float:left" type="submit" class="btn btn-primary"><a href="{{ action('ConductorController@nuevoHorario') }}" >➕</a></button>
             <p style="float:left">&nbsp&nbsp&nbsp</p>
         </form>
         

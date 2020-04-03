@@ -24,4 +24,5 @@ Route::post('/mishorarios', 'ConductorController@misHorarios');
 Route::get('/mishorarios/borrar', 'ConductorController@borrarHorario');
 Route::post('/mishorarios/borrar', 'ConductorController@borrarHorario');
 
-
+Route::get('/nuevohorario', 'ConductorController@nuevoHorario');
+Route::post('/nuevohorario', 'ConductorController@nuevoHorario_crear');

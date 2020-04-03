@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Conductor;
+use App\Coche;
 use App\Pasajero;
 use App\Slot;
+use App\LineaSlot;
 
 class ConductorController extends Controller
 {
@@ -122,4 +124,30 @@ class ConductorController extends Controller
 
         return redirect('mishorarios');
     }
+    public function nuevoHorario_crear(Request $request){
+        $request->validate(['fecha' => 'required|date',
+                            'hora' => 'required',
+                            'direccion' => 'required',
+                            'coche' => 'required']);
+
+        $fecha = $request->input('fecha');
+        $hora = $request->input('hora');
+        $direccion = $request->input('direccion');
+        $coche = $request->input('coche');
+
+        $slot = Slot::create(['fecha' => $fecha, 'hora' => $hora, 'direccion' => $direccion, 'coche_matricula' => $coche]);
+        
+        $plazas = Coche::query()->where('matricula', $coche)->first()->plazas;
+
+        for($indice = 1; $indice <= $plazas; $indice++){
+            LineaSlot::create(['slot_id' => $slot->id, 'numAsiento' => $indice]);
+        }
+
+        return redirect('mishorarios');
+    }
+    public function nuevoHorario(Request $request){
+        $coches = Conductor::currentConductor()->coches()->get();
+        return view('conductor.nuevohorario', ['coches' => $coches]);
+    }
+
 }
