@@ -76,6 +76,7 @@
                 <td>{{ $fila->fecha }}</td>
                 <td>{{ $fila->hora}}</td>
                 <td>{{ $fila->direccion }}</td>
+            </tr>
             @endforeach
         </table>
 

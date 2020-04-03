@@ -10,8 +10,13 @@ class CochesTableSeeder extends Seeder
     {
         Coche::query()->delete();
 
-        Coche::create(['matricula' => 'A1234BC', 'nombre' => 'Coche1', 'marca' => 'Mercedes', 'modelo' => 'modelo1',     'plazas' => 4, 'precioViaje' => 1,   'conductor_correo' => 'emailej1A@dss.es']);
+        Coche::create(['matricula' => 'A1234BC', 'nombre' => 'Coche1', 'marca' => 'Mercedes', 'modelo' => 'modelo1',     'plazas' => 4, 'precioViaje' => 1,   'conductor_correo' => 'emailej1A@dss.es', 'rutaImagen' => 'A1234BC.jpg']);
         Coche::create(['matricula' => 'X5678YZ', 'nombre' => 'Coche2', 'marca' => 'Hyundai',  'modelo' => 'modeloX',     'plazas' => 4, 'precioViaje' => 1.5, 'conductor_correo' => 'emailej1A@dss.es']);
+        Coche::create(['matricula' => 'X12345Z', 'nombre' => 'Coche3', 'marca' => 'Hyundai',  'modelo' => 'modelo3',     'plazas' => 8, 'precioViaje' => 1.5, 'conductor_correo' => 'emailej1A@dss.es', 'rutaImagen' => 'X12345Z.jpg']);
+        Coche::create(['matricula' => 'X67890Z', 'nombre' => 'Coche4', 'marca' => 'Hyundai',  'modelo' => 'modelo4',     'plazas' => 5, 'precioViaje' => 1.5, 'conductor_correo' => 'emailej1A@dss.es', 'rutaImagen' => 'X67890Z.jpg']);
+        Coche::create(['matricula' => 'X00000Z', 'nombre' => 'Coche5', 'marca' => 'Hyundai',  'modelo' => 'modelo5',     'plazas' => 7, 'precioViaje' => 1.5, 'conductor_correo' => 'emailej1A@dss.es']);
+        Coche::create(['matricula' => 'X11111Z', 'nombre' => 'Coche6', 'marca' => 'Hyundai',  'modelo' => 'modelo6',     'plazas' => 3, 'precioViaje' => 1.5, 'conductor_correo' => 'emailej1A@dss.es']);
+        Coche::create(['matricula' => 'X22222Z', 'nombre' => 'Coche7', 'marca' => 'Hyundai',  'modelo' => 'modelo7',     'plazas' => 4, 'precioViaje' => 1.5, 'conductor_correo' => 'emailej1A@dss.es', 'rutaImagen' => 'X22222Z.jpg']);
         Coche::create(['matricula' => 'HI5102R', 'nombre' => 'Coche1', 'marca' => 'Mercedes', 'modelo' => 'modeloL',     'plazas' => 4, 'precioViaje' => 1.5, 'conductor_correo' => 'emailej1K@dss.es']);
         Coche::create(['matricula' => 'ON4328A', 'nombre' => 'Coche1', 'marca' => 'Dacia',    'modelo' => 'modeloG',     'plazas' => 3, 'precioViaje' => 1,   'conductor_correo' => 'emailej1L@dss.es']);
         Coche::create(['matricula' => 'RT5555A', 'nombre' => 'Coche1', 'marca' => 'Mercedes', 'modelo' => 'modeloPeque', 'plazas' => 2, 'precioViaje' => 1,   'conductor_correo' => 'emailej1B@dss.es']);

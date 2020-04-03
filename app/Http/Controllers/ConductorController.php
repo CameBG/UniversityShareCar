@@ -122,7 +122,7 @@ class ConductorController extends Controller
 
         Slot::destroy($id_elegido);
 
-        return redirect('mishorarios');
+        return redirect(action('ConductorController@misHorarios'));
     }
     public function nuevoHorario_crear(Request $request){
         $request->validate(['fecha' => 'required|date',
@@ -143,11 +143,92 @@ class ConductorController extends Controller
             LineaSlot::create(['slot_id' => $slot->id, 'numAsiento' => $indice]);
         }
 
-        return redirect('mishorarios');
+        return redirect(action('ConductorController@misHorarios'));
     }
     public function nuevoHorario(Request $request){
         $coches = Conductor::currentConductor()->coches()->get();
         return view('conductor.nuevohorario', ['coches' => $coches]);
     }
 
+    public function coches(){
+        $coches = Coche::query()->join('conductors', 'coches.conductor_correo', 'conductors.correo')
+                ->where('conductors.correo', Conductor::currentConductor()->correo)
+                ->orderBy('coches.nombre', 'asc')
+                ->select('coches.nombre as nombreCoche', 'matricula', 'marca', 'modelo', 'plazas', 'precioViaje', 'coches.rutaImagen as imagenCoche')->paginate(1);
+
+        return view('conductor.coches', ['coches' => $coches]);
+    }
+
+    public function coches_borrar(Request $request){
+        $matricula = $request->input('matricula');
+        if(isset($matricula)){
+            Coche::query()->where('matricula', $matricula)->delete();
+        }
+
+        return redirect(action('ConductorController@coches'));
+    }
+
+    public function coches_crear(Request $request){
+        return view('conductor.coches_crear');
+    }
+
+    public function coches_creado(Request $request){
+        $request->validate([
+            'nombre' => 'required|string',
+            'matricula' => 'required|string',
+            'marca' => 'required|string',
+            'modelo' => 'required|string',
+            'plazas' => 'required|integer',
+            'precio' => 'required|numeric|gt:0' 
+        ]);
+
+        $nombre = $request->input('nombre');
+        $matricula = $request->input('matricula');
+        $marca = $request->input('marca');
+        $modelo = $request->input('modelo');
+        $plazas = $request->input('plazas');
+        $precio = $request->input('precio');
+        $correo =  Conductor::currentConductor()->correo;
+
+        Coche::create(['matricula' => $matricula, 'nombre' => $nombre, 'marca' => $marca, 'modelo' => $modelo, 'plazas' => $plazas, 'precioViaje' => $precio, 'conductor_correo' => $correo]);
+
+        return redirect(action('ConductorController@coches'));
+    }
+
+    public function coches_modificar(Request $request){
+        $matricula = $request->query('matricula');
+        $imagenCoche = $request->query('imagenCoche');
+
+        $coche = Coche::query()->where('matricula', $matricula)->first();
+        if (isset($coche)){
+            return view('conductor.coches_modificar', ['coche' => $coche, 'matricula' => $matricula, 'imagenCoche' => $imagenCoche]);
+        }
+        else{
+            return redirect(action('ConductorController@coches'));
+        }
+    }
+
+    public function coches_modificado(Request $request){
+        $request->validate([
+            'nombre' => 'required|string',
+            'marca' => 'required|string',
+            'modelo' => 'required|string',
+            'plazas' => 'required|integer',
+            'precio' => 'required|numeric|gt:0' 
+        ]);
+
+        $matricula = $request->query('matricula');
+
+        $nombre = $request->input('nombre');
+        $marca = $request->input('marca');
+        $modelo = $request->input('modelo');
+        $plazas = $request->input('plazas');
+        $precio = $request->input('precio');
+        $correo =  Conductor::currentConductor()->correo;
+
+        
+        Coche::query()->where('matricula', $matricula)->update(['matricula' => $matricula, 'nombre' => $nombre, 'marca' => $marca, 'modelo' => $modelo, 'plazas' => $plazas, 'precioViaje' => $precio, 'conductor_correo' => $correo]);
+
+        return redirect(action('ConductorController@coches'));
+    }
 }
