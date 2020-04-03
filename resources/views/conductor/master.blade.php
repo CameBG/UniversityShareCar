@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" dit="ltr">
 
+<html lang="en" dit="ltr">
     <head>
         <meta charset="utf-8">
         <title>UniversityCar</title>
         <link rel="stylesheet" href="{{ URL::asset('css/style.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-
     </head>
 
     <body>
-       
-        
         <div class="sidebar">
             <header>UniversityCar</header>
             <ul>
@@ -26,7 +24,5 @@
         <div id="contenido"> 
             @yield('content')
         </div>
-        
-       
     </body>
 </html>
