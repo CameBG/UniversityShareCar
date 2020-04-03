@@ -5,11 +5,10 @@
 <h1> Crear un nuevo viaje </h1>
 
     <div style= "height:100px">
-        @csrf
         <br><br>
         <div>
             <form method="POST" action="{{ action('ConductorController@nuevoHorario_crear') }}">
-                
+                @csrf
                 <div class = "form-group row">
                     <label for="Fecha" class="col-sm2 col-form-label"> Fecha: </label>
                     <div class="col-sm-10">
@@ -39,7 +38,7 @@
                     <div class="col-sm-10">
                         <select id="coche" name="coche">
                             @foreach($coches as $coche)
-                                <option> {{ $coche->nombre }}</a></option>
+                                <option> {{ $coche->matricula }} </option>
                             @endforeach
                         </select>
                     

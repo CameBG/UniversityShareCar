@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Conductor;
+use App\Coche;
 use App\Pasajero;
+use App\Slot;
+use App\LineaSlot;
 
 class ConductorController extends Controller
 {
@@ -125,7 +128,13 @@ class ConductorController extends Controller
         $direccion = $request->input('direccion');
         $coche = $request->input('coche');
 
-        Slot::create(['fecha' => $fecha, 'hora' => $hora, 'direccion' => $direccion, 'matricula' => $coche->matricula]);
+        $slot = Slot::create(['fecha' => $fecha, 'hora' => $hora, 'direccion' => $direccion, 'coche_matricula' => $coche]);
+        
+        $plazas = Coche::query()->where('matricula', $coche)->first()->plazas;
+
+        for($indice = 1; $indice <= $plazas; $indice++){
+            LineaSlot::create(['slot_id' => $slot->id, 'numAsiento' => $indice]);
+        }
 
         return redirect('mishorarios');
     }
