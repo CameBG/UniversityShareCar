@@ -3,7 +3,7 @@
 @section('content')
 
 <h1> Crear un nuevo viaje </h1>
-
+    
     <div style= "height:100px">
         <br><br>
         <div>
@@ -50,6 +50,18 @@
             </div>
             
         </div>
+        <div>
+        {{--Error messages--}}
+            @if (count($errors) > 0)
+                <div style="float:left" class="alert alert-danger" role="alert">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+    </div>
      
     </div>
 
