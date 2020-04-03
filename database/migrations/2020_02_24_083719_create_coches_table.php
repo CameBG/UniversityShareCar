@@ -10,7 +10,7 @@ class CreateCochesTable extends Migration
     {
         Schema::create('coches', function (Blueprint $table) {
             $table->string('matricula');
-            $table->string('nombre')->nullable();
+            $table->string('nombre');
             $table->string('marca');
             $table->string('modelo');
             $table->unsignedInteger('plazas');
