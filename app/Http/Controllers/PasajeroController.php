@@ -13,6 +13,8 @@ class PasajeroController extends Controller
         $sort = $request->query('sort');
         $sort2 = $request->query('sort2');
 
+        $personaElegida = $request->input('personaElegida');
+
         $fechaDesde = $request->input('fechaDesde');
         if (isset($fechaDesde)){
             $request->validate(['fechaDesde' => 'required|date']);
@@ -51,12 +53,15 @@ class PasajeroController extends Controller
                 $select = $select->whereBetween('slots.fecha', [$fechaDesde, $fechaHasta]);
             }
         }
+        if(isset($personaElegida)){
+            $select = $select->where('conductors.nombre', 'like', '%'.$personaElegida.'%');
+        }
 
         $select = $select->select('slots.fecha as fecha', 'slots.hora as hora', 'slots.direccion as direccion', 'conductors.puntoRecogida as recogida', 'rutas.localidad as localidad', 'coches.precioViaje as precio', 'coches.nombre as nombreCoche', 'conductors.apellido1 as apellido1', 'conductors.apellido2 as apellido2', 'conductors.nombre as nombre', 'rutas.universidad as uni', DB::raw('count(numAsiento) as asientos'))
-        ->paginate(2);
+        ->paginate(4);
 
         
-        return view('pasajero.misreservas', ['result' => $select, 'sort' => $sort, 'sort2' => $sort2, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]);          
+        return view('pasajero.misreservas', ['result' => $select, 'sort' => $sort, 'sort2' => $sort2, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta, 'personaElegida' => $personaElegida]);          
     }
 
     /*public function borrarHorario(Request $request) {
