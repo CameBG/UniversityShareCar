@@ -4,4 +4,4 @@
 
     <p> sfsdaf </p>
 
-@stop
+@endsection

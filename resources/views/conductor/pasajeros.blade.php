@@ -10,7 +10,7 @@
         <form action = "{{ action('ConductorController@pasajeros',  ['sort' => $sort, 'sort2' => $sort2, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}" method="POST">
             @csrf
             <div style="float:left" class="form-group row">
-                <i style="float:left" class="fas fa-user" class="col-sm-2 col-form-label"></i>
+                <i style="float:left" class="fas fa-user fa-2x" class="col-sm-2 col-form-label"></i>
                 <div class="col-sm-10">
                     <input type="text" name="personaElegida" id="personaElegida" value="{{ old('personaElegida') }}" placeholder="{{ $personaElegida }}"/>
                 </div>
@@ -22,7 +22,7 @@
         <form style="float:right" action = "{{ action('ConductorController@pasajeros',  ['sort' => $sort, 'sort2' => $sort2, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido]) }}" method="POST">
             @csrf
             <div style="float:left" class="form-group row">
-                <i style="float:left" class="fas fa-calendar-week" class="col-sm-2 col-form-label"></i>
+                <i style="float:left" class="fas fa-calendar-week fa-2x" class="col-sm-2 col-form-label"></i>
                 <div class="col-sm-10">
                     <input type="text" name="fechaElegida" id="fechaElegida" value="{{ old('fechaElegida') }}" placeholder="{{ $fechaElegida }}"/>
                 </div>
