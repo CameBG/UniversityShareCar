@@ -91,4 +91,9 @@ class PasajeroController extends Controller
         $coches = Conductor::currentConductor()->coches()->get();
         return view('conductor.nuevohorario', ['coches' => $coches]);
     }*/
+
+    public function confperfil(){
+        $pasajero =  Pasajero::currentPasajero();
+        return view('pasajero.configurarperfil', ['pasajero' => $pasajero]);
+    }
 }

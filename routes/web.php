@@ -43,3 +43,5 @@ Route::get ('/coches/borrar',    'ConductorController@coches_borrar');
 
 Route::get ('/pasajero/misreservas', 'PasajeroController@misReservas');
 Route::post('/pasajero/misreservas', 'PasajeroController@misReservas');
+
+Route::get ('/pasajero/configurarperfil', 'PasajeroController@confperfil');
