@@ -17,3 +17,7 @@ Route::get('/', function () {
 
 Route::get('/pasajeros', 'ConductorController@pasajeros');
 Route::post('/pasajeros', 'ConductorController@pasajeros');
+
+Route::get('/mishorarios', 'MisHorariosController@showHorarios');
+
+
