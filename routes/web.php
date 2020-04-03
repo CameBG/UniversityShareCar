@@ -15,3 +15,5 @@ Route::get('/', function () {
     return view('conductor.master');
 });
 
+Route::get('/pasajeros', 'ConductorController@pasajeros');
+Route::post('/pasajeros', 'ConductorController@pasajeros');
