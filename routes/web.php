@@ -34,12 +34,16 @@ Route::post('/conductor/mishorarios/borrar', 'ConductorController@borrarHorario'
 Route::get ('/conductor/mishorarios/crear', 'ConductorController@nuevoHorario');
 Route::post('/conductor/mishorarios/crear', 'ConductorController@nuevoHorario_crear');
 
-Route::get ('/coches',           'ConductorController@coches');
-Route::get ('/coches/crear',     'ConductorController@coches_crear');
-Route::post('/coches/crear',     'ConductorController@coches_creado');
-Route::get ('/coches/modificar', 'ConductorController@coches_modificar');
-Route::post('/coches/modificar', 'ConductorController@coches_modificado');
-Route::get ('/coches/borrar',    'ConductorController@coches_borrar');
+Route::get ('/conductor/coches',           'ConductorController@coches');
+Route::get ('/conductor/coches/crear',     'ConductorController@coches_crear');
+Route::post('/conductor/coches/crear',     'ConductorController@coches_creado');
+Route::get ('/conductor/coches/modificar', 'ConductorController@coches_modificar');
+Route::post('/conductor/coches/modificar', 'ConductorController@coches_modificado');
+Route::get ('/conductor/coches/borrar',    'ConductorController@coches_borrar');
+
+Route::get ('/conductor/configurar-perfil', 'ConductorController@confperfil');
+Route::get ('/conductor/configurar-perfil/borrar', 'ConductorController@perfil_borrar');
+Route::get ('/conductor/configurar-perfil/modificar', 'ConductorController@perfil_modificar');
 
 Route::get ('/pasajero/misreservas', 'PasajeroController@misReservas');
 Route::post('/pasajero/misreservas', 'PasajeroController@misReservas');

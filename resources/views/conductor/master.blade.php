@@ -20,7 +20,7 @@
                 <li><a href="{{ action('ConductorController@coches') }}"><i class="fas fa-car"></i> Coches</a></li>
                 <li><a href="conductor/ruta"><i class="fas fa-route"></i> Ruta</a></li>
                 <li><a href="{{ action('ConductorController@pasajeros') }}"><i class="fas fa-user"></i> Pasajeros</a></li>
-                <li><a href="conductor/configurarperfil"><i class="fas fa-cog"></i> Configurar perfil</a></li>
+                <li><a href="{{ action('ConductorController@confperfil') }}"><i class="fas fa-cog"></i> Configurar perfil</a></li>
                 <li><a href=""><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
             </ul>
         </div>

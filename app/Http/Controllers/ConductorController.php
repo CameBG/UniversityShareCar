@@ -231,4 +231,22 @@ class ConductorController extends Controller
 
         return redirect(action('ConductorController@coches'));
     }
+
+    public function confperfil(){
+        $conductor =  Conductor::currentConductor();
+        return view('conductor.configurarperfil', ['conductor' => $conductor]);
+    }
+
+    public function perfil_borrar(Request $request){
+        $correo = $request->query('correo');
+        if(isset($correo)){
+            Conductor::query()->where('correo', $correo)->delete();
+        }
+
+        return redirect(action('ConductorController@confperfil'));
+    }
+
+    public function perfil_modificar(Request $request){
+        return redirect(action('ConductorController@confperfil'));
+    }
 }
