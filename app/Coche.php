@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Coche extends Model
 {
-protected $fillable = ['matricula', 'nombre', 'marca', 'modelo', 'plazas', 'rutaImagen', 'precioViaje', 'conductor_correo'];
+    protected $fillable = ['matricula', 'nombre', 'marca', 'modelo', 'plazas', 'rutaImagen', 'precioViaje', 'conductor_correo'];
 
     public function conductor() {
         return $this->belongsTo('App\Conductor', 'conductor_correo', 'correo');
