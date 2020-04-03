@@ -19,17 +19,6 @@
             <p style="float:left">&nbsp&nbsp&nbsp</p>
             <button style="float:left" type="submit" class="btn btn-primary">✔</button>
         </form>
-
-        <!--<form style="float:right" method="POST">
-            @csrf
-            <div style="float:left" class="form-group row">
-                <label for="viajeNuevo">Viaje Nuevo</label>
-                &nbsp&nbsp&nbsp
-            </div>
-            <p style="float:left">&nbsp&nbsp&nbsp</p>
-            <button style="float:left" type="submit" class="btn btn-primary"><a href="{{ action('ConductorController@nuevoHorario') }}" >➕</a></button>
-            <p style="float:left">&nbsp&nbsp&nbsp</p>
-        </form>-->
         
     </div>
     <table class = 'table table-striped'> 
@@ -76,11 +65,11 @@
                 <td>{{$r->asientos}}</td>
                 <td>{{$r->recogida}}</td>
                 <td>{{$r->localidad}}</td>
-                <td>{{$r->precio}}</td>
+                <td>{{$r->precio}}€</td>
                 <td>{{$r->uni}}</td>
-                <td>{{$r->coche}}</td>
-                <td>{{$r->conductor}}</td>
-                <td><button style="float:left" type="submit" class="btn btn-primary"><a href="{{ action('PasajeroController@borrarReserva',  ['id_elegido'=>$r->id_elegido]) }}">❌</a></button></td>  
+                <td>{{$r->nombreCoche}}</td>
+                <td>{{$r->nombre}} {{$r->apellido1}} {{$r->apellido2}}</td>
+                <td><button style="float:left" type="submit" class="btn btn-primary">❌</button></td>
             </tr>
         @endforeach
 
