@@ -47,3 +47,5 @@ Route::get ('/conductor/configurar-perfil/modificar', 'ConductorController@perfi
 
 Route::get ('/pasajero/misreservas', 'PasajeroController@misReservas');
 Route::post('/pasajero/misreservas', 'PasajeroController@misReservas');
+
+Route::get ('/pasajero/configurarperfil', 'PasajeroController@confperfil');
