@@ -12,17 +12,25 @@
 */
 
 Route::get('/', function () {
+    return view('index');
+});
+
+Route::get('/pasajero', function () {
+    return view('pasajero.master');
+});
+
+Route::get('/conductor', function () {
     return view('conductor.master');
 });
 
-Route::get('/pasajeros', 'ConductorController@pasajeros');
-Route::post('/pasajeros', 'ConductorController@pasajeros');
+Route::get('/conductor/pasajeros', 'ConductorController@pasajeros');
+Route::post('/conductor/pasajeros', 'ConductorController@pasajeros');
 
-Route::get('/mishorarios', 'ConductorController@misHorarios');
-Route::post('/mishorarios', 'ConductorController@misHorarios');
+Route::get('/conductor/mishorarios', 'ConductorController@misHorarios');
+Route::post('/conductor/mishorarios', 'ConductorController@misHorarios');
 
-Route::get('/mishorarios/borrar', 'ConductorController@borrarHorario');
-Route::post('/mishorarios/borrar', 'ConductorController@borrarHorario');
+Route::get('/conductor/mishorarios/borrar', 'ConductorController@borrarHorario');
+Route::post('/conductor/mishorarios/borrar', 'ConductorController@borrarHorario');
 
-Route::get('/nuevohorario', 'ConductorController@nuevoHorario');
-Route::post('/nuevohorario', 'ConductorController@nuevoHorario_crear');
+Route::get('/conductor/nuevohorario', 'ConductorController@nuevoHorario');
+Route::post('/conductor/nuevohorario', 'ConductorController@nuevoHorario_crear');

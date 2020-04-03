@@ -16,12 +16,10 @@
         <div class="sidebar">
             <header>UniversityCar</header>
             <ul>
-                <li><a href="{{ action('ConductorController@misHorarios') }}"><i class="fas fa-calendar-week"></i> Mis horarios</a></li>
-                <li><a href="conductor/coches"><i class="fas fa-car"></i> Coches</a></li>
-                <li><a href="conductor/ruta"><i class="fas fa-route"></i> Ruta</a></li>
-                <li><a href="{{ action('ConductorController@pasajeros') }}"><i class="fas fa-user"></i> Pasajeros</a></li>
-                <li><a href="conductor/configurarperfil"><i class="fas fa-cog"></i> Configurar perfil</a></li>
-                <li><a href=""><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                <li><a href="#"><i class="fas fa-search"></i></i> Buscar viajes</a></li>
+                <li><a href="#"><i class="fas fa-calendar-week"></i> Mis reservas</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Configurar perfil</a></li>
+                <li><a href="#"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
             </ul>
         </div>
         <div id="contenido"> 
