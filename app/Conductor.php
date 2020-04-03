@@ -15,4 +15,8 @@ class Conductor extends Model
     public function ruta() {
         return $this->belongsTo('App\Ruta', 'ruta_id', 'id');
     }
+
+    public static function currentConductor() {
+        return Conductor::all()->first();
+    }
 }

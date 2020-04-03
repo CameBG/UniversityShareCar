@@ -15,3 +15,6 @@ Route::get('/', function () {
     return view('conductor.master');
 });
 
+Route::get('/mishorarios', 'MisHorariosController@showHorarios');
+
+
