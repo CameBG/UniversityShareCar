@@ -11,7 +11,7 @@ class AddPasajeroToLineaSlotsTable extends Migration
         Schema::table('lineaSlots', function (Blueprint $table) {
             $table->string('pasajero_correo')->nullable();
 
-            $table->foreign('pasajero_correo')->references('correo')->on('pasajeros');
+            $table->foreign('pasajero_correo')->references('correo')->on('pasajeros')->onDelete('cascade');
         });
     }
 

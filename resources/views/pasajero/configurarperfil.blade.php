@@ -9,7 +9,7 @@
             
             <tr height="50px">
                 <td>
-                    <a href=""><i style="float:right" class="fas fa-edit">Editar</i></a>
+                    <a href="{{ action('PasajeroController@perfil_modificar', ['correo'=>$pasajero->correo]) }}"><i style="float:right" class="fas fa-edit">Editar</i></a>
                 </td>
                 <td></td>
             </tr>
@@ -36,6 +36,6 @@
             <tr><td>&nbsp</td></tr>
         </table>
 
-        <button type="submit" class="btn btn-primary"><a style="color:white" href=""><i class="fas fa-trash-alt"></i> Borrar usuario conductor.</a></button>
+        <button type="submit" class="btn btn-primary"><a style="color:white" href="{{ action('PasajeroController@perfil_borrar', ['correo'=>$pasajero->correo]) }}"><i class="fas fa-trash-alt"></i> Borrar usuario pasajero.</a></button>
     </div>
 @endsection

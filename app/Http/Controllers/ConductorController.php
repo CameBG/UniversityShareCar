@@ -247,6 +247,37 @@ class ConductorController extends Controller
     }
 
     public function perfil_modificar(Request $request){
-        return redirect(action('ConductorController@confperfil'));
+        $correo = $request->query('correo');
+
+        $conductor = Conductor::query()->where('correo', $correo)->first();
+        return view('conductor.configurarperfil_modificar', ['conductor' => $conductor]);
+    }
+
+    public function perfil_modificado(Request $request){
+        /* apellido1, apellido2, genero ...
+        if (isset($fechaElegida)){
+            $request->validate([
+                'fechaElegida' => 'required|date'
+            ]);
+        }*/
+        $request->validate([
+            'nombre' => 'required|string',
+            'fechaNacimiento' => 'required|date'
+        ]);
+
+        $correo = $request->query('correo');
+
+        $nombre = $request->input('nombre');
+        $apellido1 = $request->input('apellido1');
+        $apellido2 = $request->input('apellido2');
+        $genero = $request->input('genero');
+        $fechaNacimiento = $request->input('fechaNacimiento');
+        $telefono = $request->input('telefono');
+
+        $conductor = Conductor::query()->where('correo', $correo)->first();
+        
+        Conductor::query()->where('correo', $correo)->update(['nombre' => $nombre, 'apellido1' => $apellido1, 'apellido2' => $apellido2, 'genero' => $genero, 'fechaNacimiento' => $fechaNacimiento, 'telefono' => $telefono]);
+
+        return redirect(action('ConductorController@confperfil', ['conductor' => $conductor]));
     }
 }

@@ -101,4 +101,48 @@ class PasajeroController extends Controller
         $pasajero =  Pasajero::currentPasajero();
         return view('pasajero.configurarperfil', ['pasajero' => $pasajero]);
     }
+
+    public function perfil_borrar(Request $request){
+        $correo = $request->query('correo');
+        if(isset($correo)){
+            Pasajero::query()->where('correo', $correo)->delete();
+        }
+
+        return redirect(action('PasajeroController@confperfil'));
+    }
+
+    public function perfil_modificar(Request $request){
+        $correo = $request->query('correo');
+
+        $pasajero = Pasajero::query()->where('correo', $correo)->first();
+        return view('pasajero.configurarperfil_modificar', ['pasajero' => $pasajero]);
+    }
+
+    public function perfil_modificado(Request $request){
+        /* apellido1, apellido2, genero ...
+        if (isset($fechaElegida)){
+            $request->validate([
+                'fechaElegida' => 'required|date'
+            ]);
+        }*/
+        $request->validate([
+            'nombre' => 'required|string',
+            'fechaNacimiento' => 'required|date'
+        ]);
+
+        $correo = $request->query('correo');
+
+        $nombre = $request->input('nombre');
+        $apellido1 = $request->input('apellido1');
+        $apellido2 = $request->input('apellido2');
+        $genero = $request->input('genero');
+        $fechaNacimiento = $request->input('fechaNacimiento');
+        $telefono = $request->input('telefono');
+
+        $pasajero = Pasajero::query()->where('correo', $correo)->first();
+        
+        Pasajero::query()->where('correo', $correo)->update(['nombre' => $nombre, 'apellido1' => $apellido1, 'apellido2' => $apellido2, 'genero' => $genero, 'fechaNacimiento' => $fechaNacimiento, 'telefono' => $telefono]);
+
+        return redirect(action('PasajeroController@confperfil', ['pasajero' => $pasajero]));
+    }
 }

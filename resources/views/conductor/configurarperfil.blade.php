@@ -9,7 +9,7 @@
             
             <tr height="50px">
                 <td>
-                    <a href="{{ action('ConductorController@perfil_modificar', ['conductor'=>$conductor]) }}"><i style="float:right" class="fas fa-edit">Editar</i></a>
+                    <a href="{{ action('ConductorController@perfil_modificar', ['correo'=>$conductor->correo]) }}"><i style="float:right" class="fas fa-edit">Editar</i></a>
                 </td>
                 <td></td>
             </tr>
