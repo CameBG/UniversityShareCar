@@ -225,7 +225,7 @@ class PasajeroController extends Controller
                 ->join('rutas', 'conductors.ruta_id', 'rutas.id')
                 ->groupBy('slots.fecha', 'slots.hora', 'slots.direccion', 'conductors.puntoRecogida', 'rutas.localidad', 
                           'coches.precioViaje', 'coches.nombre', 'conductors.apellido1', 'conductors.apellido2', 'conductors.nombre', 
-                          'rutas.universidad', 'lineaSlots.slot_id', 'coches.plazas');
+                          'rutas.universidad', 'lineaSlots.slot_id', 'coches.plazas','lineaSlots.slot_id');
 
         if(isset($sort)) { 
             if(isset($sort2) && ($sort === $sort2)) {
@@ -266,8 +266,18 @@ class PasajeroController extends Controller
         $select = $select->select('slots.fecha as fecha', 'slots.hora as hora', 'slots.direccion as direccion', 
                                   'conductors.puntoRecogida as recogida', 'rutas.localidad as localidad', 'coches.precioViaje as precio', 
                                   'coches.nombre as nombreCoche', 'conductors.apellido1 as apellido1', 'conductors.apellido2 as apellido2',
-                                  'conductors.nombre as nombre', 'rutas.universidad as uni', 'coches.plazas as plazas', DB::raw('count(numAsiento) as asientos'))->paginate(4);
+                                  'conductors.nombre as nombre', 'rutas.universidad as uni', 'coches.plazas as plazas',
+                                  'lineaSlots.slot_id as slot_id', DB::raw('count(numAsiento) as asientos'))->paginate(4);
 
         return view('pasajero.buscarViajes', ['result' => $select, 'sort' => $sort, 'sort2' => $sort2, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]);
+    }
+
+    public function reservarViaje(Request $request) {
+        $slot_id = $request->input('slot_id');
+        $pasajero_correo = Pasajero::currentPasajero()->correo;
+        $numAsiento = LineaSlot::query()->where('slot_id', $slot_id)->where('pasajero_correo', null)->first()->numAsiento;
+        LineaSlot::query()->where('slot_id', $slot_id)->where('numAsiento', $numAsiento)->update(['pasajero_correo' => $pasajero_correo]);
+        
+        return redirect(action('PasajeroController@buscarViajes'));
     }
 }

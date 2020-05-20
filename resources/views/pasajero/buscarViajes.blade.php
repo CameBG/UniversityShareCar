@@ -72,7 +72,7 @@
                     <th>
                     <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'nombre', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Conductor</a>
                     </th>
-                    <th></th>
+                    <th>Reservar</th>
                 </tr>
             </thead>
             <tbody>
@@ -88,6 +88,12 @@
                         <td>{{ $r->precio}}€</td> 
                         <td>{{ $r->nombreCoche}}</td> 
                         <td>{{$r->nombre}} {{$r->apellido1}} {{$r->apellido2}}</td>
+                        <td>
+                            <form method="POST" action = "{{ action('PasajeroController@reservarViaje', ['slot_id'=>$r->slot_id]) }}">
+                                @csrf
+                                <button style="float:left" type="submit" class="btn btn-primary"><i style="float:left" class="fas fa-shopping-cart fa-2x"></i></button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
