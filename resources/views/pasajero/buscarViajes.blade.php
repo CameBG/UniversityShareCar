@@ -1,4 +1,4 @@
-@extends('pasajero.master')
+@extends('pasajero.master', ['actual' => 0])
 
 @section('content')
     <h1> Buscar Viajes </h1>
