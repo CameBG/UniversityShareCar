@@ -13,7 +13,7 @@
                         @if (isset($pasajero->rutaImagen))
                             <img src="/images/{{ $pasajero->rutaImagen }}" width="300px" height="auto">
                         @else
-                            <img src="/images/defaultPerfil.jpg" width="300px" height="auto">
+                            <img src="/defaultImages/defaultPerfil.jpg" width="300px" height="auto">
                         @endif
                     </td>
                     <td>
