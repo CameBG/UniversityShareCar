@@ -197,12 +197,18 @@ class ConductorController extends Controller
     }
 
     public function pasajeros(Request $request){
-        $fechaElegida = $request->input('fechaElegida');
-        if (isset($fechaElegida)){
+        $fechaDesde = $request->input('fechaDesde');
+        if (isset($fechaDesde)){
             $request->validate([
-                'fechaElegida' => 'required|date'
+                'fechaDesde' => 'required|date'
             ]);
         }
+
+        $fechaHasta = $request->input('fechaHasta');
+        if (isset($fechaHasta)){
+            $request->validate(['fechaHasta' => 'required|date']);
+        }
+
         $personaElegida = $request->input('personaElegida');
         $sort = $request->query('sort');
         $sort2 = $request->query('sort2');
@@ -229,8 +235,14 @@ class ConductorController extends Controller
             $filas = $filas->where('coches.nombre', $cocheElegido);
         }
 
-        if(isset($fechaElegida)){
-            $filas = $filas->whereDate('slots.fecha', $fechaElegida);
+        if(isset($fechaDesde) && isset($fechaHasta)){
+            $filas = $filas->whereBetween('slots.fecha', [$fechaDesde, $fechaHasta]);
+        } 
+        elseif (isset($fechaDesde)){
+            $filas = $filas->where('slots.fecha', '>=' , $fechaDesde);
+        }
+        elseif (isset($fechaHasta)){
+            $filas = $filas->where('slots.fecha', '<=' , $fechaHasta);
         }
 
         $filas = $filas->groupBy('pasajeros.nombre', 'coches.nombre', 'slots.fecha', 'slots.hora', 'slots.direccion');
@@ -250,7 +262,7 @@ class ConductorController extends Controller
 
         $filas = $filas->select('pasajeros.nombre as nombrePasajero', 'coches.nombre as nombreCoche', DB::raw('count(*) as asientos'), 'slots.fecha', 'slots.hora', 'slots.direccion')->paginate(2);
 
-        return view('conductor.pasajeros', ['page' => $page, 'filas' => $filas, 'coches' => $coches, 'sort' => $sort, 'sort2' => $sort2, 'personaElegida' => $personaElegida, 'cocheElegido' => $cocheElegido, 'fechaElegida' => $fechaElegida]);
+        return view('conductor.pasajeros', ['page' => $page, 'filas' => $filas, 'coches' => $coches, 'sort' => $sort, 'sort2' => $sort2, 'personaElegida' => $personaElegida, 'cocheElegido' => $cocheElegido, 'fechaDesde' => $fechaDesde, 'fechaHasta' => $fechaHasta]);
     }
 
     public function confperfil(){

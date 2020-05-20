@@ -2,6 +2,19 @@
 
 @section('content')
 
+    <script type= "text/javascript">
+        function ConfirmDelete(){
+            var respuesta = confirm("Si eliminas el coche se borrarán todos tus viajes. ¿Estás seguro?");
+
+            if (respuesta){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    </script>
+
     <h1> Coches </h1>
 
     <div>
@@ -18,7 +31,7 @@
             <tr height="50px">
                 <td>
                     {{ $coche->nombreCoche }} &nbsp&nbsp&nbsp&nbsp 
-                    <a href="{{ action('ConductorController@coches_borrar',  ['matricula' => $coche->matricula]) }}"><i style="float:right" class="fas fa-trash-alt">Borrar</i></a>
+                    <a onclick="return ConfirmDelete()" href="{{ action('ConductorController@coches_borrar',  ['matricula' => $coche->matricula]) }}"><i style="float:right" class="fas fa-trash-alt">Borrar</i></a>
                     <a href="{{ action('ConductorController@coches_modificar',  ['matricula' => $coche->matricula]) }}"><i style="float:right" class="fas fa-edit">Editar&nbsp&nbsp&nbsp</i></a>
                 </td>
                 <td></td>

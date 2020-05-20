@@ -2,6 +2,26 @@
 
 @section('content')
 
+    <script type= "text/javascript">
+        function ConfirmDelete(){
+            var plazasActual = document.getElementById("plazas").value;
+            var plazasAnterior = @json($coche->plazas);
+
+            if (plazasActual < plazasAnterior){
+                var respuesta = confirm("Si bajas el número se desasignarán todos los pasajeros. ¿Estás seguro?");
+
+                if (respuesta){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            } else {
+                return true;
+            }            
+        }
+    </script>
+
     <h1> Edicición de Coches </h1>
 
     <div style= "margin-left:33%">
@@ -65,7 +85,7 @@
             </div>
             <div style="float:right; margin-right:50%">
                 <br>
-                <button type="submit" class="btn btn-primary">Guardar ✔</button>
+                <button onclick="return ConfirmDelete()" type="submit" class="btn btn-primary">Guardar ✔</button>
             </div>
         </form>
 
