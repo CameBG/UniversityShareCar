@@ -7,6 +7,7 @@ use DB;
 
 use App\Pasajero;
 use App\LineaSlot;
+use Image;
 
 class PasajeroController extends Controller
 {
@@ -150,11 +151,10 @@ class PasajeroController extends Controller
         }*/
         $request->validate([
             'nombre' => 'required|string',
-            'fechaNacimiento' => 'required|date'
+            'fechaNacimiento' => 'required|date',
         ]);
 
         $correo = $request->query('correo');
-
         $nombre = $request->input('nombre');
         $apellido1 = $request->input('apellido1');
         $apellido2 = $request->input('apellido2');
@@ -162,9 +162,28 @@ class PasajeroController extends Controller
         $fechaNacimiento = $request->input('fechaNacimiento');
         $telefono = $request->input('telefono');
 
+        if (isset($telefono)){
+            $request->validate([
+                'telefono' => 'required|numeric'
+            ]);
+        }
+
         $pasajero = Pasajero::query()->where('correo', $correo)->first();
-        
         Pasajero::query()->where('correo', $correo)->update(['nombre' => $nombre, 'apellido1' => $apellido1, 'apellido2' => $apellido2, 'genero' => $genero, 'fechaNacimiento' => $fechaNacimiento, 'telefono' => $telefono]);
+
+        $imagenOriginal = $request->file('imagen');
+        if (isset($imagenOriginal)){
+            $imagen = Image::make($imagenOriginal);
+            $nombreImagen = $this->random_string() . '.' . $imagenOriginal->getClientOriginalExtension();
+            $imagen->resize(300,300);
+            
+            if(isset($pasajero->rutaImagen) && file_exists(public_path() . '/images/' . $pasajero->rutaImagen)){
+                unlink(public_path() . '/images/' . $pasajero->rutaImagen);
+            }
+            $imagen->save(public_path() . '/images/' . $nombreImagen, 100);
+
+            Pasajero::query()->where('correo', $correo)->update(['rutaImagen' => $nombreImagen]);
+        }
 
         return redirect(action('PasajeroController@confperfil', ['pasajero' => $pasajero]));
     }

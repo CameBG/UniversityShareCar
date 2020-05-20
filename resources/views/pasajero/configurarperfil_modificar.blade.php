@@ -5,8 +5,8 @@
     <h1> Configurar Perfil </h1>
 
     <div style= "margin-left:33%">
-        <form action = "{{ action('PasajeroController@perfil_modificado', ['correo'=>$pasajero->correo]) }}" method="POST">
-        @csrf
+        <form method="POST" action = "{{ action('PasajeroController@perfil_modificado', ['correo'=>$pasajero->correo]) }}" enctype="multipart/form-data">
+            @csrf
             <table>
                 <tr>
                     <td rowspan="7" width="320px" height="20px">
@@ -57,12 +57,19 @@
                         <input style="float:left" type="text" name="telefono" id="telefono" value="{{ $pasajero->telefono }}"/>
                     </td>
                 </tr>
-
-                <tr><td>&nbsp</td></tr>
-                <tr><td>&nbsp</td></tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        Editar imagen:
+                        <input name="imagen" id="imagen" type="file" accept="image/jpeg, image/png"/>
+                    </td>
+                </tr>
             </table>
+            
+            <br>
 
-            <button type="submit" class="btn btn-primary"><i class="fas fa-trash-alt"></i> Aceptar cambios.</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-check-square"></i>&nbsp Aceptar cambios.</button>
         </form>
 
         {{--Error messages--}}

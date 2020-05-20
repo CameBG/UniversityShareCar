@@ -16,8 +16,8 @@
 
             <tr>
                 <td rowspan="7" width="320px" height="20px">
-                    @if (isset($coche->imagenCoche))
-                        <img src="/images/{{ $coche->imagenCoche }}" width="300px" height="auto">
+                    @if (isset($conductor->rutaImagen))
+                        <img src="/images/{{ $conductor->rutaImagen }}" width="300px" height="auto">
                     @else
                         <img src="/images/default.jpg" width="300px" height="auto">
                     @endif

@@ -5,13 +5,13 @@
     <h1> Configurar Perfil </h1>
 
     <div style= "margin-left:33%">
-        <form action = "{{ action('ConductorController@perfil_modificado', ['correo'=>$conductor->correo]) }}" method="POST">
+        <form method="POST" action = "{{ action('ConductorController@perfil_modificado', ['correo'=>$conductor->correo]) }}" enctype="multipart/form-data">
         @csrf
             <table>
                 <tr>
                     <td rowspan="7" width="320px" height="20px">
-                        @if (isset($coche->imagenCoche))
-                            <img src="/images/{{ $coche->imagenCoche }}" width="300px" height="auto">
+                        @if (true)
+                            <img src="/images/{{ $conductor->rutaImagen }}" width="300px" height="auto">
                         @else
                             <img src="/images/default.jpg" width="300px" height="auto">
                         @endif
@@ -57,12 +57,19 @@
                         <input style="float:left" type="text" name="telefono" id="telefono" value="{{ $conductor->telefono }}"/>
                     </td>
                 </tr>
-
-                <tr><td>&nbsp</td></tr>
-                <tr><td>&nbsp</td></tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        Editar imagen:
+                        <input name="imagen" id="imagen" type="file" accept="image/jpeg, image/png"/>
+                    </td>
+                </tr>
             </table>
 
-            <button type="submit" class="btn btn-primary"><i class="fas fa-trash-alt"></i> Aceptar cambios.</button>
+            <br>
+
+            <button type="submit" class="btn btn-primary"><i class="fas fa-check-square"></i>&nbsp Aceptar cambios.</button>
         </form>
 
         {{--Error messages--}}

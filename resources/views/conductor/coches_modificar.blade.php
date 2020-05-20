@@ -6,7 +6,7 @@
 
     <div style= "margin-left:33%">
 
-        <form action = "{{ action('ConductorController@coches_modificado', ['matricula'=>$matricula]) }}" method="POST">
+        <form method="POST" action = "{{ action('ConductorController@coches_modificado', ['matricula'=>$coche->matricula]) }}" enctype="multipart/form-data">
             @csrf
             <table>
                 <tr height="50px">
@@ -18,15 +18,15 @@
 
                 <tr>
                     <td rowspan="5" width="320px" height="20px">
-                        @if (isset($imagenCoche))
-                            <img src="/images/{{ $imagenCoche }}" width="300px" height="auto">
+                        @if (isset($coche->rutaImagen))
+                            <img src="/images/{{ $coche->rutaImagen }}" width="300px" height="auto">
                         @else
                             <img src="/images/default.jpg" width="300px" height="auto">
                         @endif
                     </td>
                     <td>
                         <label style="float:left" for="matricula" >Matrícula: &nbsp&nbsp</label>
-                        <label style="float:rigth" for="matricula" ><b>{{ $matricula }}</b></label>
+                        <label style="float:rigth" for="matricula" ><b>{{ $coche->matricula }}</b></label>
                     </td>
                 </tr>
 
@@ -54,11 +54,19 @@
                         <input style="float:right" type="text" name="precio" id="precio" value="{{ $coche->precioViaje }}"/>
                     </td>
                 </tr>
-
-                <tr><td>&nbsp</td></tr>
-                <tr><td>&nbsp</td></tr>
             </table>
-            <button style="float:right; margin-right:50%" type="submit" class="btn btn-primary">Guardar ✔</button>
+
+            <br>
+
+            <div style="float:left">
+                Editar imagen:
+                <br>
+                <input name="imagen" id="imagen" type="file" accept="image/jpeg, image/png"/>
+            </div>
+            <div style="float:right; margin-right:50%">
+                <br>
+                <button type="submit" class="btn btn-primary">Guardar ✔</button>
+            </div>
         </form>
 
         {{--Error messages--}}
