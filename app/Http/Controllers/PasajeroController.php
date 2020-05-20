@@ -6,10 +6,17 @@ use Illuminate\Http\Request;
 use DB;
 
 use App\Pasajero;
+use App\LineaSlot;
 
 class PasajeroController extends Controller
 {
     public function misReservas(Request $request){
+        $borrado = $request->query('id_reserva');
+        if (isset($borrado)){
+            $borrado = true;
+        }
+
+        $page = $request->query('page');
         $sort = $request->query('sort');
         $sort2 = $request->query('sort2');
 
@@ -32,7 +39,8 @@ class PasajeroController extends Controller
                 ->join('conductors', 'coches.conductor_correo', 'conductors.correo')
                 ->join('rutas', 'conductors.ruta_id', 'rutas.id')
                 ->where('pasajeros.correo', Pasajero::currentPasajero()->correo)
-                ->groupBy('slots.fecha', 'slots.hora', 'slots.direccion', 'conductors.puntoRecogida', 'rutas.localidad', 'coches.precioViaje', 'coches.nombre', 'conductors.apellido1', 'conductors.apellido2', 'conductors.nombre', 'rutas.universidad');
+                ->groupBy('slots.fecha', 'slots.hora', 'slots.direccion', 'conductors.puntoRecogida', 'rutas.localidad', 'coches.precioViaje', 'coches.nombre',
+                          'conductors.apellido1', 'conductors.apellido2', 'conductors.nombre', 'rutas.universidad', 'lineaSlots.slot_id', 'lineaSlots.pasajero_correo');
 
 
         if(isset($sort)) { 
@@ -48,20 +56,35 @@ class PasajeroController extends Controller
             $select = $select->orderBy($sort2, 'desc');
         } 
 
-        if(isset($fechaDesde)){
-            if(isset($fechaHasta)){
-                $select = $select->whereBetween('slots.fecha', [$fechaDesde, $fechaHasta]);
-            }
+        if(isset($fechaDesde) && isset($fechaHasta)){
+            $select = $select->whereBetween('slots.fecha', [$fechaDesde, $fechaHasta]);
+        } else if (isset($fechaDesde)){
+            $select = $select->where('slots.fecha', '>=', [$fechaDesde]);
+        } else if (isset($fechaHasta)){
+            $select = $select->where('slots.fecha', '<=', [$fechaHasta]);
         }
+
         if(isset($personaElegida)){
             $select = $select->where('conductors.nombre', 'like', '%'.$personaElegida.'%');
         }
 
-        $select = $select->select('slots.fecha as fecha', 'slots.hora as hora', 'slots.direccion as direccion', 'conductors.puntoRecogida as recogida', 'rutas.localidad as localidad', 'coches.precioViaje as precio', 'coches.nombre as nombreCoche', 'conductors.apellido1 as apellido1', 'conductors.apellido2 as apellido2', 'conductors.nombre as nombre', 'rutas.universidad as uni', DB::raw('count(numAsiento) as asientos'))
-        ->paginate(4);
+        $select = $select->select('slots.fecha as fecha', 'slots.hora as hora', 'slots.direccion as direccion', 'conductors.puntoRecogida as recogida',
+                                  'rutas.localidad as localidad', 'coches.precioViaje as precio', 'coches.nombre as nombreCoche', 'conductors.apellido1 as apellido1',
+                                  'conductors.apellido2 as apellido2', 'conductors.nombre as nombre', 'rutas.universidad as uni', 'lineaSlots.slot_id as id_reserva',
+                                  'lineaSlots.pasajero_correo as correo_reserva', DB::raw('count(numAsiento) as asientos'))->paginate(4);
 
         
-        return view('pasajero.misreservas', ['result' => $select, 'sort' => $sort, 'sort2' => $sort2, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta, 'personaElegida' => $personaElegida]);          
+        return view('pasajero.misreservas', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta, 'personaElegida' => $personaElegida, 'borrado' => $borrado]);
+    }
+
+    public function eliminarReserva(Request $request){
+        $id_reserva = $request->query('id_reserva');
+        $correo_reserva = $request->query('correo_reserva');
+
+        $reserva = LineaSlot::query()->where('slot_id', $id_reserva)->where('pasajero_correo', $correo_reserva)->first(); // Primer asiento del correo_reserva
+        LineaSlot::query()->where('slot_id', $id_reserva)->where('numAsiento', $reserva->numAsiento)->update(['pasajero_correo' => null]); // Desasignamos la reserva al primer asiento de correo_reserva
+
+        return $this->misReservas($request);
     }
 
     /*public function borrarHorario(Request $request) {

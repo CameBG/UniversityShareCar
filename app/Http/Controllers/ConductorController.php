@@ -124,6 +124,7 @@ class ConductorController extends Controller
 
         return redirect(action('ConductorController@misHorarios'));
     }
+
     public function nuevoHorario_crear(Request $request){
         $request->validate(['fecha' => 'required|date',
                             'hora' => 'required',
@@ -145,6 +146,7 @@ class ConductorController extends Controller
 
         return redirect(action('ConductorController@misHorarios'));
     }
+    
     public function nuevoHorario(Request $request){
         $coches = Conductor::currentConductor()->coches()->get();
         return view('conductor.nuevohorario', ['coches' => $coches]);

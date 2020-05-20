@@ -1,4 +1,4 @@
-@extends('pasajero.master')
+@extends('pasajero.master', ['actual' => 2])
 
 @section('content')
 
@@ -10,10 +10,10 @@
             <table>
                 <tr>
                     <td rowspan="7" width="320px" height="20px">
-                        @if (isset($coche->imagenCoche))
-                            <img src="/images/{{ $coche->imagenCoche }}" width="300px" height="auto">
+                        @if (isset($pasajero->rutaImagen))
+                            <img src="/images/{{ $pasajero->rutaImagen }}" width="300px" height="auto">
                         @else
-                            <img src="/images/default.jpg" width="300px" height="auto">
+                            <img src="/images/defaultPerfil.jpg" width="300px" height="auto">
                         @endif
                     </td>
                     <td>
