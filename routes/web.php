@@ -58,3 +58,5 @@ Route::get ('/pasajero/configurarperfil',            'PasajeroController@confper
 Route::post ('/pasajero/configurar-perfil/borrar',    'PasajeroController@perfil_borrar');
 Route::get ('/pasajero/configurar-perfil/modificar', 'PasajeroController@perfil_modificar');
 Route::post('/pasajero/configurar-perfil/modificar', 'PasajeroController@perfil_modificado');
+Route::get ('/pasajero/buscarViajes',                'PasajeroController@buscarViajes');
+Route::post ('/pasajero/buscarViajes',               'PasajeroController@buscarViajes');

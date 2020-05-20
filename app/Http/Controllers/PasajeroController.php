@@ -8,6 +8,7 @@ use DB;
 use App\Pasajero;
 use App\LineaSlot;
 use Image;
+use App\Slot;
 
 class PasajeroController extends Controller
 {
@@ -186,5 +187,83 @@ class PasajeroController extends Controller
         }
 
         return redirect(action('PasajeroController@confperfil', ['pasajero' => $pasajero]));
+    }
+
+    public function buscarViajes(Request $request) {
+        $sort = $request->query('sort');
+        $sort2 = $request->query('sort2');
+
+        $dia = $request->input('dia');
+        if (isset($dia)){
+            $request->validate(['dia' => 'required|date']);
+        }
+        $horaDesde = $request->input('horaDesde');
+        if(isset($horaDesde)){
+            $request->validate(['horaDesde' => 'required|string']);
+        }
+        $horaHasta = $request->input('horaHasta');
+        if(isset($horaHasta)){
+            $request->validate(['horaHasta' => 'required|string']);
+        }
+        $localidad = $request->input('localidad');
+        if (isset($localidad)) {
+            $request->validate(['localidad' => 'required|string']);
+        }
+        $universidad = $request->input('universidad');
+        if (isset($universidad)) {
+            $request->validate(['universidad' => 'required|string']);
+        }
+        $direccion = $request->input('direccion');
+        if (isset($direccion)) {
+            $request->validate(['direccion' => 'required|string']);
+        }
+        $select = Slot::query()        
+                ->join('coches', 'slots.coche_matricula', 'coches.matricula')
+                ->join('conductors', 'coches.conductor_correo', 'conductors.correo')
+                ->join('rutas', 'conductors.ruta_id', 'rutas.id')
+                ->groupBy('slots.fecha', 'slots.hora', 'slots.direccion', 'conductors.puntoRecogida', 'rutas.localidad', 
+                          'coches.precioViaje', 'coches.nombre', 'conductors.apellido1', 'conductors.apellido2', 'conductors.nombre', 
+                          'rutas.universidad');
+
+        if(isset($sort)) { 
+            if(isset($sort2) && ($sort === $sort2)) {
+                $sort = null;
+                $select = $select->orderBy($sort2, 'desc');
+            }
+            else {
+                $select = $select->orderBy($sort, 'asc');
+            }
+        }
+        elseif(isset($sort2)) {
+            $select = $select->orderBy($sort2, 'desc');
+        } 
+        
+        if(isset($dia)){
+            $select = $select->where('slots.fecha', '=', $dia);
+        }
+        /*if(isset($horaDesde)){
+            $select = $select->where('slots.hora', '=', $horaDesde);
+        }*/
+        if(isset($horaDesde)){
+            if(isset($horaHasta)){
+                $select = $select->whereBetween('slots.hora', [$horaDesde, $horaHasta]);
+            }
+        }
+        if(isset($localidad)){
+            $select = $select->where('rutas.localidad', 'like', '%'.$localidad.'%');
+        }
+        if(isset($universidad)){
+            $select = $select->where('rutas.universidad', 'like', '%'.$universidad.'%');
+        }
+        if(isset($direccion)){
+            $select = $select->where('slots.direccion', 'like', '%'.$direccion.'%');
+        }
+
+        $select = $select->select('slots.fecha as fecha', 'slots.hora as hora', 'slots.direccion as direccion', 
+                                  'conductors.puntoRecogida as recogida', 'rutas.localidad as localidad', 'coches.precioViaje as precio', 
+                                  'coches.nombre as nombreCoche', 'conductors.apellido1 as apellido1', 'conductors.apellido2 as apellido2',
+                                  'conductors.nombre as nombre', 'rutas.universidad as uni')->paginate(4);
+
+        return view('pasajero.buscarViajes', ['result' => $select, 'sort' => $sort, 'sort2' => $sort2, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]);
     }
 }
