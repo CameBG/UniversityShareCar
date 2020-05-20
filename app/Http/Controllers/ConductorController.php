@@ -220,16 +220,29 @@ class ConductorController extends Controller
 
         $matricula = $request->query('matricula');
 
+        $plazasAntigua = Coche::query()->where('matricula', $matricula)->first()->plazas;
         $nombre = $request->input('nombre');
         $marca = $request->input('marca');
         $modelo = $request->input('modelo');
         $plazas = $request->input('plazas');
         $precio = $request->input('precio');
         $correo =  Conductor::currentConductor()->correo;
-
         
-        Coche::query()->where('matricula', $matricula)->update(['matricula' => $matricula, 'nombre' => $nombre, 'marca' => $marca, 'modelo' => $modelo, 'plazas' => $plazas, 'precioViaje' => $precio, 'conductor_correo' => $correo]);
+        
 
+        Coche::query()->where('matricula', $matricula)->update(['matricula' => $matricula, 'nombre' => $nombre, 'marca' => $marca, 'modelo' => $modelo, 'plazas' => $plazas, 'precioViaje' => $precio, 'conductor_correo' => $correo]);
+        
+        if($plazas < $plazasAntigua){
+            $cocheAnt = Coche::query()->where('matricula', $matricula)->first();
+            $slotsAnt = Slot::query()->where('coche_matricula', $cocheAnt->matricula)->get();
+            
+            foreach ($slotsAnt as $slot){ 
+                LineaSlot::query()->where('slot_id', $slot->id)
+                                  ->where('numAsiento', '>', $plazas)
+                                  ->delete();       
+            }
+        }
+        
         return redirect(action('ConductorController@coches'));
     }
 
