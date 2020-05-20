@@ -238,7 +238,7 @@ class ConductorController extends Controller
             
             foreach ($slotsAnt as $slot){ 
                 LineaSlot::query()->where('slot_id', $slot->id)
-                                  ->where('numAsiento', '>', $plazas)
+                                  //->where('numAsiento', '>', $plazas)
                                   ->delete();       
             }
         }
