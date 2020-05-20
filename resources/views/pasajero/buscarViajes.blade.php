@@ -30,6 +30,7 @@
                 <select id="direccion" name="direccion">
                     <option value="ida">Ida</option>
                     <option value="vuelta">Vuelta</option>
+                    <option value="ambas">Ida/Vuelta</option>
                 </select>
             </div>
             <p style="float:left">&nbsp&nbsp&nbsp</p>
@@ -60,6 +61,9 @@
                     <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'recogida', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Punto de recogida</a>
                     </th>
                     <th>
+                    <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'asientos', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Asientos Disponibles/Total</a>
+                    </th>
+                    <th>
                     <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'precio', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Precio</a>
                     </th>
                     <th>
@@ -79,7 +83,8 @@
                         <td>{{ $r->direccion}}</td>
                         <td>{{ $r->localidad}}</td>
                         <td>{{ $r->uni}}</td>
-                        <td>{{ $r->recogida}}</td> 
+                        <td>{{ $r->recogida}}</td>
+                        <td>{{ $r->asientos}}/{{ $r->plazas}}</td> 
                         <td>{{ $r->precio}}€</td> 
                         <td>{{ $r->nombreCoche}}</td> 
                         <td>{{$r->nombre}} {{$r->apellido1}} {{$r->apellido2}}</td>
