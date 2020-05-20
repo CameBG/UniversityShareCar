@@ -16,6 +16,7 @@
         <div class="sidebar">
             <header>UniversityCar</header>
             <ul>
+<<<<<<< HEAD
                 <li>
                     <a href="{{ action('ConductorController@misHorarios') }}" @if(($actual ?? -1) === 0) style="background:royalblue" @endif>
                         <i class="fas fa-calendar-week"></i> 
@@ -52,6 +53,14 @@
                         Cerrar sesión
                     </a>
                 </li>
+=======
+                <li><a href="{{ action('ConductorController@misHorarios') }}"><i class="fas fa-calendar-week"></i> Mis horarios</a></li>
+                <li><a href="{{ action('ConductorController@coches') }}"><i class="fas fa-car"></i> Coches</a></li>
+                <li><a href="{{ action('ConductorController@ruta') }}"><i class="fas fa-route"></i> Ruta</a></li>
+                <li><a href="{{ action('ConductorController@pasajeros') }}"><i class="fas fa-user"></i> Pasajeros</a></li>
+                <li><a href="{{ action('ConductorController@confperfil') }}"><i class="fas fa-cog"></i> Configurar perfil</a></li>
+                <li><a href=""><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+>>>>>>> origin/develop
             </ul>
         </div>
         <div id="contenido"> 

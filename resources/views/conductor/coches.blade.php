@@ -19,15 +19,15 @@
                 <td>
                     {{ $coche->nombreCoche }} &nbsp&nbsp&nbsp&nbsp 
                     <a href="{{ action('ConductorController@coches_borrar',  ['matricula' => $coche->matricula]) }}"><i style="float:right" class="fas fa-trash-alt">Borrar</i></a>
-                    <a href="{{ action('ConductorController@coches_modificar',  ['matricula' => $coche->matricula, 'imagenCoche'=>$coche->imagenCoche]) }}"><i style="float:right" class="fas fa-edit">Editar&nbsp&nbsp&nbsp</i></a>
+                    <a href="{{ action('ConductorController@coches_modificar',  ['matricula' => $coche->matricula]) }}"><i style="float:right" class="fas fa-edit">Editar&nbsp&nbsp&nbsp</i></a>
                 </td>
                 <td></td>
             </tr>
 
             <tr>
                 <td rowspan="5" width="320px" height="20px">
-                    @if (isset($coche->imagenCoche))
-                        <img src="/images/{{ $coche->imagenCoche }}" width="300px" height="auto">
+                    @if (isset($coche->rutaImagen))
+                        <img src="/images/{{ $coche->rutaImagen }}" width="300px" height="auto">
                     @else
                         <img src="/images/default.jpg" width="300px" height="auto">
                     @endif

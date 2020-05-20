@@ -9,6 +9,8 @@ use App\Coche;
 use App\Pasajero;
 use App\Slot;
 use App\LineaSlot;
+use App\Ruta;
+use Image;
 
 class ConductorController extends Controller
 {
@@ -104,7 +106,7 @@ class ConductorController extends Controller
         $coches = Coche::query()->join('conductors', 'coches.conductor_correo', 'conductors.correo')
                 ->where('conductors.correo', Conductor::currentConductor()->correo)
                 ->orderBy('coches.nombre', 'asc')
-                ->select('coches.nombre as nombreCoche', 'matricula', 'marca', 'modelo', 'plazas', 'precioViaje', 'coches.rutaImagen as imagenCoche')->paginate(1);
+                ->select('coches.nombre as nombreCoche', 'matricula', 'marca', 'modelo', 'plazas', 'precioViaje', 'coches.rutaImagen as rutaImagen')->paginate(1);
 
         return view('conductor.coches', ['coches' => $coches]);
     }
@@ -147,11 +149,10 @@ class ConductorController extends Controller
 
     public function coches_modificar(Request $request){
         $matricula = $request->query('matricula');
-        $imagenCoche = $request->query('imagenCoche');
 
         $coche = Coche::query()->where('matricula', $matricula)->first();
         if (isset($coche)){
-            return view('conductor.coches_modificar', ['coche' => $coche, 'matricula' => $matricula, 'imagenCoche' => $imagenCoche]);
+            return view('conductor.coches_modificar', ['coche' => $coche]);
         }
         else{
             return redirect(action('ConductorController@coches'));
@@ -168,16 +169,29 @@ class ConductorController extends Controller
         ]);
 
         $matricula = $request->query('matricula');
-
         $nombre = $request->input('nombre');
         $marca = $request->input('marca');
         $modelo = $request->input('modelo');
         $plazas = $request->input('plazas');
         $precio = $request->input('precio');
-        $correo =  Conductor::currentConductor()->correo;
-
         
+        $correo =  Conductor::currentConductor()->correo;
+        $coche = Coche::query()->where('matricula', $matricula)->first();
         Coche::query()->where('matricula', $matricula)->update(['matricula' => $matricula, 'nombre' => $nombre, 'marca' => $marca, 'modelo' => $modelo, 'plazas' => $plazas, 'precioViaje' => $precio, 'conductor_correo' => $correo]);
+
+        $imagenOriginal = $request->file('imagen');
+        if (isset($imagenOriginal)){
+            $imagen = Image::make($imagenOriginal);
+            $nombreImagen = $this->random_string() . '.' . $imagenOriginal->getClientOriginalExtension();
+            $imagen->resize(300,300);
+            
+            if(isset($coche->rutaImagen) && file_exists(public_path() . '/images/' . $coche->rutaImagen)){
+                unlink(public_path() . '/images/' . $coche->rutaImagen);
+            }
+            $imagen->save(public_path() . '/images/' . $nombreImagen, 100);
+
+            Coche::query()->where('matricula', $matricula)->update(['rutaImagen' => $nombreImagen]);
+        }
 
         return redirect(action('ConductorController@coches'));
     }
@@ -261,19 +275,12 @@ class ConductorController extends Controller
     }
 
     public function perfil_modificado(Request $request){
-        /* apellido1, apellido2, genero ...
-        if (isset($fechaElegida)){
-            $request->validate([
-                'fechaElegida' => 'required|date'
-            ]);
-        }*/
         $request->validate([
             'nombre' => 'required|string',
-            'fechaNacimiento' => 'required|date'
+            'fechaNacimiento' => 'required|date',
         ]);
 
         $correo = $request->query('correo');
-
         $nombre = $request->input('nombre');
         $apellido1 = $request->input('apellido1');
         $apellido2 = $request->input('apellido2');
@@ -281,10 +288,79 @@ class ConductorController extends Controller
         $fechaNacimiento = $request->input('fechaNacimiento');
         $telefono = $request->input('telefono');
 
+        if (isset($telefono)){
+            $request->validate([
+                'telefono' => 'required|numeric'
+            ]);
+        }
+
         $conductor = Conductor::query()->where('correo', $correo)->first();
-        
         Conductor::query()->where('correo', $correo)->update(['nombre' => $nombre, 'apellido1' => $apellido1, 'apellido2' => $apellido2, 'genero' => $genero, 'fechaNacimiento' => $fechaNacimiento, 'telefono' => $telefono]);
+
+        $imagenOriginal = $request->file('imagen');
+        if (isset($imagenOriginal)){
+            $imagen = Image::make($imagenOriginal);
+            $nombreImagen = $this->random_string() . '.' . $imagenOriginal->getClientOriginalExtension();
+            $imagen->resize(300,300);
+            
+            if(isset($conductor->rutaImagen) && file_exists(public_path() . '/images/' . $conductor->rutaImagen)){
+                unlink(public_path() . '/images/' . $conductor->rutaImagen);
+            }
+            $imagen->save(public_path() . '/images/' . $nombreImagen, 100);
+
+            Conductor::query()->where('correo', $correo)->update(['rutaImagen' => $nombreImagen]);
+        }
 
         return redirect(action('ConductorController@confperfil', ['conductor' => $conductor]));
     }
+
+    /*
+    Ah bueno, ahi nos referimos a que para el usuario visualmente lo está editando,
+    para él sí está editando, pero lo que pasa realmente es que se le asigna otra
+    ruta en la base de datos, la que él ponga (si no existe se crea nueva, y la
+    ruta antigua, si nadie mas la está utilizando, se borra de la base de datos)
+    */
+    public function ruta() {
+        $conductor =  Conductor::currentConductor();
+        return view('conductor.ruta', ['conductor' => $conductor]);
+    }
+
+    public function ruta_modificar(Request $request){
+        $correo = $request->query('correo');
+        $conductor = Conductor::query()->where('correo', $correo)->first();        
+        return view('conductor.ruta_modificar', ['conductor' => $conductor]);
+    }
+    public function ruta_modificada(Request $request){
+        $request->validate([
+            'localidad' => 'required|string',
+            'universidad' => 'required|string'
+        ]);
+        
+        $correo = $request->query('correo');
+        $conductor = Conductor::query()->where('correo', $correo)->first();
+
+        $localidad = $request->input('localidad');
+        $universidad = $request->input('universidad');
+        $puntoRecogida = $request->input('puntoRecogida');
+
+        $ruta = Ruta::query()->where('localidad','like', $localidad)
+                             ->where('universidad','like', $universidad)->first();
+        if(is_null($ruta)){
+            $ruta2 = Ruta::create(['localidad' => $localidad, 'universidad' => $universidad]);
+            Conductor::query()->where('correo', $correo)->update(['ruta_id' => $ruta2->id, 'puntoRecogida' => $puntoRecogida]);
+            
+        }
+        else{
+            //borrar
+            $slots = Slot::query()->join('coches', 'coche_matricula', 'coches.matricula')
+                              ->join('conductors', 'coches.conductor_correo', 'conductors.correo')             
+                              ->where('conductors.correo', Conductor::currentConductor()->correo)->delete();
+            //darle esta ruta al conductor
+            Conductor::query()->where('correo', $correo)->update(['ruta_id' => $ruta->id, 'puntoRecogida' => $puntoRecogida]);
+            
+        }
+        
+        return redirect(action('ConductorController@ruta', ['conductor' => $conductor]));
+    }
+    
 }

@@ -1,4 +1,4 @@
-@extends('pasajero.master')
+@extends('pasajero.master', ['actual' => 2])
 
 @section('content')
 
@@ -16,8 +16,8 @@
 
             <tr>
                 <td rowspan="7" width="320px" height="20px">
-                    @if (isset($coche->imagenCoche))
-                        <img src="/images/{{ $coche->imagenCoche }}" width="300px" height="auto">
+                    @if (isset($pasajero->rutaImagen))
+                        <img src="/images/{{ $pasajero->rutaImagen }}" width="300px" height="auto">
                     @else
                         <img src="/images/defaultPerfil.jpg" width="300px" height="auto">
                     @endif
@@ -36,6 +36,9 @@
             <tr><td>&nbsp</td></tr>
         </table>
 
-        <button type="submit" class="btn btn-primary"><a style="color:white" href="{{ action('PasajeroController@perfil_borrar', ['correo'=>$pasajero->correo]) }}"><i class="fas fa-trash-alt"></i> Borrar usuario pasajero.</a></button>
+        <form method="POST" action = "{{ action('PasajeroController@perfil_borrar', ['correo'=>$pasajero->correo]) }}">
+            @csrf
+            <button style="float:left" type="submit" class="btn btn-primary"><i class="fas fa-trash-alt"></i> Borrar usuario pasajero.</button>
+        </form>
     </div>
 @endsection
