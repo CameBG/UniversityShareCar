@@ -32,7 +32,7 @@
                 <td>
                     {{ $coche->nombreCoche }} &nbsp&nbsp&nbsp&nbsp 
                     <a onclick="return ConfirmDelete()" href="{{ action('ConductorController@coches_borrar',  ['matricula' => $coche->matricula]) }}"><i style="float:right" class="fas fa-trash-alt">Borrar</i></a>
-                    <a href="{{ action('ConductorController@coches_modificar',  ['matricula' => $coche->matricula]) }}"><i style="float:right" class="fas fa-edit">Editar&nbsp&nbsp&nbsp</i></a>
+                    <a href="{{ action('ConductorController@coches_modificar',  ['matricula' => $coche->matricula, 'page' => $page]) }}"><i style="float:right" class="fas fa-edit">Editar&nbsp&nbsp&nbsp</i></a>
                 </td>
                 <td></td>
             </tr>
@@ -42,7 +42,7 @@
                     @if (isset($coche->rutaImagen))
                         <img src="/images/{{ $coche->rutaImagen }}" width="300px" height="auto">
                     @else
-                        <img src="/images/default.jpg" width="300px" height="auto">
+                        <img src="/defaultImages/defaultCoche.jpg" width="300px" height="auto">
                     @endif
                 </td>
                 <td>Matricula: {{ $coche->matricula }}</td>
@@ -52,11 +52,10 @@
             <tr><td>Modelo: {{ $coche->modelo }}</td></tr>
             <tr><td>Plazas: {{ $coche->plazas}}</td></tr>
             <tr><td>Precio/Viaje: {{ $coche->precioViaje }}€</td></tr>
-
-            <tr><td>&nbsp</td></tr>
-            <tr><td>&nbsp</td></tr>
             @endforeach
         </table>
+
+        <br>
 
         {{ $coches->appends([])->links() }}
     </div>

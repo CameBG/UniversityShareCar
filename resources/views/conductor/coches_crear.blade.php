@@ -6,7 +6,7 @@
 
     <div style= "margin-left:33%">
 
-        <form action = "{{ action('ConductorController@coches_creado') }}" method="POST">
+        <form method="POST" action = "{{ action('ConductorController@coches_creado') }}" enctype="multipart/form-data">
             @csrf
             <table>
                 <tr height="50px">
@@ -18,7 +18,7 @@
 
                 <tr>
                     <td rowspan="5" width="320px" height="20px">
-                        <img src="/images/default.jpg" width="300px" height="auto">
+                        <img src="/defaultImages/defaultCoche.jpg" width="300px" height="auto">
                     </td>
                     <td>
                         <label style="float:left" for="matricula" >Matrícula: &nbsp&nbsp</label>
@@ -50,11 +50,17 @@
                         <input style="float:right" type="text" name="precio" id="precio" value="{{ old('precio') }}"/>
                     </td>
                 </tr>
-
-                <tr><td>&nbsp</td></tr>
-                <tr><td>&nbsp</td></tr>
             </table>
-            <button style="float:right; margin-right:50%" type="submit" class="btn btn-primary">Guardar ✔</button>
+
+            <div style="float:left">
+                Editar imagen:
+                <br>
+                <input name="imagen" id="imagen" type="file" accept="image/jpeg, image/png"/>
+            </div>
+            <div style="float:right; margin-right:50%">
+                <br>
+                <button type="submit" class="btn btn-primary">Guardar ✔</button>
+            </div>
         </form>
 
         {{--Error messages--}}

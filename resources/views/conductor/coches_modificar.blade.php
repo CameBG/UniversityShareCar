@@ -3,7 +3,7 @@
 @section('content')
 
     <script type= "text/javascript">
-        function ConfirmDelete(){
+        function ConfirmModify(){
             var plazasActual = document.getElementById("plazas").value;
             var plazasAnterior = @json($coche->plazas);
 
@@ -26,7 +26,7 @@
 
     <div style= "margin-left:33%">
 
-        <form method="POST" action = "{{ action('ConductorController@coches_modificado', ['matricula'=>$coche->matricula]) }}" enctype="multipart/form-data">
+        <form method="POST" action = "{{ action('ConductorController@coches_modificado', ['matricula'=>$coche->matricula, 'page'=>$page]) }}" enctype="multipart/form-data">
             @csrf
             <table>
                 <tr height="50px">
@@ -41,7 +41,7 @@
                         @if (isset($coche->rutaImagen))
                             <img src="/images/{{ $coche->rutaImagen }}" width="300px" height="auto">
                         @else
-                            <img src="/images/default.jpg" width="300px" height="auto">
+                            <img src="/defaultImages/defaultCoche.jpg" width="300px" height="auto">
                         @endif
                     </td>
                     <td>
@@ -85,7 +85,7 @@
             </div>
             <div style="float:right; margin-right:50%">
                 <br>
-                <button onclick="return ConfirmDelete()" type="submit" class="btn btn-primary">Guardar ✔</button>
+                <button onclick="return ConfirmModify()" type="submit" class="btn btn-primary">Guardar ✔</button>
             </div>
         </form>
 
