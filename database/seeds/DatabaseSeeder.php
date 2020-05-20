@@ -7,6 +7,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->deleteImages();
+        $this->call(UsersTableSeeder::class);
+        $this->call(AdminsTableSeeder::class);
         $this->call(RutasTableSeeder::class);
         $this->call(ConductorsTableSeeder::class);
         $this->call(CochesTableSeeder::class);
