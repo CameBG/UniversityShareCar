@@ -1,4 +1,4 @@
-@extends('conductor.master')
+@extends('conductor.master', ['actual' => 2])
 
 @section('content')
 

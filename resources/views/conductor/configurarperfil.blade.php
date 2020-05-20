@@ -1,4 +1,4 @@
-@extends('conductor.master')
+@extends('conductor.master', ['actual' => 4])
 
 @section('content')
 
@@ -36,6 +36,14 @@
             <tr><td>&nbsp</td></tr>
         </table>
 
-        <button type="submit" class="btn btn-primary"><a style="color:white" href="{{ action('ConductorController@perfil_borrar', ['correo'=>$conductor->correo]) }}"><i class="fas fa-trash-alt"></i> Borrar usuario conductor.</a></button>
+        <form method="POST" action ="{{ action('ConductorController@perfil_borrar', ['correo'=>$conductor->correo]) }}">
+            @csrf
+            <button type="submit" class="btn btn-primary">
+                <a style="color:white"><i class="fas fa-trash-alt"></i> 
+                    Borrar usuario conductor.
+                </a>
+            </button>
+        </form>
+        
     </div>
 @endsection

@@ -1,4 +1,4 @@
-@extends('conductor.master')
+@extends('conductor.master', ['actual' => 3])
 
 @section('content')
 
@@ -7,7 +7,7 @@
     <div style="height:100px">
         <br><br>
 
-        <form action = "{{ action('ConductorController@pasajeros',  ['sort' => $sort, 'sort2' => $sort2, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}" method="POST">
+        <form action = "{{ action('ConductorController@pasajeros',  ['page' => $page, 'sort' => $sort, 'sort2' => $sort2, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}" method="POST">
             @csrf
             <div style="float:left" class="form-group row">
                 <i style="float:left" class="fas fa-user fa-2x" class="col-sm-2 col-form-label"></i>
@@ -48,28 +48,40 @@
     </div>
     <div>
         <table class = "table table-striped">
-            <tr>
+            <tr align="center">
                 <th>
-                    <a href="{{ action('ConductorController@pasajeros',  ['sort' => 'nombrePasajero', 'sort2' => $sort, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}">Pasajero</a>
+                    <a href="{{ action('ConductorController@pasajeros',  ['page' => $page, 'sort' => 'nombrePasajero', 'sort2' => $sort, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}">
+                        Pasajero <i class="fas fa-arrows-alt-v"></i>
+                    </a>
                 </th>
                 <th>
-                    <a href="{{ action('ConductorController@pasajeros',  ['sort' => 'nombreCoche',    'sort2' => $sort, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}">Coche</a>
+                    <a href="{{ action('ConductorController@pasajeros',  ['page' => $page, 'sort' => 'nombreCoche',    'sort2' => $sort, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}">
+                        Coche <i class="fas fa-arrows-alt-v"></i>
+                    </a>
                 </th>
                 <th>
-                    <a href="{{ action('ConductorController@pasajeros',  ['sort' => 'asientos',       'sort2' => $sort, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}">Asientos</a>
+                    <a href="{{ action('ConductorController@pasajeros',  ['page' => $page, 'sort' => 'asientos',       'sort2' => $sort, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}">
+                        Asientos <i class="fas fa-arrows-alt-v"></i>
+                    </a>
                 </th>
                 <th>
-                    <a href="{{ action('ConductorController@pasajeros',  ['sort' => 'fecha',          'sort2' => $sort, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}">Fecha</a>
+                    <a href="{{ action('ConductorController@pasajeros',  ['page' => $page, 'sort' => 'fecha',          'sort2' => $sort, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}">
+                        Fecha <i class="fas fa-arrows-alt-v"></i>
+                    </a>
                 </th>
                 <th>
-                    <a href="{{ action('ConductorController@pasajeros',  ['sort' => 'hora',           'sort2' => $sort, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}">Hora</a>
+                    <a href="{{ action('ConductorController@pasajeros',  ['page' => $page, 'sort' => 'hora',           'sort2' => $sort, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}">
+                        Hora <i class="fas fa-arrows-alt-v"></i>
+                    </a>
                 </th>
                 <th>
-                    <a href="{{ action('ConductorController@pasajeros',  ['sort' => 'direccion',      'sort2' => $sort, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}">Dirección</a>
+                    <a href="{{ action('ConductorController@pasajeros',  ['page' => $page, 'sort' => 'direccion',      'sort2' => $sort, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida]) }}">
+                        Dirección <i class="fas fa-arrows-alt-v"></i>
+                    </a>
                 </th>
             </tr>
             @foreach($filas as $fila)
-            <tr>
+            <tr align="center">
                 <td>{{ $fila->nombrePasajero }}</td>
                 <td>{{ $fila->nombreCoche }}</td>
                 <td>{{ $fila->asientos }}</td>
@@ -80,7 +92,7 @@
             @endforeach
         </table>
 
-        {{ $filas->appends(['sort'=>$sort, 'sort2'=>$sort2, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida])->links() }}
+        {{ $filas->appends(['page' => $page, 'sort'=>$sort, 'sort2'=>$sort2, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido, 'fechaElegida'=>$fechaElegida])->links() }}
 
         {{--Error messages--}}
         @if (count($errors) > 0)

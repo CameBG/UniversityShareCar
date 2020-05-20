@@ -12,65 +12,10 @@ use App\LineaSlot;
 
 class ConductorController extends Controller
 {
-    public function pasajeros(Request $request){
-        $fechaElegida = $request->input('fechaElegida');
-        if (isset($fechaElegida)){
-            $request->validate([
-                'fechaElegida' => 'required|date'
-            ]);
-        }
-        $personaElegida = $request->input('personaElegida');
-        $sort = $request->query('sort');
-        $sort2 = $request->query('sort2');
-        $cocheElegido = $request->query('cocheElegido');
-
-        $coches = Conductor::query()
-                        ->join('coches', 'conductors.correo', 'coches.conductor_correo')
-                        ->where('conductors.correo', Conductor::currentConductor()->correo)
-                        ->select('coches.nombre as nombreCoche')->get();
-
-        $filas = Conductor::query()
-            ->join('coches', 'conductors.correo', 'coches.conductor_correo')
-            ->join('slots', 'coches.matricula', 'slots.coche_matricula')
-            ->join('lineaSlots', 'slots.id', 'lineaSlots.slot_id')
-            ->join('pasajeros', 'lineaSlots.pasajero_correo', 'pasajeros.correo')
-            ->where('conductors.correo', Conductor::currentConductor()->correo);
-
-        if(isset($personaElegida)){
-            $filas = $filas->where('pasajeros.nombre', 'like', '%'.$personaElegida.'%');
-        }
-
-        if(isset($cocheElegido)){
-            $filas = $filas->where('coches.nombre', $cocheElegido);
-        }
-
-        if(isset($fechaElegida)){
-            $filas = $filas->whereDate('slots.fecha', $fechaElegida);
-        }
-
-        $filas = $filas->groupBy('pasajeros.nombre', 'coches.nombre', 'slots.fecha', 'slots.hora', 'slots.direccion');
-
-        if(isset($sort)){
-            if(isset($sort2) && ($sort === $sort2)){
-                $sort = null;
-                $filas = $filas->orderBy($sort2, 'desc');
-            }
-            else {
-                $filas = $filas->orderBy($sort, 'asc');
-            }
-        }
-        elseif(isset($sort2)){
-            $filas = $filas->orderBy($sort2, 'desc');
-        }
-
-        $filas = $filas->select('pasajeros.nombre as nombrePasajero', 'coches.nombre as nombreCoche', DB::raw('count(*) as asientos'), 'slots.fecha', 'slots.hora', 'slots.direccion')->paginate(2);
-
-        return view('conductor.pasajeros', ['filas' => $filas, 'coches' => $coches, 'sort' => $sort, 'sort2' => $sort2, 'personaElegida' => $personaElegida, 'cocheElegido' => $cocheElegido, 'fechaElegida' => $fechaElegida]);
-    }
-
     public function misHorarios(Request $request){
         $sort = $request->query('sort');
         $sort2 = $request->query('sort2');
+        $page = $request->query('page');
 
         $fechaDesde = $request->input('fechaDesde');
         if (isset($fechaDesde)){
@@ -104,29 +49,38 @@ class ConductorController extends Controller
             $select = $select->orderBy($sort2, 'desc');
         } 
 
-        if(isset($fechaDesde)){
-            if(isset($fechaHasta)){
-                $select = $select->whereBetween('slots.fecha', [$fechaDesde, $fechaHasta]);
-            }
+        if(isset($fechaDesde) && isset($fechaHasta)){
+            $select = $select->whereBetween('slots.fecha', [$fechaDesde, $fechaHasta]);
+        } 
+        elseif (isset($fechaDesde)){
+            $select = $select->where('slots.fecha', '>=' , $fechaDesde);
+        }
+        elseif (isset($fechaHasta)){
+            $select = $select->where('slots.fecha', '<=' , $fechaHasta);
         }
 
         $select = $select->select('coches.nombre as nombreCoche', 'coches.plazas as plazas', 'slots.fecha as fecha', 'slots.hora as hora', 'slots.direccion as direccion', 'slots.id as id_elegido', DB::raw('count(pasajeros.correo) as asientos') )
         ->paginate(2);
 
-        
-        return view('conductor.mishorarios', ['result' => $select, 'sort' => $sort, 'sort2' => $sort2, 'fechaDesde' => $fechaDesde, 'fechaHasta' => $fechaHasta]);          
+        return view('conductor.mishorarios', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2, 'fechaDesde' => $fechaDesde, 'fechaHasta' => $fechaHasta]);          
     }
 
     public function borrarHorario(Request $request) {
         $id_elegido = $request->query('id_elegido');
-
         Slot::destroy($id_elegido);
 
         return redirect(action('ConductorController@misHorarios'));
     }
+    
+    public function nuevoHorario(Request $request){
+        $coches = Conductor::currentConductor()->coches()->get();
+
+        return view('conductor.nuevohorario', ['coches' => $coches]);
+    }
+
     public function nuevoHorario_crear(Request $request){
         $request->validate(['fecha' => 'required|date',
-                            'hora' => 'required',
+                            'hora' => 'required|date_format:H:i',
                             'direccion' => 'required',
                             'coche' => 'required']);
 
@@ -144,10 +98,6 @@ class ConductorController extends Controller
         }
 
         return redirect(action('ConductorController@misHorarios'));
-    }
-    public function nuevoHorario(Request $request){
-        $coches = Conductor::currentConductor()->coches()->get();
-        return view('conductor.nuevohorario', ['coches' => $coches]);
     }
 
     public function coches(){
@@ -230,6 +180,63 @@ class ConductorController extends Controller
         Coche::query()->where('matricula', $matricula)->update(['matricula' => $matricula, 'nombre' => $nombre, 'marca' => $marca, 'modelo' => $modelo, 'plazas' => $plazas, 'precioViaje' => $precio, 'conductor_correo' => $correo]);
 
         return redirect(action('ConductorController@coches'));
+    }
+
+    public function pasajeros(Request $request){
+        $fechaElegida = $request->input('fechaElegida');
+        if (isset($fechaElegida)){
+            $request->validate([
+                'fechaElegida' => 'required|date'
+            ]);
+        }
+        $personaElegida = $request->input('personaElegida');
+        $sort = $request->query('sort');
+        $sort2 = $request->query('sort2');
+        $page = $request->query('page');
+        $cocheElegido = $request->query('cocheElegido');
+
+        $coches = Conductor::query()
+                        ->join('coches', 'conductors.correo', 'coches.conductor_correo')
+                        ->where('conductors.correo', Conductor::currentConductor()->correo)
+                        ->select('coches.nombre as nombreCoche')->get();
+
+        $filas = Conductor::query()
+            ->join('coches', 'conductors.correo', 'coches.conductor_correo')
+            ->join('slots', 'coches.matricula', 'slots.coche_matricula')
+            ->join('lineaSlots', 'slots.id', 'lineaSlots.slot_id')
+            ->join('pasajeros', 'lineaSlots.pasajero_correo', 'pasajeros.correo')
+            ->where('conductors.correo', Conductor::currentConductor()->correo);
+
+        if(isset($personaElegida)){
+            $filas = $filas->where('pasajeros.nombre', 'like', '%'.$personaElegida.'%');
+        }
+
+        if(isset($cocheElegido)){
+            $filas = $filas->where('coches.nombre', $cocheElegido);
+        }
+
+        if(isset($fechaElegida)){
+            $filas = $filas->whereDate('slots.fecha', $fechaElegida);
+        }
+
+        $filas = $filas->groupBy('pasajeros.nombre', 'coches.nombre', 'slots.fecha', 'slots.hora', 'slots.direccion');
+
+        if(isset($sort)){
+            if(isset($sort2) && ($sort === $sort2)){
+                $sort = null;
+                $filas = $filas->orderBy($sort2, 'desc');
+            }
+            else {
+                $filas = $filas->orderBy($sort, 'asc');
+            }
+        }
+        elseif(isset($sort2)){
+            $filas = $filas->orderBy($sort2, 'desc');
+        }
+
+        $filas = $filas->select('pasajeros.nombre as nombrePasajero', 'coches.nombre as nombreCoche', DB::raw('count(*) as asientos'), 'slots.fecha', 'slots.hora', 'slots.direccion')->paginate(2);
+
+        return view('conductor.pasajeros', ['page' => $page, 'filas' => $filas, 'coches' => $coches, 'sort' => $sort, 'sort2' => $sort2, 'personaElegida' => $personaElegida, 'cocheElegido' => $cocheElegido, 'fechaElegida' => $fechaElegida]);
     }
 
     public function confperfil(){

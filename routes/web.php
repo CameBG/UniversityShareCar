@@ -42,7 +42,7 @@ Route::post('/conductor/coches/modificar', 'ConductorController@coches_modificad
 Route::get ('/conductor/coches/borrar',    'ConductorController@coches_borrar');
 
 Route::get ('/conductor/configurar-perfil',           'ConductorController@confperfil');
-Route::get ('/conductor/configurar-perfil/borrar',    'ConductorController@perfil_borrar');
+Route::post ('/conductor/configurar-perfil/borrar',    'ConductorController@perfil_borrar');
 Route::get ('/conductor/configurar-perfil/modificar', 'ConductorController@perfil_modificar');
 Route::post('/conductor/configurar-perfil/modificar', 'ConductorController@perfil_modificado');
 

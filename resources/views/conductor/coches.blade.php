@@ -1,4 +1,4 @@
-@extends('conductor.master')
+@extends('conductor.master', ['actual' => 1])
 
 @section('content')
 
@@ -6,8 +6,11 @@
 
     <div>
         <br><br>
-
-        <button type="submit" class="btn btn-primary"><a style="color:white" href="{{ action('ConductorController@coches_crear') }}">➕ Añadir nuevo coche</a></button>
+        <form method="GET" action ="{{ action('ConductorController@coches_crear') }}">
+            @csrf
+            <button type="submit" class="btn btn-primary"><a style="color:white">➕ Añadir nuevo coche</a></button>
+        </form>
+        
     </div>
     <div style= "margin-left:33%">
         <table>

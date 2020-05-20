@@ -1,10 +1,25 @@
-@extends('conductor.master')
+@extends('conductor.master', ['actual' => 0])
 
 @section('content')
+
+    <script type= "text/javascript">
+        function ConfirmDelete(){
+            var respuesta = confirm("Si eliminas el viaje los pasajeros serán desasignados. ¿Estás seguro?");
+
+            if (respuesta){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    </script>
+
     <h1> Mis horarios </h1>
+    
     <div style="height:100px">
         <br><br>
-        <form method="POST" action = "{{ action('ConductorController@misHorarios',  ['sort' => $sort, 'sort2' => $sort2, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">
+        <form method="POST" action = "{{ action('ConductorController@misHorarios',  ['page' => $page, 'sort' => $sort, 'sort2' => $sort2, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">
             @csrf
             <div style="float:left" class="form-group row">
                 <i style="float:left" class="fas fa-calendar-week fa-2x" class="col-sm-2 col-form-label"> </i>
@@ -20,53 +35,68 @@
             <button style="float:left" type="submit" class="btn btn-primary">✔</button>
         </form>
 
-        <form style="float:right" method="POST">
+    <form style="float:right" method="GET" action ="{{ action('ConductorController@nuevoHorario') }}">
             @csrf
             <div style="float:left" class="form-group row">
-                <label for="viajeNuevo">Viaje Nuevo</label>
+                <label for="viajeNuevo">Nuevo Viaje</label>
                 &nbsp&nbsp&nbsp
             </div>
             <p style="float:left">&nbsp&nbsp&nbsp</p>
-            <button style="float:left" type="submit" class="btn btn-primary"><a href="{{ action('ConductorController@nuevoHorario') }}" >➕</a></button>
+            <button style="float:left" type="submit" class="btn btn-primary">➕</button>
             <p style="float:left">&nbsp&nbsp&nbsp</p>
         </form>
         
     </div>
     <table class = 'table table-striped'> 
-        <tr>
+        <tr align="center">
             <th> 
-                <a href="{{ action('ConductorController@misHorarios',  ['sort' => 'fecha', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Fecha</a>
+                <a href="{{ action('ConductorController@misHorarios',  ['page' => $page, 'sort' => 'fecha', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">
+                    Fecha <i class="fas fa-arrows-alt-v"></i>
+                </a>
             </th>
             <th> 
-                <a href="{{ action('ConductorController@misHorarios',  ['sort' => 'hora', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Hora</a>
+                <a href="{{ action('ConductorController@misHorarios',  ['page' => $page, 'sort' => 'hora', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">
+                    Hora <i class="fas fa-arrows-alt-v"></i>
+                </a>
             </th>
             <th> 
-                <a href="{{ action('ConductorController@misHorarios',  ['sort' => 'direccion', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Ida/Vuelta</a>
+                <a href="{{ action('ConductorController@misHorarios',  ['page' => $page, 'sort' => 'direccion', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">
+                    Ida/Vuelta <i class="fas fa-arrows-alt-v"></i>
+                </a>
             </th>
             <th> 
-                <a href="{{ action('ConductorController@misHorarios',  ['sort' => 'nombreCoche', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Coche</a>
+                <a href="{{ action('ConductorController@misHorarios',  ['page' => $page, 'sort' => 'nombreCoche', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">
+                    Coche <i class="fas fa-arrows-alt-v"></i>
+                </a>
             </th>
             <th> 
-                <a href="{{ action('ConductorController@misHorarios',  ['sort' => 'asientos', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">Pasajeros</a> 
+                <a href="{{ action('ConductorController@misHorarios',  ['page' => $page, 'sort' => 'asientos', 'sort2' => $sort, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta]) }}">
+                    Pasajeros <i class="fas fa-arrows-alt-v"></i>
+                </a> 
             </th>
             <th>
                 
             </th>
         </tr>
         @foreach ($result as $r)
-            <tr>
+            <tr align="center">
                 <td>{{$r->fecha}}</td>
                 <td>{{$r->hora}}</td>
                 <td>{{$r->direccion}}</td>
                 <td>{{$r->nombreCoche}}</td>
                 <td>{{$r->asientos}}/{{$r->plazas}}</td>
-                <td><button style="float:left" type="submit" class="btn btn-primary"><a href="{{ action('ConductorController@borrarHorario',  ['id_elegido'=>$r->id_elegido]) }}">❌</a></button></td>  
+                <td>
+                    <form method="POST" action ="{{ action('ConductorController@borrarHorario',  ['id_elegido'=>$r->id_elegido]) }}">
+                        @csrf
+                        <button onclick="return ConfirmDelete()" style="float:left" type="submit" class="btn btn-primary">❌</button>
+                    </form>
+                </td>
             </tr>
         @endforeach
 
     </table>
     
-    {{$result->appends(['sort' => $sort, 'sort2' => $sort2, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta])->links()}}
+    {{$result->appends(['page' => $page, 'sort' => $sort, 'sort2' => $sort2, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta])->links()}}
 
     
 
