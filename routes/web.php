@@ -46,6 +46,10 @@ Route::get ('/conductor/configurar-perfil/borrar',    'ConductorController@perfi
 Route::get ('/conductor/configurar-perfil/modificar', 'ConductorController@perfil_modificar');
 Route::post('/conductor/configurar-perfil/modificar', 'ConductorController@perfil_modificado');
 
+Route::get('/conductor/ruta', 'ConductorController@ruta');
+Route::get('/conductor/ruta/modificar', 'ConductorController@ruta_modificar');
+Route::post('/conductor/ruta/modificar', 'ConductorController@ruta_modificada');
+
 Route::get ('/pasajero/misreservas', 'PasajeroController@misReservas');
 Route::post('/pasajero/misreservas', 'PasajeroController@misReservas');
 

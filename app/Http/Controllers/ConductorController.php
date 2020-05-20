@@ -9,6 +9,7 @@ use App\Coche;
 use App\Pasajero;
 use App\Slot;
 use App\LineaSlot;
+use App\Ruta;
 
 class ConductorController extends Controller
 {
@@ -280,4 +281,54 @@ class ConductorController extends Controller
 
         return redirect(action('ConductorController@confperfil', ['conductor' => $conductor]));
     }
+
+    /*
+    Ah bueno, ahi nos referimos a que para el usuario visualmente lo está editando,
+    para él sí está editando, pero lo que pasa realmente es que se le asigna otra
+    ruta en la base de datos, la que él ponga (si no existe se crea nueva, y la
+    ruta antigua, si nadie mas la está utilizando, se borra de la base de datos)
+    */
+    public function ruta() {
+        $conductor =  Conductor::currentConductor();
+        return view('conductor.ruta', ['conductor' => $conductor]);
+    }
+
+    public function ruta_modificar(Request $request){
+        $correo = $request->query('correo');
+        $conductor = Conductor::query()->where('correo', $correo)->first();        
+        return view('conductor.ruta_modificar', ['conductor' => $conductor]);
+    }
+    public function ruta_modificada(Request $request){
+        $request->validate([
+            'localidad' => 'required|string',
+            'universidad' => 'required|string'
+        ]);
+        
+        $correo = $request->query('correo');
+        $conductor = Conductor::query()->where('correo', $correo)->first();
+
+        $localidad = $request->input('localidad');
+        $universidad = $request->input('universidad');
+        $puntoRecogida = $request->input('puntoRecogida');
+
+        $ruta = Ruta::query()->where('localidad','like', $localidad)
+                             ->where('universidad','like', $universidad)->first();
+        if(is_null($ruta)){
+            $ruta2 = Ruta::create(['localidad' => $localidad, 'universidad' => $universidad]);
+            Conductor::query()->where('correo', $correo)->update(['ruta_id' => $ruta2->id, 'puntoRecogida' => $puntoRecogida]);
+            
+        }
+        else{
+            //borrar
+            $slots = Slot::query()->join('coches', 'coche_matricula', 'coches.matricula')
+                              ->join('conductors', 'coches.conductor_correo', 'conductors.correo')             
+                              ->where('conductors.correo', Conductor::currentConductor()->correo)->delete();
+            //darle esta ruta al conductor
+            Conductor::query()->where('correo', $correo)->update(['ruta_id' => $ruta->id, 'puntoRecogida' => $puntoRecogida]);
+            
+        }
+        
+        return redirect(action('ConductorController@ruta', ['conductor' => $conductor]));
+    }
+    
 }
