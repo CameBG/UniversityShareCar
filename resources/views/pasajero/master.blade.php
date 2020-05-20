@@ -16,7 +16,7 @@
         <div class="sidebar">
             <header>UniversityCar</header>
             <ul>
-                <li><a href="#"><i class="fas fa-search"></i></i> Buscar viajes</a></li>
+                <li><a href="{{ action('PasajeroController@buscarViajes') }}"><i class="fas fa-search"></i></i> Buscar viajes</a></li>
                 <li><a href="{{ action('PasajeroController@misReservas') }}"><i class="fas fa-calendar-week"></i> Mis reservas</a></li>
                 <li><a href="{{ action('PasajeroController@confperfil') }}"><i class="fas fa-cog"></i> Configurar perfil</a></li>
                 <li><a href="#"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
