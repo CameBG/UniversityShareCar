@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2460c8fb616cce1ae3229b870491ef8e",
+    "content-hash": "2555e4bb0eb715b39ecb5e0049568447",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -113,6 +113,7 @@
                 "strings",
                 "uppercase",
                 "words"
+<<<<<<< HEAD
             ],
             "funding": [
                 {
@@ -127,6 +128,8 @@
                     "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finflector",
                     "type": "tidelift"
                 }
+=======
+>>>>>>> origin/develop
             ],
             "time": "2020-05-11T11:25:59+00:00"
         },
@@ -782,6 +785,7 @@
                 "md",
                 "parser"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://enjoy.gitstore.app/repositories/thephpleague/commonmark",
@@ -808,6 +812,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-05-04T22:15:21+00:00"
         },
         {
@@ -892,12 +898,15 @@
                 "sftp",
                 "storage"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://offset.earth/frankdejonge",
                     "type": "other"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-05-18T15:13:39+00:00"
         },
         {
@@ -1052,6 +1061,7 @@
                 "datetime",
                 "time"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://opencollective.com/Carbon",
@@ -1062,6 +1072,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-05-19T22:14:16+00:00"
         },
         {
@@ -2287,6 +2299,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2301,6 +2314,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-04-18T20:40:08+00:00"
         },
         {
@@ -2391,6 +2406,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2405,6 +2421,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-04-28T18:47:42+00:00"
         },
         {
@@ -2467,6 +2485,7 @@
                 "mime",
                 "mime-type"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2481,6 +2500,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-04-17T03:29:44+00:00"
         },
         {
@@ -2539,6 +2560,7 @@
                 "polyfill",
                 "portable"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2553,6 +2575,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-05-12T16:14:59+00:00"
         },
         {
@@ -2612,6 +2636,7 @@
                 "portable",
                 "shim"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2626,6 +2651,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-05-12T16:47:27+00:00"
         },
         {
@@ -2688,6 +2715,7 @@
                 "portable",
                 "shim"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2702,6 +2730,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-05-12T16:47:27+00:00"
         },
         {
@@ -2761,6 +2791,7 @@
                 "portable",
                 "shim"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2775,6 +2806,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-05-12T16:47:27+00:00"
         },
         {
@@ -2830,6 +2863,7 @@
                 "portable",
                 "shim"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2844,6 +2878,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-05-12T16:47:27+00:00"
         },
         {
@@ -2902,6 +2938,7 @@
                 "portable",
                 "shim"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2916,6 +2953,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-05-12T16:47:27+00:00"
         },
         {
@@ -2965,6 +3004,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2979,6 +3019,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-04-15T15:56:18+00:00"
         },
         {
@@ -3055,6 +3097,7 @@
                 "uri",
                 "url"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -3069,6 +3112,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-04-21T19:59:53+00:00"
         },
         {
@@ -3203,6 +3248,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -3217,6 +3263,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-04-12T16:45:36+00:00"
         },
         {
@@ -3350,6 +3398,7 @@
                 "debug",
                 "dump"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -3364,6 +3413,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-04-12T16:14:02+00:00"
         },
         {
@@ -3476,6 +3527,7 @@
                 "env",
                 "environment"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://github.com/GrahamCampbell",
@@ -3486,6 +3538,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-05-02T13:46:13+00:00"
         }
     ],
@@ -3920,6 +3974,10 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
+<<<<<<< HEAD
+=======
+            "abandoned": "php-parallel-lint/php-console-color",
+>>>>>>> origin/develop
             "time": "2018-09-29T17:23:10+00:00"
         },
         {
@@ -3966,9 +4024,70 @@
                 }
             ],
             "description": "Highlight PHP code in terminal",
+<<<<<<< HEAD
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
+=======
+            "abandoned": "php-parallel-lint/php-console-highlighter",
+            "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "laravel/ui",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/ui.git",
+                "reference": "bb64fca681566ca94457d490a00f899516e75664"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/bb64fca681566ca94457d490a00f899516e75664",
+                "reference": "bb64fca681566ca94457d490a00f899516e75664",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "~5.8|^6.0",
+                "illuminate/filesystem": "~5.8|^6.0",
+                "illuminate/support": "~5.8|^6.0",
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Ui\\UiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Ui\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel UI utilities and presets.",
+            "keywords": [
+                "laravel",
+                "ui"
+            ],
+            "time": "2020-02-13T21:12:28+00:00"
+        },
+        {
+>>>>>>> origin/develop
             "name": "mockery/mockery",
             "version": "1.4.0",
             "source": {
@@ -4794,6 +4913,7 @@
                 "testing",
                 "xunit"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://phpunit.de/donate.html",
@@ -4804,6 +4924,8 @@
                     "type": "github"
                 }
             ],
+=======
+>>>>>>> origin/develop
             "time": "2020-04-23T04:39:42+00:00"
         },
         {

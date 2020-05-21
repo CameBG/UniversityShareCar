@@ -102,18 +102,23 @@ class ConductorController extends Controller
         return redirect(action('ConductorController@misHorarios'));
     }
 
-    public function coches(){
+    public function coches(Request $request){
+        $page = $request->input('page');
         $coches = Coche::query()->join('conductors', 'coches.conductor_correo', 'conductors.correo')
                 ->where('conductors.correo', Conductor::currentConductor()->correo)
                 ->orderBy('coches.nombre', 'asc')
                 ->select('coches.nombre as nombreCoche', 'matricula', 'marca', 'modelo', 'plazas', 'precioViaje', 'coches.rutaImagen as rutaImagen')->paginate(1);
 
-        return view('conductor.coches', ['coches' => $coches]);
+        return view('conductor.coches', ['coches' => $coches, 'page' => $page]);
     }
 
     public function coches_borrar(Request $request){
         $matricula = $request->input('matricula');
         if(isset($matricula)){
+            $coche = Coche::query()->where('matricula', $matricula)->first();
+            if(isset($coche->rutaImagen) && file_exists(public_path() . '/images/' . $coche->rutaImagen)){
+                unlink(public_path() . '/images/' . $coche->rutaImagen);
+            }
             Coche::query()->where('matricula', $matricula)->delete();
         }
 
@@ -144,22 +149,35 @@ class ConductorController extends Controller
 
         Coche::create(['matricula' => $matricula, 'nombre' => $nombre, 'marca' => $marca, 'modelo' => $modelo, 'plazas' => $plazas, 'precioViaje' => $precio, 'conductor_correo' => $correo]);
 
+        $imagenOriginal = $request->file('imagen');
+        if (isset($imagenOriginal)){
+            $imagen = Image::make($imagenOriginal);
+            $nombreImagen = $this->random_string() . '.' . $imagenOriginal->getClientOriginalExtension();
+            $imagen->resize(300,300);
+            $imagen->save(public_path() . '/images/' . $nombreImagen, 100);
+
+            Coche::query()->where('matricula', $matricula)->update(['rutaImagen' => $nombreImagen]);
+        }
+
         return redirect(action('ConductorController@coches'));
     }
 
     public function coches_modificar(Request $request){
+        $page = $request->query('page');
         $matricula = $request->query('matricula');
 
         $coche = Coche::query()->where('matricula', $matricula)->first();
         if (isset($coche)){
-            return view('conductor.coches_modificar', ['coche' => $coche]);
+            return view('conductor.coches_modificar', ['coche' => $coche, 'page' => $page]);
         }
         else{
-            return redirect(action('ConductorController@coches'));
+            return redirect(action('ConductorController@coches', ['page' => $page]));
         }
     }
 
     public function coches_modificado(Request $request){
+        $page = $request->query('page');
+
         $request->validate([
             'nombre' => 'required|string',
             'marca' => 'required|string',
@@ -205,8 +223,7 @@ class ConductorController extends Controller
         }
 
         Coche::query()->where('matricula', $matricula)->update(['matricula' => $matricula, 'nombre' => $nombre, 'marca' => $marca, 'modelo' => $modelo, 'plazas' => $plazas, 'precioViaje' => $precio, 'conductor_correo' => $correo]);
-        
-        return redirect(action('ConductorController@coches'));
+        return redirect(action('ConductorController@coches', ['page' => $page]));
     }
 
     public function pasajeros(Request $request){
@@ -286,15 +303,23 @@ class ConductorController extends Controller
     public function perfil_borrar(Request $request){
         $correo = $request->query('correo');
 
-        $ruta_idAnt = Conductor::query()->where('correo', $correo)->first()->ruta_id;
-        $rutaAntigua = Ruta::query()->where('id', $ruta_idAnt)->first();
+        $conductor = Conductor::query()->where('correo', $correo)->first();
+        $ruta = Ruta::query()->where('id', $conductor->ruta_id)->first();
 
+        // Borrar imagen
+        if(isset($conductor->rutaImagen) && file_exists(public_path() . '/images/' . $conductor->rutaImagen)){
+            unlink(public_path() . '/images/' . $conductor->rutaImagen);
+        }
+
+        // Borrar conductor
         if(isset($correo)){
             Conductor::query()->where('correo', $correo)->delete();
         }
-        $conductorRutaAnt = $rutaAntigua->conductores()->first();
+
+        // Borrar ruta si no la utiliza nadie
+        $conductorRutaAnt = $ruta->conductores()->first();
         if(is_null($conductorRutaAnt)){
-            Ruta::query()->where('id', $ruta_idAnt)->delete();
+            Ruta::query()->where('id', $ruta->id)->delete();
         }
         return redirect(action('ConductorController@confperfil'));
     }

@@ -130,6 +130,13 @@ class PasajeroController extends Controller
 
     public function perfil_borrar(Request $request){
         $correo = $request->query('correo');
+        $pasajero = Pasajero::query()->where('correo', $correo)->first();
+
+        // Borrar imagen
+        if(isset($pasajero->rutaImagen) && file_exists(public_path() . '/images/' . $pasajero->rutaImagen)){
+            unlink(public_path() . '/images/' . $pasajero->rutaImagen);
+        }
+
         if(isset($correo)){
             Pasajero::query()->where('correo', $correo)->delete();
         }

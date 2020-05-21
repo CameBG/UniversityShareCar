@@ -10,10 +10,10 @@
             <table>
                 <tr>
                     <td rowspan="7" width="320px" height="20px">
-                        @if (true)
+                        @if (isset($conductor->rutaImagen))
                             <img src="/images/{{ $conductor->rutaImagen }}" width="300px" height="auto">
                         @else
-                            <img src="/images/default.jpg" width="300px" height="auto">
+                            <img src="/defaultImages/defaultPerfil.jpg" width="300px" height="auto">
                         @endif
                     </td>
                     <td>

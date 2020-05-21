@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('index');
 
 Route::get('/pasajero', function () {
     return view('pasajero.master');
@@ -62,3 +62,6 @@ Route::get ('/pasajero/buscarViajes',                'PasajeroController@buscarV
 Route::post ('/pasajero/buscarViajes',               'PasajeroController@buscarViajes');
 Route::post ('/pasajero/buscarViajes/reservarViaje',  'PasajeroController@reservarViaje');
 Route::get ('/pasajero/buscarViajes/reservarViaje',  'PasajeroController@reservarViaje');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
