@@ -33,15 +33,15 @@ class AdministradorController extends Controller
         $select = $select->select('nombre', 'correo', 'fechaNacimiento', 'apellido1', 'apellido2', 'genero', 'telefono')->paginate(10);
         
         
-        return view('administrador.pasajeros', [/*'page' => $page,*/ 'result' => $select, 'sort' => $sort, 'sort2' => $sort2]);
+        return view('administrador.pasajeros', ['result' => $select, 'sort' => $sort, 'sort2' => $sort2]);
         
         
     }
 
-    /*public function borrarPasajero(Request $request){
-        $correo = $request->query('correo')
-        //Pasajero::query()->where('correo', 'like', $correo)->delete();
+    public function borrarPasajero(Request $request){
+        $correo = $request->query('correo');
+        Pasajero::query()->where('correo', 'like', $correo)->delete();
 
         return redirect(action('AdministradorController@pasajeros'));
-    }*/
+    }
 }
