@@ -15,43 +15,42 @@
 </script>
 
 <h1> Pasajeros </h1>
-
 <div style="height:100px">
     <br><br>
     <table class = 'table table-striped'>
         <tr align="center">
             <th>
-                <a href="{{ action('AdministradorController@pasajeros', ['sort' => 'correo', 'sort2' => $sort]) }}">
+                <a href="{{ action('AdministradorController@pasajeros', ['page' => $page,'sort' => 'correo', 'sort2' => $sort]) }}">
                     Correo <i class="fas fa-arrows-alt-v"></i>
                 </a>
             </th>
             <th>
-                <a href="{{ action('AdministradorController@pasajeros', ['sort' => 'nombre', 'sort2' => $sort]) }}">
+                <a href="{{ action('AdministradorController@pasajeros', ['page' => $page,'sort' => 'nombre', 'sort2' => $sort]) }}">
                     Nombre <i class="fas fa-arrows-alt-v"></i>
                 </a>
             </th>
             <th>
-                <a href="{{ action('AdministradorController@pasajeros', ['sort' => 'apellido1', 'sort2' => $sort]) }}">
+                <a href="{{ action('AdministradorController@pasajeros', ['page' => $page,'sort' => 'apellido1', 'sort2' => $sort]) }}">
                     Primer apellido <i class="fas fa-arrows-alt-v"></i>
                 </a>
             </th>
             <th>
-                <a href="{{ action('AdministradorController@pasajeros', ['sort' => 'apellido2', 'sort2' => $sort]) }}">
+                <a href="{{ action('AdministradorController@pasajeros', ['page' => $page, 'sort' => 'apellido2', 'sort2' => $sort]) }}">
                     Segundo apellido <i class="fas fa-arrows-alt-v"></i>
                 </a>
             </th>
             <th>
-                <a href="{{ action('AdministradorController@pasajeros', ['sort' => 'fechaNacimiento', 'sort2' => $sort]) }}">
+                <a href="{{ action('AdministradorController@pasajeros', ['page' => $page, 'sort' => 'fechaNacimiento', 'sort2' => $sort]) }}">
                     Fecha de nacimiento <i class="fas fa-arrows-alt-v"></i>
                 </a>
             </th>
             <th>
-                <a href="{{ action('AdministradorController@pasajeros', ['sort' => 'genero', 'sort2' => $sort]) }}">
+                <a href="{{ action('AdministradorController@pasajeros', ['page' => $page, 'sort' => 'genero', 'sort2' => $sort]) }}">
                     Género <i class="fas fa-arrows-alt-v"></i>
                 </a>
             </th>
             <th>
-                <a href="{{ action('AdministradorController@pasajeros', ['sort' => 'telefono', 'sort2' => $sort]) }}">
+                <a href="{{ action('AdministradorController@pasajeros', ['page' => $page, 'sort' => 'telefono', 'sort2' => $sort]) }}">
                     Teléfono <i class="fas fa-arrows-alt-v"></i>
                 </a>
             </th>
@@ -76,5 +75,5 @@
     </table>
 </div>
 
-{{$result->appends(['sort' => $sort, 'sort2' => $sort2,])->links()}}
+{{$result->appends(['page' => $page,'sort' => $sort, 'sort2' => $sort2,])->links()}}
 @endsection

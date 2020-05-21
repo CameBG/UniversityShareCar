@@ -13,7 +13,7 @@ class AdministradorController extends Controller
 
         $sort = $request->query('sort');
         $sort2 = $request->query('sort2');
-        //$page = $request->query('page');
+        $page = $request->query('page');
 
         $select = Pasajero::query();
 
@@ -33,7 +33,7 @@ class AdministradorController extends Controller
         $select = $select->select('nombre', 'correo', 'fechaNacimiento', 'apellido1', 'apellido2', 'genero', 'telefono')->paginate(10);
         
         
-        return view('administrador.pasajeros', ['result' => $select, 'sort' => $sort, 'sort2' => $sort2]);
+        return view('administrador.pasajeros', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2]);
         
         
     }
