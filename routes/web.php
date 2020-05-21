@@ -23,6 +23,10 @@ Route::get('/conductor', function () {
     return view('conductor.master');
 });
 
+Route::get('/administrador', function () {
+    return view('administrador.master');
+});
+
 Route::get ('/conductor/pasajeros', 'ConductorController@pasajeros');
 Route::post('/conductor/pasajeros', 'ConductorController@pasajeros');
 
@@ -62,6 +66,11 @@ Route::get ('/pasajero/buscarViajes',                'PasajeroController@buscarV
 Route::post ('/pasajero/buscarViajes',               'PasajeroController@buscarViajes');
 Route::post ('/pasajero/buscarViajes/reservarViaje',  'PasajeroController@reservarViaje');
 Route::get ('/pasajero/buscarViajes/reservarViaje',  'PasajeroController@reservarViaje');
+
+
+Route::get('/administrador/pasajeros', 'AdministradorController@pasajeros');
+Route::post('/administrador/pasajeros', 'AdministradorController@pasajeros');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

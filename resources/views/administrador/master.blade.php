@@ -17,7 +17,7 @@
             <header>UniversityCar</header>
             <ul>
                 <li>
-                    <a href="#" @if(($actual ?? -1) === 0) style="background:royalblue" @endif>
+                    <a href="{{ action('AdministradorController@pasajeros') }}" @if(($actual ?? -1) === 0) style="background:royalblue" @endif>
                         <i class="fas fa-user"></i> 
                         Pasajeros
                     </a>
