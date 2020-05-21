@@ -70,6 +70,8 @@ Route::get ('/pasajero/buscarViajes/reservarViaje',  'PasajeroController@reserva
 
 Route::get('/administrador/pasajeros', 'AdministradorController@pasajeros');
 Route::post('/administrador/pasajeros', 'AdministradorController@pasajeros');
+Route::get ('/administrador/pasajeros/borrar', 'AdministradorController@borrarPasajero');
+Route::post('/administrador/pasajeros/borrar', 'AdministradorController@borrarPasajero');
 
 Auth::routes();
 

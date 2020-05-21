@@ -21,7 +21,7 @@
     <table class = 'table table-striped'>
         <tr align="center">
             <th>
-                <a href="{{ action(AdministradorController@pasajeros', [ 'sort' => 'correo', 'sort2' => $sort]) }}">
+                <a href="{{ action('AdministradorController@pasajeros', ['sort' => 'correo', 'sort2' => $sort]) }}">
                     Correo <i class="fas fa-arrows-alt-v"></i>
                 </a>
             </th>
