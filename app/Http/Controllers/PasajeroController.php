@@ -14,11 +14,7 @@ use Image;
 class PasajeroController extends Controller
 {
     public function misReservas(Request $request){
-        $borrado = $request->query('id_reserva');
-        if (isset($borrado)){
-            $borrado = true;
-        }
-
+        $borrado = $request->input('borrado');
         $page = $request->query('page');
         $sort = $request->query('sort');
         $sort2 = $request->query('sort2');
@@ -81,12 +77,39 @@ class PasajeroController extends Controller
     }
 
     public function eliminarReserva(Request $request){
+        $request->validate([
+            'cancelaciones' => 'required|numeric',
+        ]);
+
+        $cancelaciones = $request->input('cancelaciones');
         $id_reserva = $request->query('id_reserva');
         $correo_reserva = $request->query('correo_reserva');
 
-        $reserva = LineaSlot::query()->where('slot_id', $id_reserva)->where('pasajero_correo', $correo_reserva)->first(); // Primer asiento del correo_reserva
-        LineaSlot::query()->where('slot_id', $id_reserva)->where('numAsiento', $reserva->numAsiento)->update(['pasajero_correo' => null]); // Desasignamos la reserva al primer asiento de correo_reserva
-
+        // Cantidad de reservas actuales
+        $cantidad = LineaSlot::query()->where('slot_id', $id_reserva)->where('pasajero_correo', $correo_reserva)->groupBy('slot_id', 'pasajero_correo')->select(DB::raw('count(*) as asientos'))->first()->asientos;
+        $cantidadTotal = LineaSlot::query()->where('slot_id', $id_reserva)->groupBy('slot_id')->select(DB::raw('count(*) as asientos'))->first()->asientos;
+        
+        if ($cantidad < $cancelaciones){
+            $borrado = "Tiene " . $cantidad . " reservas y quiere cancelar " . $cancelaciones . ". Operación denegada, no puede cancelar más reservas de las que tiene.";
+            
+        } else if ($cancelaciones > 0) {
+            for($i = 0; $i < $cancelaciones; $i++){
+                $asientoParaBorrar = LineaSlot::query()->where('slot_id', $id_reserva)->where('pasajero_correo', $correo_reserva)->first()->numAsiento; // Primer asiento del correo_reserva
+    
+                // Por cada iteración, cambiamos el pasajero del asiento siguiente, al asiento actual.
+                for($j = $asientoParaBorrar; $j < $cantidadTotal; $j++){
+                    $correoSiguientePasajero = LineaSlot::query()->where('slot_id', $id_reserva)->where('numAsiento', $j + 1)->first()->pasajero_correo;
+                    LineaSlot::query()->where('slot_id', $id_reserva)->where('numAsiento', $j)->update(['pasajero_correo' => $correoSiguientePasajero]);
+                }
+                // Después de la última iteración, el último asiento es el que se queda en nulo.
+                LineaSlot::query()->where('slot_id', $id_reserva)->where('numAsiento', $j)->update(['pasajero_correo' => null]);
+            }
+            $borrado = "Se ha borrado con éxito " . $cancelaciones . " reservas de las selección escogida.";
+        } else {
+            $borrado = $cancelaciones . " no es un número válido para cancelar reservas.";
+        }
+        
+        $request->request->add(['borrado' => $borrado]);
         return $this->misReservas($request);
     }
 
