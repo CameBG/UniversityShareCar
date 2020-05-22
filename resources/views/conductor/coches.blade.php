@@ -96,24 +96,24 @@
                         <input type="text" class="form-control" name="nombre" id="nombre" value = "{{$coche->nombreCoche}}" >
                     </div>    
                     <div class="form-group">
-                        <label for="fechaNacimiento" > Editar Imagen: </label>
+                        <label for="imagen" > Editar Imagen: </label>
                         <input name="imagen" id="imagen" type="file" accept="image/jpeg, image/png"/>
                     </div>  
                     <div class="form-group">
-                        <label for="nombre" > Marca: </label>
+                        <label for="marca" > Marca: </label>
                         <input type="text" class="form-control" name="marca" id="marca" value = "{{$coche->marca}}">
                     </div>  
                     <div class="form-group">
-                        <label for="apellido1" > Modelo: </label>
+                        <label for="modelo" > Modelo: </label>
                         <input type="text" class="form-control" name="modelo" id="modelo" value = "{{$coche->modelo}}">
                     </div>        
                     <div class="form-group">
-                        <label for="apellido2" > Plazas: </label>
+                        <label for="plazas" > Plazas: </label>
                         <input type="text" class="form-control" name="plazas" id="plazas" value = "{{$coche->plazas}}">
                     </div> 
                     <div class="form-group">
-                        <label for="telefono" > Precio/Viaje: </label>
-                        <input type="text" class="form-control" name="telefono" id="telefono" value = "{{$coche->precioViaje}}">
+                        <label for="precio" > Precio/Viaje: </label>
+                        <input type="text" class="form-control" name="precio" id="precio" value = "{{$coche->precioViaje}}">
                     </div>
                 </div>
                 <div class="modal-footer">
