@@ -359,7 +359,7 @@ class ConductorController extends Controller
             'fechaNacimiento' => 'required|date',
         ]);
 
-        $correo = $request->Auth::user()->email;
+        $correo = Auth::user()->email;
         $nombre = $request->input('nombre');
         $apellido1 = $request->input('apellido1');
         $apellido2 = $request->input('apellido2');
