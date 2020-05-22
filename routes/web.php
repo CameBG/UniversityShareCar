@@ -15,6 +15,14 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('/sobreProyecto', function () {
+    return view('sobreProyecto');
+})->name('sobreProyecto');
+
+Route::get('/contactanos', function () {
+    return view('contactanos');
+})->name('contactanos');
+
 Route::get('/index', function () {
     return view('index');
 })->name('index');

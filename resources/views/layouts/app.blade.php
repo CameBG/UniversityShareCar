@@ -34,37 +34,42 @@
             <header>UniversityCar</header>
             <ul>
                 <li>
-                    <a href="{{ route('home') }}" @if(($actual ?? -1) === 0) style="background:royalblue" @endif>
-                        Inicio
+                    <a href="{{ url('/') }}" @if(($actual ?? -1) === 0) style="background:royalblue" @endif>
+                    <i class = "fas fa-home"></i> Inicio
                     </a>
                 </li>
                 <li>
-                    <a href="#" @if(($actual ?? -1) === 1) style="background:royalblue" @endif> 
-                        Sobre UniversityCar
+                    <a href="{{ route('sobreProyecto') }}" @if(($actual ?? -1) === 1) style="background:royalblue" @endif> 
+                    <i class = "fas fa-info"></i> Sobre la web
                     </a>
                 </li>
                 <li>
-                    <a href="#" @if(($actual ?? -1) === 2) style="background:royalblue" @endif>
-                        Contáctanos
+                    <a href="{{ route('contactanos') }}" @if(($actual ?? -1) === 2) style="background:royalblue" @endif>
+                    <i class = "far fa-address-book"></i> Contáctanos
                     </a>
                 </li>
                 @guest
                     <li>
                         <a  href="{{ route('login') }}" @if(($actual ?? -1) === 3) style="background:royalblue" @endif>
-                            {{ __('Login') }}
+                        <i class = "fas fa-sign-in-alt"></i> {{ __('Login') }}
                         </a>
                     </li>
                     @if (Route::has('register'))
                         <li>
                             <a href="{{ route('register') }}" @if(($actual ?? -1) === 4) style="background:royalblue" @endif >
-                                {{ __('Register') }} 
+                            <i class = "fas fa-user"></i> {{ __('Register') }} 
                             </a>
                         </li>
                     @endif
                 @else
                     <li>
+                        <a href="{{ url('/index') }}" @if(($actual ?? -1) === 5) style="background:royalblue" @endif>
+                        <i class = "fas fa-cat"></i> Elegir usuario
+                        </a>
+                    </li>
+                    <li>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
-                        <a class="profile-submenu" @if(($actual ?? -1) === 5) style="background:royalblue" @endif href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >
+                        <a class="profile-submenu" @if(($actual ?? -1) === 6) style="background:royalblue" @endif href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >
                             <i class="fas fa-sign-out-alt"></i> Cerrar sesión 
                         </a>
                     </li>
