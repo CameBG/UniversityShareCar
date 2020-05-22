@@ -54,9 +54,9 @@
                         </a>
                     </li>
                 <li>
-                    <a href="" @if(($actual ?? -1) === 5) style="background:royalblue" @endif>
-                        <i class="fas fa-sign-out-alt"></i>
-                        Cerrar sesión
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
+                    <a class="profile-submenu" @if(($actual ?? -1) === 6) style="background:royalblue" @endif href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión 
                     </a>
                 </li>
             </ul>

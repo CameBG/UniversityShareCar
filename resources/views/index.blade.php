@@ -151,6 +151,10 @@
                                 <label for="fechaNacimiento" > Fecha de nacimiento: </label>
                                 <input type="text" class="form-control" name="fechaNacimiento" id="fechaNacimiento">
                             </div>
+                            <div class="form-group">
+                                <label for="fechaNacimiento" > Imagen de perfil: </label>
+                                <input name="imagen" id="imagen" type="file" accept="image/jpeg, image/png"/>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
