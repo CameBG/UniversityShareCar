@@ -1,15 +1,15 @@
-@extends('administrador.master', ['actual' => 0])
+@extends('pasajero.master', ['actual' => 2])
 
 @section('content')
 
-    <h1> Ver pasajero </h1>
+    <h1> Configurar Perfil </h1>
 
     <div style= "margin-left:33%">
         <table>
             
             <tr height="50px">
                 <td>
-                    <a href="{{ action('AdministradorController@perfil_modificar', ['correo'=>$pasajero->correo]) }}"><i style="float:right" class="fas fa-edit">Editar</i></a>
+                    <a href="{{ action('PasajeroController@perfil_modificar', ['correo'=>$pasajero->correo]) }}"><i style="float:right" class="fas fa-edit">Editar</i></a>
                 </td>
                 <td></td>
             </tr>
@@ -36,7 +36,7 @@
             <tr><td>&nbsp</td></tr>
         </table>
 
-        <form method="POST" action = "{{ action('AdministradorController@perfil_borrar', ['correo'=>$pasajero->correo]) }}">
+        <form method="POST" action = "{{ action('PasajeroController@perfil_borrar', ['correo'=>$pasajero->correo]) }}">
             @csrf
             <button style="float:left" type="submit" class="btn btn-primary"><i class="fas fa-trash-alt"></i> Borrar usuario pasajero.</button>
         </form>
