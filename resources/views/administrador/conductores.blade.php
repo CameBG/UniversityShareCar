@@ -76,7 +76,7 @@
                             Punto de Recogida <i class="fas fa-arrows-alt-v"></i>
                         </a>
                     </th>
-                    <th></th>
+                    <th style="width:125px"></th>
                 </tr>
                 @foreach ($result as $r)
                     <tr align="center">

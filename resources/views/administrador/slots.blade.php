@@ -48,6 +48,7 @@
                                     Coche <i class="fas fa-arrows-alt-v"></i>
                                 </a>
                             </th>
+                            <th></th>
                         </tr>
                         @foreach ($result as $r)
                             <tr align="center">
@@ -57,10 +58,10 @@
                                 <td>{{$r->direccion}}</td>
                                 <td>{{$r->coche_matricula}}</td>
                                 <td>
-                                    <form method="POST" action ="{{ action('AdministradorController@borrarSlot',  ['id'=>$r->id]) }}">
-                                        @csrf
-                                        <button onclick="return ConfirmDelete()" style="float:left" type="submit" class="btn btn-primary">❌</button>
-                                    </form>
+                                <form method="POST" action ="{{ action('AdministradorController@borrarSlot',  ['id'=>$r->id]) }}">
+                                    @csrf
+                                    <button onclick="return ConfirmDelete()" style="float:left" type="submit" class="btn btn-danger"><i  class="fas fa-trash-alt"> </i></button>
+                                </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -72,5 +73,4 @@
             </div>
         </div>
     </div>
-
 @endsection

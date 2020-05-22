@@ -16,7 +16,7 @@
                 </div>
             </div>
             <p style="float:left">&nbsp&nbsp&nbsp</p>
-            <button style="float:left" type="submit" class="btn btn-primary">✔</button>
+            <button style="float:left" type="submit" class="btn btn-primary"><i  class="fas fa-check"> </i></button>
         </form>
 
         <form style="float:right" action = "{{ action('ConductorController@pasajeros',  ['sort' => $sort, 'sort2' => $sort2, 'personaElegida'=>$personaElegida, 'cocheElegido'=>$cocheElegido]) }}" method="POST">
@@ -32,7 +32,7 @@
                 &nbsp&nbsp&nbsp
             </div>
             <p style="float:left">&nbsp&nbsp&nbsp</p>
-            <button style="float:left" type="submit" class="btn btn-primary">✔</button>
+            <button style="float:left" type="submit" class="btn btn-primary"><i  class="fas fa-check"> </i></button>
             <p style="float:left">&nbsp&nbsp&nbsp</p>
         </form>
 
