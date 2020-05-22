@@ -110,7 +110,7 @@
             </tr>
         @endforeach
     </table>
+    {{$result->appends(['page' => $page,'sort' => $sort, 'sort2' => $sort2,])->links()}}
 </div>
 
-{{$result->appends(['page' => $page,'sort' => $sort, 'sort2' => $sort2,])->links()}}
 @endsection
