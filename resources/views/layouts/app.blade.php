@@ -33,15 +33,30 @@
         <div class="sidebar">
             <header>UniversityCar</header>
             <ul>
+                <li>
+                    <a href="{{ route('home') }}" @if(($actual ?? -1) === 0) style="background:royalblue" @endif>
+                        Inicio
+                    </a>
+                </li>
+                <li>
+                    <a href="#" @if(($actual ?? -1) === 1) style="background:royalblue" @endif> 
+                        Sobre UniversityCar
+                    </a>
+                </li>
+                <li>
+                    <a href="#" @if(($actual ?? -1) === 2) style="background:royalblue" @endif>
+                        Contáctanos
+                    </a>
+                </li>
                 @guest
                     <li>
-                        <a  href="{{ route('login') }}" @if(($actual ?? -1) === 0) style="background:royalblue" @endif>
+                        <a  href="{{ route('login') }}" @if(($actual ?? -1) === 3) style="background:royalblue" @endif>
                             {{ __('Login') }}
                         </a>
                     </li>
                     @if (Route::has('register'))
                         <li>
-                            <a href="{{ route('register') }}" @if(($actual ?? -1) === 1) style="background:royalblue" @endif >
+                            <a href="{{ route('register') }}" @if(($actual ?? -1) === 4) style="background:royalblue" @endif >
                                 {{ __('Register') }} 
                             </a>
                         </li>
@@ -49,7 +64,7 @@
                 @else
                     <li>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
-                        <a class="profile-submenu" @if(($actual ?? -1) === 2) style="background:royalblue" @endif href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >
+                        <a class="profile-submenu" @if(($actual ?? -1) === 5) style="background:royalblue" @endif href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >
                             <i class="fas fa-sign-out-alt"></i> Cerrar sesión 
                         </a>
                     </li>
