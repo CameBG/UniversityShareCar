@@ -9,7 +9,7 @@
             
             <tr height="50px">
                 <td>
-                    <a href="{{ action('AdministradorController@perfil_modificar', ['correo'=>$pasajero->correo]) }}"><i style="float:right" class="fas fa-edit">Editar</i></a>
+                    <a href="{{ action('AdministradorController@pasajero_modificar', ['correo'=>$pasajero->correo]) }}"><i style="float:right" class="fas fa-edit">Editar</i></a>
                 </td>
                 <td></td>
             </tr>
@@ -35,10 +35,5 @@
             <tr><td>&nbsp</td></tr>
             <tr><td>&nbsp</td></tr>
         </table>
-
-        <form method="POST" action = "{{ action('AdministradorController@perfil_borrar', ['correo'=>$pasajero->correo]) }}">
-            @csrf
-            <button style="float:left" type="submit" class="btn btn-primary"><i class="fas fa-trash-alt"></i> Borrar usuario pasajero.</button>
-        </form>
     </div>
 @endsection
