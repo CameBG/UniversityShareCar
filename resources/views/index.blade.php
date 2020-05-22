@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.app', ['actual' => 3])
 
 @section('content')
+<div style="display:inline-block">
     @if($existe_conductor)
         <form method="GET" action = "/conductor">
             @csrf
@@ -31,6 +32,7 @@
             <button type="submit" class="btn btn-primary"><i class="fas fa-user-cog"></i> Administrador</a></button>
         </form>
     @endif
+</div>
 
     
      <!-- Crear Conductor Modal -->
