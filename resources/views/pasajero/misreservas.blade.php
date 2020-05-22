@@ -3,10 +3,10 @@
 @section('content')
 
     <h1 style="display:inline-block; width:35%">Mis Reservas</h1>
-    @if ($borrado ?? false === true)
+    @if ($borrado != null)
         <div style="display:inline-block; text-align:center; width:30%" class="alert alert-primary" role="alert">
             <ul>
-                <li>Se ha borrado 1 asiento de la reserva seleccionada.</li>
+                <li>{{ $borrado }}</li>
             </ul>
         </div>
     @endif
@@ -115,7 +115,10 @@
                     <form method="POST" action = "{{ action('PasajeroController@eliminarReserva', ['id_reserva'=>$r->id_reserva, 'correo_reserva'=>$r->correo_reserva, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2,
                                                                                                     'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta, 'personaElegida'=>$personaElegida]) }}">
                         @csrf
-                        <button style="float:left" type="submit" class="btn btn-primary">❌</button>
+                        <div class="btn btn-primary">
+                            <input style="width:40px; margin-top:8px;" type="number" name="cancelaciones" id="cancelaciones" value="0"/>
+                            <button style="margin-left:5px; margin-bottom:5px;" type="submit" class="btn btn-primary">❌</button>
+                        </div>
                     </form>
                 </td>
 

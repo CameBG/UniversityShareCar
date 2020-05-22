@@ -228,9 +228,16 @@ class ConductorController extends Controller
         if($plazas < $plazasAntigua){
             $slotsAnt = Slot::query()->where('coche_matricula', $coche->matricula)->get();
             
-            $contador = 0;
             foreach ($slotsAnt as $slot){
                 LineaSlot::query()->where('slot_id', $slot->id)->where('numAsiento', '>', $plazas)->delete();
+            }
+        } else if ($plazas > $plazasAntigua){
+            $slots = Slot::query()->where('coche_matricula', $coche->matricula)->get();
+
+            foreach ($slots as $slot){
+                for ($i = $plazasAntigua + 1; $i <= $plazas; $i++){
+                    LineaSlot::create(['slot_id' => $slot->id, 'numAsiento' => $i]);
+                }
             }
         }
 

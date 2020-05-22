@@ -55,13 +55,12 @@ class LineaSlotsTableSeeder extends Seeder
 
         LineaSlot::create(['slot_id' => $id_aux4, 'numAsiento' => 1, 'pasajero_correo' => 'alejandra@dss.com']);
         LineaSlot::create(['slot_id' => $id_aux4, 'numAsiento' => 2, 'pasajero_correo' => 'alejandra@dss.com']);
+        LineaSlot::create(['slot_id' => $id_aux4, 'numAsiento' => 3]);
 
         LineaSlot::create(['slot_id' => $id_aux5, 'numAsiento' => 2, 'pasajero_correo' => 'alejandra@dss.com']);
 
         LineaSlot::create(['slot_id' => $id_aux6, 'numAsiento' => 1, 'pasajero_correo' => 'alejandra@dss.com']);
         LineaSlot::create(['slot_id' => $id_aux6, 'numAsiento' => 2, 'pasajero_correo' => 'alejandra@dss.com']);
-        
         */
-        
     }
 }

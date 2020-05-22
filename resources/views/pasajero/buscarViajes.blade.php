@@ -2,102 +2,146 @@
 
 @section('content')
     <h1> Buscar Viajes </h1>
-    <div >
-        <br><br>
-        <form style="width:400px" method="POST" action = "{{ action('PasajeroController@buscarViajes', ['sort' => 'fecha', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
-            @csrf
-            <div class="form-group">
-                <label><i style="float:left" class="fas fa-calendar-week fa-2x"></i>&nbsp&nbsp Día: &nbsp&nbsp </label>               
-                <input type="text" name="dia" id="dia" placeholder="YYYY-MM-DD" class="form-control">
-            </div>
-            <div class="form-group">
-                <label><i style="float:left" class="fas fa-clock fa-2x"></i>&nbsp&nbsp Hora de salida. Formato (HH:mm:ss) &nbsp&nbsp</label>
-                
-                <input type="text" name="horaDesde" id="horaDesde" placeholder="Desde" class="form-control">
-                
-                <input type="text" name="horaHasta" id="horaHasta" placeholder="Hasta" class="form-control">               
-            </div>
-            <div class="form-group">
-                <label><i style="float:left" class="fas fa-map-marker-alt fa-2x"></i>&nbsp&nbsp Localidad: </label>
-                <input type="text" class="form-control" name="localidad" id="localidad">
-            </div>
-            <div class="form-group">
-                <label><i style="float:left" class="fas fa-university fa-2x"></i>&nbsp&nbsp Universidad: </label>
-                <input type="text" class="form-control" name="universidad" id="universidad">
-            </div>
-            <div class="form-group">
-                <label><i style="float:left" class="fas fa-map-signs fa-2x"></i>&nbsp&nbsp Ida/Vuelta: &nbsp</label>
-                <select id="direccion" name="direccion">
-                    <option value="ida">Ida</option>
-                    <option value="vuelta">Vuelta</option>
-                    <option value="ambas">Ida/Vuelta</option>
-                </select>
-            </div>
-            <p style="float:left">&nbsp&nbsp&nbsp</p>
-            <button type="submit" class="btn btn-primary"><i style="float:left" class="fas fa-search"></i> &nbsp&nbsp Buscar </button>
-        </form>
-    </div>
+
+    @if ($reservado != null)
+        <div style="display:inline-block; text-align:center; width:30%" class="alert alert-primary" role="alert">
+            <ul>
+                <li>{{ $reservado }}</li>
+            </ul>
+        </div>
+    @endif
+
+<form method="POST" action = "{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'fecha', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
+    @csrf
+    <table>
+        <tr>
+            <td>
+                <div style="margin-right: 50px;" class="form-group">
+                    <label><i style="float:left" class="fas fa-calendar-week fa-2x"></i>&nbsp&nbsp Día: </label>               
+                    <input style="width:250px" type="date" name="dia" id="dia"  value="{{ old('fechaDesde') }}" placeholder="DD/MM/YYYY" class="form-control">
+                </div>
+            </td>
+            <td>
+                <div style="margin-right: 50px;" class="form-group">
+                    <label><i style="float:left" class="fas fa-map-marker-alt fa-2x"></i>&nbsp&nbsp Localidad: </label>
+                    <input style="width:300px" type="text" class="form-control" name="localidad" id="localidad" value="{{ $localidad }}" placeholder="Localidad">
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <label><i style="float:left" class="fas fa-map-signs fa-2x"></i>&nbsp&nbsp Ida/Vuelta: </label><br>
+                    <select style="width:80%; margin-left: 15%" id="direccion" name="direccion">
+                        <option value="ambas">Ida/Vuelta</option>
+                        <option value="ida">Ida</option>
+                        <option value="vuelta">Vuelta</option> 
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label><i style="float:left" class="fas fa-clock fa-2x"></i>&nbsp&nbsp Hora de salida: </label>
+                    <br>
+                    <input style="width:120px; display:inline-block" type="time" name="horaDesde" id="horaDesde" value="{{ old('horaDesde') }}" placeholder="Desde" class="form-control">
+                    <input style="width:120px; display:inline-block" type="time" name="horaHasta" id="horaHasta" value="{{ old('horaHasta') }}" placeholder="Hasta" placeholder="Hasta" class="form-control">
+                </div>
+            </td>
+            <td rowspan="2">
+                <div class="form-group">
+                    <label><i style="float:left" class="fas fa-university fa-2x"></i>&nbsp&nbsp Universidad: </label>
+                    <input style="width:300px" type="text" class="form-control" name="universidad" id="universidad" value="{{ $universidad }}" placeholder="Universidad">
+                </div>
+            </td>
+            <td>
+                <button style="margin-top: 25px; width:110%" type="submit" class="btn btn-primary"><i align="center" class="fas fa-search"></i> &nbsp&nbsp Buscar </button>
+            </td>
+        </tr>
+    </table>
+</form>
     <br>
-    <div>
-        <table class = "table table-striped">
-            <thead>
-                <tr>
-                    <th>
-                    <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'fecha', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Fecha</a>
-                    </th>
-                    <th>
-                    <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'hora', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Hora</a>
-                    </th>
-                    <th>
-                    <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'direccion', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Ida/Vuelta</a>
-                    </th>
-                    <th>
-                    <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'localidad', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Localidad</a>
-                    </th>
-                    <th>
-                    <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'uni', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Uni</a>
-                    </th>
-                    <th>
-                    <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'recogida', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Punto de recogida</a>
-                    </th>
-                    <th>
-                    <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'asientos', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Asientos Disponibles/Total</a>
-                    </th>
-                    <th>
-                    <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'precio', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Precio</a>
-                    </th>
-                    <th>
-                    <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'nombreCoche', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Coche</a>
-                    </th>
-                    <th>
-                    <a href="{{ action('PasajeroController@buscarViajes', ['sort' => 'nombre', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">Conductor</a>
-                    </th>
-                    <th>Reservar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($result as $r)
-                    <tr>
-                        <td>{{ $r->fecha }}</td>
-                        <td>{{ $r->hora }}</td>
-                        <td>{{ $r->direccion}}</td>
-                        <td>{{ $r->localidad}}</td>
-                        <td>{{ $r->uni}}</td>
-                        <td>{{ $r->recogida}}</td>
-                        <td>{{ $r->asientos}}/{{ $r->plazas}}</td> 
-                        <td>{{ $r->precio}}€</td> 
-                        <td>{{ $r->nombreCoche}}</td> 
-                        <td>{{$r->nombre}} {{$r->apellido1}} {{$r->apellido2}}</td>
-                        <td>
-                            <form method="POST" action = "{{ action('PasajeroController@reservarViaje', ['slot_id'=>$r->slot_id]) }}">
-                                @csrf
-                                <button style="float:left" type="submit" class="btn btn-primary"><i style="float:left" class="fas fa-shopping-cart fa-2x"></i></button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        {{$result->appends(['sort' => $sort, 'sort2' => $sort2, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta])->links() }}
-    </div>
+    
+    <table class = "table table-striped">
+        <tr align="center">
+            <th style="vertical-align: middle">
+                <a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'fecha', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
+                    Fecha <i class="fas fa-arrows-alt-v"></i>
+                </a>
+            </th>
+            <th style="vertical-align: middle">
+                <a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'hora', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
+                    Hora <i class="fas fa-arrows-alt-v"></i>
+                </a>
+            </th>
+            <th style="vertical-align: middle">
+                <a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'direccion', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
+                    Ida/Vuelta <i class="fas fa-arrows-alt-v"></i>
+                </a>
+            </th>
+            <th style="vertical-align: middle">
+                <a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'localidad', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
+                    Localidad <i class="fas fa-arrows-alt-v"></i>
+                </a>
+            </th>
+            <th style="vertical-align: middle">
+                <a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'uni', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
+                    Uni <i class="fas fa-arrows-alt-v"></i>
+                </a>
+            </th>
+            <th style="vertical-align: middle">
+                <a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'recogida', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
+                    Punto de <br> recogida <i class="fas fa-arrows-alt-v"></i>
+                </a>
+            </th>
+            <th style="vertical-align: middle">
+                <a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'asientos', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
+                    Asientos <br> Disponibles <i class="fas fa-arrows-alt-v"></i>
+                </a>
+            </th>
+            <th style="vertical-align: middle">
+                <a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'precio', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
+                    Precio <i class="fas fa-arrows-alt-v"></i>
+                </a>
+            </th>
+            <th style="vertical-align: middle">
+                <a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'nombreCoche', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
+                    Coche <i class="fas fa-arrows-alt-v"></i>
+                </a>
+            </th>
+            <th style="vertical-align: middle">
+                <a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'nombre', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
+                    Conductor <i class="fas fa-arrows-alt-v"></i>
+                </a>
+            </th>
+            <th style="vertical-align: middle">
+                Reservar
+            </th>
+        </tr>
+        
+        @foreach ($result as $r)
+            <tr align="center">
+                <td style="vertical-align: middle">{{ $r->fecha }}</td>
+                <td style="vertical-align: middle">{{ $r->hora }}</td>
+                <td style="vertical-align: middle">{{ $r->direccion}}</td>
+                <td style="vertical-align: middle">{{ $r->localidad}}</td>
+                <td style="vertical-align: middle">{{ $r->uni}}</td>
+                <td style="vertical-align: middle">{{ $r->recogida}}</td>
+                <td style="vertical-align: middle">{{ $r->asientos}}</td> 
+                <td style="vertical-align: middle">{{ $r->precio}}€</td> 
+                <td style="vertical-align: middle">{{ $r->nombreCoche}}</td> 
+                <td style="vertical-align: middle">{{$r->nombre}} {{$r->apellido1}} {{$r->apellido2}}</td>
+                <td style="vertical-align: middle">
+                    <form method="POST" action = "{{ action('PasajeroController@reservarViaje', ['page' => $page, 'slot_id'=>$r->slot_id]) }}">
+                        @csrf
+                        <div class="btn btn-primary">
+                            <input style="width:40px; margin-top:8px;" type="number" name="reservas" id="reservas" value="0"/>
+                            <button style="margin-left:5px; margin-bottom:5px;" type="submit" class="btn btn-primary"> <i class="fas fa-shopping-cart"></i> </button>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+    </table>
+    {{$result->appends(['page' => $page, 'sort' => $sort, 'sort2' => $sort2, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta])->links() }}
+    
 @endsection
