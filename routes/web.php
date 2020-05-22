@@ -63,7 +63,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get ('/conductor/coches',           'ConductorController@coches');
     Route::get ('/conductor/coches/crear',     'ConductorController@coches_crear');
-    Route::post('/conductor/coches/crear',     'ConductorController@coches_creado');
+    Route::post('/conductor/coches/creado',     'ConductorController@coches_creado');
     Route::get ('/conductor/coches/modificar', 'ConductorController@coches_modificar');
     Route::post('/conductor/coches/modificado', 'ConductorController@coches_modificado');
     Route::post ('/conductor/coches/borrar',    'ConductorController@coches_borrar');

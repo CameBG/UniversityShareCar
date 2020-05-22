@@ -75,6 +75,60 @@
     </div>
 </div>
 
+
+<!-- Nuevo Coche Modal -->
+<div class="modal fade" id="crearCocheModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edita los datos del coche</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+            <form method="POST" action = "{{ action('ConductorController@coches_creado') }}" enctype="multipart/form-data">
+
+                @csrf
+
+                <div class="modal-body"> 
+                    <div class="form-group">
+                        <label for="nombre"> Nombre: </label>
+                        <input type="text" class="form-control" name="nombre" id="nombre">
+                    </div> 
+                    <div class="form-group">
+                        <label for="nombre"> Matricula: </label>
+                        <input type="text" class="form-control" name="matricula" id="matricula">
+                    </div>    
+                    <div class="form-group">
+                        <label for="imagen" > Imagen: </label>
+                        <input name="imagen" id="imagen" type="file" accept="image/jpeg, image/png"/>
+                    </div>  
+                    <div class="form-group">
+                        <label for="marca" > Marca: </label>
+                        <input type="text" class="form-control" name="marca" id="marca">
+                    </div>  
+                    <div class="form-group">
+                        <label for="modelo" > Modelo: </label>
+                        <input type="text" class="form-control" name="modelo" id="modelo">
+                    </div>        
+                    <div class="form-group">
+                        <label for="plazas" > Plazas: </label>
+                        <input type="text" class="form-control" name="plazas" id="plazas">
+                    </div> 
+                    <div class="form-group">
+                        <label for="precio" > Precio/Viaje: </label>
+                        <input type="text" class="form-control" name="precio" id="precio">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @foreach($coches as $coche)
 <!-- Editar Coche Modal -->
 <div class="modal fade" id="editar-coche-{{ $coche->matricula }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
