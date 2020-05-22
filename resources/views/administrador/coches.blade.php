@@ -18,18 +18,6 @@
 <div style="height:100px">
     <br><br>
     
-    
-    <form style="float:right" method="GET" action ="{{ action('AdministradorController@nuevoCoche') }}">
-            @csrf
-            <div style="float:left" class="form-group row">
-                <label for="pasajeroNuevo">Nuevo Pasajero</label>
-                &nbsp&nbsp&nbsp
-            </div>
-            <p style="float:left">&nbsp&nbsp&nbsp</p>
-            <button style="float:left" type="submit" class="btn btn-primary">➕</button>
-            <p style="float:left">&nbsp&nbsp&nbsp</p>
-    </form>
-    
     <table class = 'table table-striped'>
         <tr align="center">
             <th>
