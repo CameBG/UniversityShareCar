@@ -321,5 +321,103 @@ class AdministradorController extends Controller
     }
 
 
-    
+    ////////////////////////////////////////////////////////////USERS/////////////////////////////////////////////////////////////////////////////////
+    public function users(Request $request){
+
+        $sort = $request->query('sort');
+        $sort2 = $request->query('sort2');
+        $page = $request->query('page');
+
+        $select = User::query();
+
+        if(isset($sort)){
+            if(isset($sort2) && ($sort === $sort2)){
+                $sort = null;
+                $select = $select->orderBy($sort2, 'desc');
+            }
+            else{
+                $select = $select->orderBy($sort, 'asc');
+            }
+        }
+        elseif(isset($sort2)) {
+            $select = $select->orderBy($sort2, 'desc');
+        }
+
+        $select = $select->select('email')->paginate(10);
+        
+        
+        return view('administrador.users', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2]);
+
+    }
+
+    public function borrarUser(Request $request){
+        $email = $request->query('email');
+        User::query()->where('email', 'like', $email)->delete();
+
+        return redirect(action('AdministradorController@users'));
+    }
+
+
+
+    ////////////////////////////////////////////////////////////RUTAS/////////////////////////////////////////////////////////////////////////////////
+    public function rutas(Request $request){
+
+        $sort = $request->query('sort');
+        $sort2 = $request->query('sort2');
+        $page = $request->query('page');
+
+        $select = Ruta::query();
+
+        if(isset($sort)){
+            if(isset($sort2) && ($sort === $sort2)){
+                $sort = null;
+                $select = $select->orderBy($sort2, 'desc');
+            }
+            else{
+                $select = $select->orderBy($sort, 'asc');
+            }
+        }
+        elseif(isset($sort2)) {
+            $select = $select->orderBy($sort2, 'desc');
+        }
+
+        $select = $select->select('id', 'localidad', 'universidad')->paginate(10);
+        
+        
+        return view('administrador.rutas', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2]);
+
+    }
+
+    public function borrarRuta(Request $request){
+        $id = $request->query('id');
+        Ruta::query()->where('id', 'like', $id)->delete();
+
+        return redirect(action('AdministradorController@rutas'));
+    }
+
+    public function nuevaRuta(Request $request){
+        
+        
+        return view('administrador.nuevaRuta');
+    }
+
+    public function nuevaRuta_crear(Request $request){
+        
+        $request->validate([
+            'localidad' => 'required|string',
+            'universidad' => 'required|string',
+        ]);
+        
+        $localidad = $request->input('localidad');
+        $universidad = $request->input('universidad');
+
+        $ruta_posible = Ruta::query()->where('localidad', 'like', $localidad)
+                                ->where('universidad', 'like', $universidad)->first();
+
+        if(!isset($ruta_posible)){
+            Ruta::create(['localidad' => $localidad, 'universidad' => $universidad]);
+        }
+
+        return redirect(action('AdministradorController@rutas'));
+    }
 }

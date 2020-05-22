@@ -29,13 +29,14 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" @if(($actual ?? -1) === 2) style="background:royalblue" @endif>
-                        <i class="fas fa-car"></i>
-                        Coches
+                    <a href="{{ action('AdministradorController@users') }}" @if(($actual ?? -1) === 2) style="background:royalblue" @endif>
+                        <i class="fas fa-user"></i>
+                        Users
                     </a>
                 </li>
+                
                 <li>
-                    <a href="#" @if(($actual ?? -1) === 3) style="background:royalblue" @endif>
+                    <a href="{{ action('AdministradorController@rutas') }}" @if(($actual ?? -1) === 3) style="background:royalblue" @endif>
                         <i class="fas fa-route"></i> 
                         Rutas
                     </a>
@@ -52,9 +53,15 @@
                         <i class="fas fa-calendar-week"></i>
                             LineaSlots
                         </a>
-                    </li>
+                </li>
                 <li>
-                    <a href="" @if(($actual ?? -1) === 5) style="background:royalblue" @endif>
+                    <a href="#" @if(($actual ?? -1) === 6) style="background:royalblue" @endif>
+                        <i class="fas fa-car"></i>
+                        Coches
+                    </a>
+                </li>
+                <li>
+                    <a href="" @if(($actual ?? -1) === 7) style="background:royalblue" @endif>
                         <i class="fas fa-sign-out-alt"></i>
                         Cerrar sesión
                     </a>

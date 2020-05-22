@@ -91,6 +91,19 @@ Route::post('/administrador/conductores/modificar', 'AdministradorController@con
 Route::get('/administrador/conductor', 'AdministradorController@conductor_ver');
 Route::post('/administrador/conductor', 'AdministradorController@conductor_ver');
 
+
+Route::get('/administrador/users', 'AdministradorController@users');
+Route::post('/administrador/users', 'AdministradorController@users');
+Route::get ('/administrador/users/borrar', 'AdministradorController@borrarUser');
+Route::post('/administrador/users/borrar', 'AdministradorController@borrarUser');
+
+Route::get('/administrador/rutas', 'AdministradorController@rutas');
+Route::post('/administrador/rutas', 'AdministradorController@rutas');
+Route::get ('/administrador/rutas/borrar', 'AdministradorController@borrarRuta');
+Route::post('/administrador/rutas/borrar', 'AdministradorController@borrarRuta');
+Route::get ('/administrador/rutas/crear', 'AdministradorController@nuevaRuta');
+Route::post('/administrador/rutas/crear', 'AdministradorController@nuevaRuta_crear');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
