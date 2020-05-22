@@ -12,6 +12,7 @@ use App\Slot;
 use App\LineaSlot;
 use App\Ruta;
 use Image;
+use App\ServiceLayer\PlazasLineasSlot;
 
 class ConductorController extends Controller
 {
@@ -97,13 +98,7 @@ class ConductorController extends Controller
         $direccion = $request->input('direccion');
         $coche = $request->input('coche');
 
-        $slot = Slot::create(['fecha' => $fecha, 'hora' => $hora, 'direccion' => $direccion, 'coche_matricula' => $coche]);
-        
-        $plazas = Coche::query()->where('matricula', $coche)->first()->plazas;
-
-        for($indice = 1; $indice <= $plazas; $indice++){
-            LineaSlot::create(['slot_id' => $slot->id, 'numAsiento' => $indice]);
-        }
+        PlazasLineasSlot::crearSlot($fecha, $hora, $direccion, $coche);
 
         return redirect(action('ConductorController@misHorarios'));
     }
