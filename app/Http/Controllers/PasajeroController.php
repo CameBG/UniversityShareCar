@@ -10,9 +10,130 @@ use App\Slot;
 use App\LineaSlot;
 use Image;
 
-
 class PasajeroController extends Controller
 {
+    public function buscarViajes(Request $request) {
+        $reservado = $request->input('reservado');
+        $page = $request->query('page');
+        $sort = $request->query('sort');
+        $sort2 = $request->query('sort2');
+
+        $dia = $request->input('dia');
+        if (isset($dia)){
+            $request->validate(['dia' => 'required|date']);
+        }
+
+        $horaDesde = $request->input('horaDesde');
+        if(isset($horaDesde)){
+            $request->validate(['horaDesde' => 'required|date_format:H:i']);
+        }
+
+        $horaHasta = $request->input('horaHasta');
+        if(isset($horaHasta)){
+            $request->validate(['horaHasta' => 'required|date_format:H:i']);
+        }
+
+        $localidad = $request->input('localidad');
+        if (isset($localidad)) {
+            $request->validate(['localidad' => 'required|string']);
+        }
+
+        $universidad = $request->input('universidad');
+        if (isset($universidad)) {
+            $request->validate(['universidad' => 'required|string']);
+        }
+
+        $direccion = $request->input('direccion');
+        if (isset($direccion)) {
+            $request->validate(['direccion' => 'required|string']);
+        }
+
+        $select = LineaSlot::query()->where('lineaSlots.pasajero_correo', null)        
+                ->join('slots', 'lineaSlots.slot_id', 'slots.id') 
+                ->join('coches', 'slots.coche_matricula', 'coches.matricula')
+                ->join('conductors', 'coches.conductor_correo', 'conductors.correo')
+                ->join('rutas', 'conductors.ruta_id', 'rutas.id')
+                ->groupBy('slots.fecha', 'slots.hora', 'slots.direccion', 'conductors.puntoRecogida', 'rutas.localidad', 
+                          'coches.precioViaje', 'coches.nombre', 'conductors.apellido1', 'conductors.apellido2', 'conductors.nombre', 
+                          'rutas.universidad', 'lineaSlots.slot_id', 'coches.plazas','lineaSlots.slot_id');
+
+        if(isset($sort)) { 
+            if(isset($sort2) && ($sort === $sort2)) {
+                $sort = null;
+                $select = $select->orderBy($sort2, 'desc');
+            }
+            else {
+                $select = $select->orderBy($sort, 'asc');
+            }
+        }
+        elseif(isset($sort2)) {
+            $select = $select->orderBy($sort2, 'desc');
+        } 
+        
+        if(isset($dia)){
+            $select = $select->where('slots.fecha', '=', $dia);
+        }
+        /*if(isset($horaDesde)){
+            $select = $select->where('slots.hora', '=', $horaDesde);
+        }*/
+
+        if(isset($horaDesde) && isset($horaHasta)){
+            $select = $select->whereBetween('slots.hora', [$horaDesde, $horaHasta]);
+        } else if (isset($horaDesde)){
+            $select = $select->where('slots.hora', '>=', [$horaDesde]);
+        } else if (isset($horaHasta)){
+            $select = $select->where('slots.hora', '<=', [$horaHasta]);
+        }
+
+        if(isset($localidad)){
+            $select = $select->where('rutas.localidad', 'like', '%'.$localidad.'%');
+        }
+        if(isset($universidad)){
+            $select = $select->where('rutas.universidad', 'like', '%'.$universidad.'%');
+        }
+        if(isset($direccion)){
+            if($direccion != 'ambas') {
+                $select = $select->where('slots.direccion', 'like', '%'.$direccion.'%');
+            }
+        }
+
+        $select = $select->select('slots.fecha as fecha', 'slots.hora as hora', 'slots.direccion as direccion', 
+                                  'conductors.puntoRecogida as recogida', 'rutas.localidad as localidad', 'coches.precioViaje as precio', 
+                                  'coches.nombre as nombreCoche', 'conductors.apellido1 as apellido1', 'conductors.apellido2 as apellido2',
+                                  'conductors.nombre as nombre', 'rutas.universidad as uni', 'coches.plazas as plazas',
+                                  'lineaSlots.slot_id as slot_id', DB::raw('count(numAsiento) as asientos'))->paginate(4);
+
+        return view('pasajero.buscarViajes', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta, 'reservado' => $reservado]);
+    }
+
+    public function reservarViaje(Request $request) {
+        $request->validate([
+            'reservas' => 'required|numeric',
+        ]);
+
+        $reservas = $request->input('reservas');
+        $slot_id = $request->input('slot_id');
+        $pasajero_correo = Pasajero::currentPasajero()->correo;
+
+        $asientosLibres = LineaSlot::query()->where('slot_id', $slot_id)->where('pasajero_correo', null)->groupBy('slot_id')->select(DB::raw('count(*) as asientos'))->first()->asientos;
+
+        if ($asientosLibres < $reservas){
+            $reservado = "Tiene " . $asientosLibres . " reservas y quiere cancelar " . $reservas . ". Operación denegada, no puede cancelar más reservas de las que tiene.";
+            
+        } else if ($reservas > 0) {
+            for($i = 0; $i < $reservas; $i++){
+                $numAsiento = LineaSlot::query()->where('slot_id', $slot_id)->where('pasajero_correo', null)->first()->numAsiento;
+                LineaSlot::query()->where('slot_id', $slot_id)->where('numAsiento', $numAsiento)->update(['pasajero_correo' => $pasajero_correo]);
+            }
+            $reservado = "Se ha reservado con éxito " . $reservas . " reservas de las selección escogida.";
+        } else {
+            $reservado = $reservas . " no es un número válido para cancelar reservas.";
+        }
+
+        $request->request->add(['reservado' => $reservado]);
+        return $this->buscarViajes($request);
+    }
+
     public function misReservas(Request $request){
         $borrado = $request->input('borrado');
         $page = $request->query('page');
@@ -218,96 +339,5 @@ class PasajeroController extends Controller
         }
 
         return redirect(action('PasajeroController@confperfil', ['pasajero' => $pasajero]));
-    }
-
-    public function buscarViajes(Request $request) {
-        $sort = $request->query('sort');
-        $sort2 = $request->query('sort2');
-
-        $dia = $request->input('dia');
-        if (isset($dia)){
-            $request->validate(['dia' => 'required|date']);
-        }
-        $horaDesde = $request->input('horaDesde');
-        if(isset($horaDesde)){
-            $request->validate(['horaDesde' => 'required|string']);
-        }
-        $horaHasta = $request->input('horaHasta');
-        if(isset($horaHasta)){
-            $request->validate(['horaHasta' => 'required|string']);
-        }
-        $localidad = $request->input('localidad');
-        if (isset($localidad)) {
-            $request->validate(['localidad' => 'required|string']);
-        }
-        $universidad = $request->input('universidad');
-        if (isset($universidad)) {
-            $request->validate(['universidad' => 'required|string']);
-        }
-        $direccion = $request->input('direccion');
-        if (isset($direccion)) {
-            $request->validate(['direccion' => 'required|string']);
-        }
-        $select = LineaSlot::query()->where('lineaSlots.pasajero_correo', null)        
-                ->join('slots', 'lineaSlots.slot_id', 'slots.id') 
-                ->join('coches', 'slots.coche_matricula', 'coches.matricula')
-                ->join('conductors', 'coches.conductor_correo', 'conductors.correo')
-                ->join('rutas', 'conductors.ruta_id', 'rutas.id')
-                ->groupBy('slots.fecha', 'slots.hora', 'slots.direccion', 'conductors.puntoRecogida', 'rutas.localidad', 
-                          'coches.precioViaje', 'coches.nombre', 'conductors.apellido1', 'conductors.apellido2', 'conductors.nombre', 
-                          'rutas.universidad', 'lineaSlots.slot_id', 'coches.plazas','lineaSlots.slot_id');
-
-        if(isset($sort)) { 
-            if(isset($sort2) && ($sort === $sort2)) {
-                $sort = null;
-                $select = $select->orderBy($sort2, 'desc');
-            }
-            else {
-                $select = $select->orderBy($sort, 'asc');
-            }
-        }
-        elseif(isset($sort2)) {
-            $select = $select->orderBy($sort2, 'desc');
-        } 
-        
-        if(isset($dia)){
-            $select = $select->where('slots.fecha', '=', $dia);
-        }
-        /*if(isset($horaDesde)){
-            $select = $select->where('slots.hora', '=', $horaDesde);
-        }*/
-        if(isset($horaDesde)){
-            if(isset($horaHasta)){
-                $select = $select->whereBetween('slots.hora', [$horaDesde, $horaHasta]);
-            }
-        }
-        if(isset($localidad)){
-            $select = $select->where('rutas.localidad', 'like', '%'.$localidad.'%');
-        }
-        if(isset($universidad)){
-            $select = $select->where('rutas.universidad', 'like', '%'.$universidad.'%');
-        }
-        if(isset($direccion)){
-            if($direccion != 'ambas') {
-                $select = $select->where('slots.direccion', 'like', '%'.$direccion.'%');
-            }
-        }
-
-        $select = $select->select('slots.fecha as fecha', 'slots.hora as hora', 'slots.direccion as direccion', 
-                                  'conductors.puntoRecogida as recogida', 'rutas.localidad as localidad', 'coches.precioViaje as precio', 
-                                  'coches.nombre as nombreCoche', 'conductors.apellido1 as apellido1', 'conductors.apellido2 as apellido2',
-                                  'conductors.nombre as nombre', 'rutas.universidad as uni', 'coches.plazas as plazas',
-                                  'lineaSlots.slot_id as slot_id', DB::raw('count(numAsiento) as asientos'))->paginate(4);
-
-        return view('pasajero.buscarViajes', ['result' => $select, 'sort' => $sort, 'sort2' => $sort2, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]);
-    }
-
-    public function reservarViaje(Request $request) {
-        $slot_id = $request->input('slot_id');
-        $pasajero_correo = Pasajero::currentPasajero()->correo;
-        $numAsiento = LineaSlot::query()->where('slot_id', $slot_id)->where('pasajero_correo', null)->first()->numAsiento;
-        LineaSlot::query()->where('slot_id', $slot_id)->where('numAsiento', $numAsiento)->update(['pasajero_correo' => $pasajero_correo]);
-        
-        return redirect(action('PasajeroController@buscarViajes'));
     }
 }
