@@ -104,6 +104,11 @@ Route::post('/administrador/rutas/borrar', 'AdministradorController@borrarRuta')
 Route::get ('/administrador/rutas/crear', 'AdministradorController@nuevaRuta');
 Route::post('/administrador/rutas/crear', 'AdministradorController@nuevaRuta_crear');
 
+Route::get('/administrador/slots', 'AdministradorController@slots');
+Route::post('/administrador/slots', 'AdministradorController@slots');
+Route::get ('/administrador/slots/borrar', 'AdministradorController@borrarSlot');
+Route::post('/administrador/slots/borrar', 'AdministradorController@borrarSlot');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

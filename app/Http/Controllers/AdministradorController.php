@@ -7,6 +7,8 @@ use DB;
 use App\Pasajero;
 use App\Conductor;
 use App\User;
+use App\Slot;
+use App\Coche;
 use Image;
 use App\Ruta;
 
@@ -420,4 +422,45 @@ class AdministradorController extends Controller
 
         return redirect(action('AdministradorController@rutas'));
     }
+
+
+    ////////////////////////////////////////////////////////////SLOTS/////////////////////////////////////////////////////////////////////////////////
+    public function slots(Request $request){
+
+        $sort = $request->query('sort');
+        $sort2 = $request->query('sort2');
+        $page = $request->query('page');
+
+        $select = Slot::query();
+
+        if(isset($sort)){
+            if(isset($sort2) && ($sort === $sort2)){
+                $sort = null;
+                $select = $select->orderBy($sort2, 'desc');
+            }
+            else{
+                $select = $select->orderBy($sort, 'asc');
+            }
+        }
+        elseif(isset($sort2)) {
+            $select = $select->orderBy($sort2, 'desc');
+        }
+
+        $select = $select->select('id', 'fecha', 'hora', 'direccion', 'coche_matricula')->paginate(10);
+        
+        
+        return view('administrador.slots', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2]);
+
+    }
+
+    public function borrarSlot(Request $request){
+        $id = $request->query('id');
+        Slot::query()->where('id', 'like', $id)->delete();
+
+        return redirect(action('AdministradorController@slots'));
+    }
+
+
+
+
 }

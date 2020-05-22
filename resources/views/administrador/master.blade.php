@@ -42,7 +42,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" @if(($actual ?? -1) === 4) style="background:royalblue" @endif>
+                    <a href="{{ action('AdministradorController@slots') }}" @if(($actual ?? -1) === 4) style="background:royalblue" @endif>
                         <i class="fas fa-calendar-week"></i>
                             Slots
                         </a>
