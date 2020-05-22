@@ -17,6 +17,19 @@
 <h1> Pasajeros </h1>
 <div style="height:100px">
     <br><br>
+    
+    
+    <form style="float:right" method="GET" action ="{{ action('AdministradorController@nuevoPasajero') }}">
+            @csrf
+            <div style="float:left" class="form-group row">
+                <label for="pasajeroNuevo">Nuevo Pasajero</label>
+                &nbsp&nbsp&nbsp
+            </div>
+            <p style="float:left">&nbsp&nbsp&nbsp</p>
+            <button style="float:left" type="submit" class="btn btn-primary">➕</button>
+            <p style="float:left">&nbsp&nbsp&nbsp</p>
+    </form>
+    
     <table class = 'table table-striped'>
         <tr align="center">
             <th>
@@ -68,6 +81,18 @@
                     <form method="POST" action ="{{ action('AdministradorController@borrarPasajero',  ['correo'=>$r->correo]) }}">
                         @csrf
                         <button onclick="return ConfirmDelete()" style="float:left" type="submit" class="btn btn-primary">❌</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action ="{{ action('AdministradorController@pasajero_modificar',  ['correo'=>$r->correo]) }}">
+                        @csrf
+                        <button style="float:left" type="submit" class="btn btn-primary">✏</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action ="{{ action('AdministradorController@pasajero',  ['correo'=>$r->correo]) }}">
+                        @csrf
+                        <button style="float:left" type="submit" class="btn btn-primary">🔍</button>
                     </form>
                 </td>
             </tr>
