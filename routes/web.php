@@ -128,4 +128,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/administrador/slots', 'AdministradorController@slots');
     Route::get ('/administrador/slots/borrar', 'AdministradorController@borrarSlot');
     Route::post('/administrador/slots/borrar', 'AdministradorController@borrarSlot');
+
+    Route::get('/administrador/lineaslots', 'AdministradorController@lineaslots');
+    Route::post('/administrador/lineaslots', 'AdministradorController@lineaslots');
+    Route::get ('/administrador/lineaslots/borrar', 'AdministradorController@borrarLineaSlot');
+    Route::post('/administrador/lineaslots/borrar', 'AdministradorController@borrarLineaSlot');
+
+    Route::get('/administrador/coches', 'AdministradorController@coches');
+    Route::post('/administrador/coches', 'AdministradorController@coches');
+    Route::get ('/administrador/coches/borrar', 'AdministradorController@borrarCoche');
+    Route::post('/administrador/coches/borrar', 'AdministradorController@borrarCoche');
+    Route::get('/administrador/coche', 'AdministradorController@coche_ver');
+    Route::post('/administrador/coche', 'AdministradorController@coche_ver');
 });

@@ -8,6 +8,7 @@ use App\Pasajero;
 use App\Conductor;
 use App\User;
 use App\Slot;
+use App\LineaSlot;
 use App\Coche;
 use Image;
 use App\Ruta;
@@ -452,6 +453,90 @@ class AdministradorController extends Controller
     }
 
     ////////////////////////////////////////////////////////////COCHES/////////////////////////////////////////////////////////////////////////////////
+    public function coches(Request $request){
+
+        $sort = $request->query('sort');
+        $sort2 = $request->query('sort2');
+        $page = $request->query('page');
+
+        $select = Coche::query();
+
+        if(isset($sort)){
+            if(isset($sort2) && ($sort === $sort2)){
+                $sort = null;
+                $select = $select->orderBy($sort2, 'desc');
+            }
+            else{
+                $select = $select->orderBy($sort, 'asc');
+            }
+        }
+        elseif(isset($sort2)) {
+            $select = $select->orderBy($sort2, 'desc');
+        }
+
+        $select = $select->select('matricula', 'nombre', 'marca', 'modelo','plazas', 'precioViaje', 'conductor_correo')->paginate(10);
+        
+        
+        return view('administrador.coches', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2]);
+
+    }
+
+    public function borrarCoche(Request $request){
+        $matricula = $request->query('matricula');
+        Coche::query()->where('matricula', 'like', $matricula)->delete();
+
+        return redirect(action('AdministradorController@coches'));
+    }
+
+    public function coche_ver(Request $request){
+        $matricula = $request->query('matricula');
+        $coche = Coche::query()->where('matricula', $matricula)->first();
+        
+        return view('administrador.coche_ver', ['coche' => $coche]);
+    }
+
+    ////////////////////////////////////////////////////////////LINEASLOT/////////////////////////////////////////////////////////////////////////////////
 
 
+    public function lineaslots(Request $request){
+
+        $sort = $request->query('sort');
+        $sort2 = $request->query('sort2');
+        $page = $request->query('page');
+
+        $select = LineaSlot::query();
+
+        if(isset($sort)){
+            if(isset($sort2) && ($sort === $sort2)){
+                $sort = null;
+                $select = $select->orderBy($sort2, 'desc');
+            }
+            else{
+                $select = $select->orderBy($sort, 'asc');
+            }
+        }
+        elseif(isset($sort2)) {
+            $select = $select->orderBy($sort2, 'desc');
+        }
+
+        $select = $select->select('slot_id', 'numAsiento', 'pasajero_correo')->paginate(10);
+        
+        
+        return view('administrador.lineaslots', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2]);
+
+    }
+
+    public function borrarLineaSlot(Request $request){
+        $slot_id = $request->query('slot_id');
+        $numAsiento = $request->query('numAsiento');
+        $pasajero_correo = $request->query('pasajero_correo');
+
+        if(isset($pasajero_correo)){
+            LineaSlot::query()->where('slot_id', $slot_id)
+                          ->where('numAsiento', $numAsiento)
+                          ->update(['slot_id' => $slot_id, 'numAsiento' =>$numAsiento, 'pasajero_correo' => NULL]);
+        }
+
+        return redirect(action('AdministradorController@lineaslots'));
+    }
 }

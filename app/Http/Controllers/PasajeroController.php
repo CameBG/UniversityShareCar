@@ -163,7 +163,7 @@ class PasajeroController extends Controller
                 ->join('coches', 'slots.coche_matricula', 'coches.matricula')
                 ->join('conductors', 'coches.conductor_correo', 'conductors.correo')
                 ->join('rutas', 'conductors.ruta_id', 'rutas.id')
-                ->where('pasajeros.correo', $user->correo)
+                ->where('pasajeros.correo', $user->email)
                 ->groupBy('slots.fecha', 'slots.hora', 'slots.direccion', 'conductors.puntoRecogida', 'rutas.localidad', 'coches.precioViaje', 'coches.nombre',
                           'conductors.apellido1', 'conductors.apellido2', 'conductors.nombre', 'rutas.universidad', 'lineaSlots.slot_id', 'lineaSlots.pasajero_correo');
 
