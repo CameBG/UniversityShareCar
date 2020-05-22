@@ -68,17 +68,17 @@
                 </a>
             </th>
             <th>
-                <a href="{{ action('AdministradorController@conductores', ['page' => $page, 'sort' => 'telefono', 'sort2' => $sort]) }}">
+                <a href="{{ action('AdministradorController@conductores', ['page' => $page, 'sort' => 'localidad', 'sort2' => $sort]) }}">
                     Localidad <i class="fas fa-arrows-alt-v"></i>
                 </a>
             </th>
             <th>
-                <a href="{{ action('AdministradorController@conductores', ['page' => $page, 'sort' => 'telefono', 'sort2' => $sort]) }}">
+                <a href="{{ action('AdministradorController@conductores', ['page' => $page, 'sort' => 'universidad', 'sort2' => $sort]) }}">
                     Universidad <i class="fas fa-arrows-alt-v"></i>
                 </a>
             </th>
             <th>
-                <a href="{{ action('AdministradorController@conductores', ['page' => $page, 'sort' => 'telefono', 'sort2' => $sort]) }}">
+                <a href="{{ action('AdministradorController@conductores', ['page' => $page, 'sort' => 'puntoRecogida', 'sort2' => $sort]) }}">
                     Punto de Recogida <i class="fas fa-arrows-alt-v"></i>
                 </a>
             </th>
