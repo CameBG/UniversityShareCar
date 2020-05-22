@@ -27,6 +27,8 @@ Route::get('/contactanos', function () {
     return view('contactanos');
 })->name('contactanos');
 
+Route::get ('/pasajero/buscarViajes', 'PasajeroController@buscarViajes');
+Route::post ('/pasajero/buscarViajes',               'PasajeroController@buscarViajes');
 
 Route::group(['middleware' => ['auth']], function () { 
     /*Route::get('/index', function () {
@@ -85,8 +87,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post ('/pasajero/configurar-perfil/borrar',    'PasajeroController@perfil_borrar');
     Route::get ('/pasajero/configurar-perfil/modificar', 'PasajeroController@perfil_modificar');
     Route::post('/pasajero/configurar-perfil/modificar', 'PasajeroController@perfil_modificado');
-    Route::get ('/pasajero/buscarViajes',                'PasajeroController@buscarViajes');
-    Route::post ('/pasajero/buscarViajes',               'PasajeroController@buscarViajes');
     Route::post ('/pasajero/buscarViajes/reservarViaje',  'PasajeroController@reservarViaje');
     Route::get ('/pasajero/buscarViajes/reservarViaje',  'PasajeroController@reservarViaje');
 
