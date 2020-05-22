@@ -102,9 +102,10 @@
                     </form>
                 </td>
                 <td>
-                    
+                    <form method="POST" action ="{{ action('AdministradorController@conductor_ver',  ['correo'=>$r->correo, 'localidad' => $r->localidad, 'universidad' => $r->universidad]) }}">
+                        @csrf
                         <button style="float:left" type="submit" class="btn btn-primary">🔍</button>
-                    
+                    </form>
                 </td>
             </tr>
         @endforeach

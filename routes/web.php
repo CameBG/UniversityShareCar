@@ -86,9 +86,10 @@ Route::get ('/administrador/conductores/borrar', 'AdministradorController@borrar
 Route::post('/administrador/conductores/borrar', 'AdministradorController@borrarConductor');
 Route::get ('/administrador/conductores/crear', 'AdministradorController@nuevoConductor');
 Route::post('/administrador/conductores/crear', 'AdministradorController@nuevoConductor_crear');
-/*Route::get ('/administrador/conductores/modificar', 'AdministradorController@pasajero_modificar');
-Route::post('/administrador/conductores/modificar', 'AdministradorController@pasajero_modificado');
-Route::get('/administrador/pasajero', 'AdministradorController@pasajero');*/
+Route::get ('/administrador/conductores/modificar', 'AdministradorController@conductor_modificar');
+Route::post('/administrador/conductores/modificar', 'AdministradorController@conductor_modificado');
+Route::get('/administrador/conductor', 'AdministradorController@conductor_ver');
+Route::post('/administrador/conductor', 'AdministradorController@conductor_ver');
 
 Auth::routes();
 
