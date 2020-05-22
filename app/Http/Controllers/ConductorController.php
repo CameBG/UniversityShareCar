@@ -13,6 +13,7 @@ use App\LineaSlot;
 use App\Ruta;
 use Image;
 use App\ServiceLayer\PlazasLineasSlot;
+use App\ServiceLayer\Rutas;
 
 class ConductorController extends Controller
 {
@@ -220,23 +221,9 @@ class ConductorController extends Controller
             Coche::query()->where('matricula', $matricula)->update(['rutaImagen' => $nombreImagen]);
         }
         
-        if($plazas < $plazasAntigua){
-            $slotsAnt = Slot::query()->where('coche_matricula', $coche->matricula)->get();
-            
-            foreach ($slotsAnt as $slot){
-                LineaSlot::query()->where('slot_id', $slot->id)->where('numAsiento', '>', $plazas)->delete();
-            }
-        } else if ($plazas > $plazasAntigua){
-            $slots = Slot::query()->where('coche_matricula', $coche->matricula)->get();
+        PlazasLineasSlot::editarPlazas($plazas, $plazasAntigua, $matricula);
 
-            foreach ($slots as $slot){
-                for ($i = $plazasAntigua + 1; $i <= $plazas; $i++){
-                    LineaSlot::create(['slot_id' => $slot->id, 'numAsiento' => $i]);
-                }
-            }
-        }
-
-        Coche::query()->where('matricula', $matricula)->update(['matricula' => $matricula, 'nombre' => $nombre, 'marca' => $marca, 'modelo' => $modelo, 'plazas' => $plazas, 'precioViaje' => $precio, 'conductor_correo' => $correo]);
+        Coche::query()->where('matricula', $matricula)->update(['nombre' => $nombre, 'marca' => $marca, 'modelo' => $modelo, 'precioViaje' => $precio]);
         return redirect(action('ConductorController@coches', ['page' => $page]));
     }
 
@@ -318,7 +305,7 @@ class ConductorController extends Controller
     }
 
     public function perfil_borrar(Request $request){
-        $correo = $request->query('correo');
+        $correo = Auth::user()->email;
 
         $conductor = Conductor::query()->where('correo', $correo)->first();
         $ruta = Ruta::query()->where('id', $conductor->ruta_id)->first();
@@ -334,11 +321,9 @@ class ConductorController extends Controller
         }
 
         // Borrar ruta si no la utiliza nadie
-        $conductorRutaAnt = $ruta->conductores()->first();
-        if(is_null($conductorRutaAnt)){
-            Ruta::query()->where('id', $ruta->id)->delete();
-        }
-        return redirect(action('ConductorController@confperfil'));
+        Rutas::borrarRutaSiNoUsada($ruta);
+        
+        return redirect("/");
     }
 
     public function perfil_modificar(Request $request){
@@ -405,6 +390,7 @@ class ConductorController extends Controller
         $conductor = Conductor::query()->where('correo', $correo)->first();        
         return view('conductor.ruta_modificar', ['conductor' => $conductor]);
     }
+
     public function ruta_modificada(Request $request){
         $user = Auth::user();
 
@@ -413,36 +399,14 @@ class ConductorController extends Controller
             'universidad' => 'required|string'
         ]);
         
-        $correo = $request->query('correo');
-        $conductor = Conductor::query()->where('correo', $correo)->first();
-
+        $correo = $user->email;
         $localidad = $request->input('localidad');
         $universidad = $request->input('universidad');
         $puntoRecogida = $request->input('puntoRecogida');
 
-        $ruta = Ruta::query()->where('localidad','like', $localidad)
-                             ->where('universidad','like', $universidad)->first();
+        $conductor = Conductor::query()->where('correo', $correo)->first();
 
-        $ruta_idAnt = Conductor::query()->where('correo', $correo)->first()->ruta_id;
-        $rutaAntigua = Ruta::query()->where('id', $ruta_idAnt)->first();
-        
-        if(is_null($ruta)){
-            $ruta2 = Ruta::create(['localidad' => $localidad, 'universidad' => $universidad]);
-            Conductor::query()->where('correo', $correo)->update(['ruta_id' => $ruta2->id, 'puntoRecogida' => $puntoRecogida]);
-        }
-        else{
-            //borrar
-            Slot::query()->join('coches', 'coche_matricula', 'coches.matricula')
-                         ->join('conductors', 'coches.conductor_correo', 'conductors.correo')             
-                         ->where('conductors.correo', $user->email)->delete();
-            //darle esta ruta al conductor
-            Conductor::query()->where('correo', $correo)->update(['ruta_id' => $ruta->id, 'puntoRecogida' => $puntoRecogida]);
-        }
-        //si no hay ningun conductor asociado a la ruta que se utilizaba antes se borra.
-        $conductorRutaAnt = $rutaAntigua->conductores()->first();
-        if(is_null($conductorRutaAnt)){
-            Ruta::query()->where('id', $ruta_idAnt)->delete();
-        }
+        Rutas::editarRuta($correo, $localidad, $universidad, $puntoRecogida);
         
         return redirect(action('ConductorController@ruta', ['conductor' => $conductor]));
     }

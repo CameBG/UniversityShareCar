@@ -9,7 +9,7 @@
             
             <tr height="50px">
                 <td>
-                    <a href="{{ action('ConductorController@perfil_modificar', ['correo'=>$conductor->correo]) }}"><i style="float:right" class="fas fa-edit">Editar</i></a>
+                    <a href="{{ action('ConductorController@perfil_modificar') }}"><i style="float:right" class="fas fa-edit">Editar</i></a>
                 </td>
                 <td></td>
             </tr>
@@ -36,7 +36,7 @@
             <tr><td>&nbsp</td></tr>
         </table>
 
-        <form method="POST" action ="{{ action('ConductorController@perfil_borrar', ['correo'=>$conductor->correo]) }}">
+        <form method="POST" action ="{{ action('ConductorController@perfil_borrar') }}">
             @csrf
             <button type="submit" class="btn btn-primary">
                 <a style="color:white"><i class="fas fa-trash-alt"></i> 

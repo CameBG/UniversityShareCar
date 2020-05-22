@@ -36,7 +36,7 @@
             <tr><td>&nbsp</td></tr>
         </table>
 
-        <form method="POST" action = "{{ action('PasajeroController@perfil_borrar', ['correo'=>$pasajero->correo]) }}">
+        <form method="POST" action = "{{ action('PasajeroController@perfil_borrar') }}">
             @csrf
             <button style="float:left" type="submit" class="btn btn-primary"><i class="fas fa-trash-alt"></i> Borrar usuario pasajero.</button>
         </form>

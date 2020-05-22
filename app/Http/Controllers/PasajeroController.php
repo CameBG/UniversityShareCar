@@ -259,7 +259,7 @@ class PasajeroController extends Controller
             Pasajero::query()->where('correo', $correo)->delete();
         }
 
-        return redirect(action('PasajeroController@confperfil'));
+        return redirect("/");
     }
 
     public function perfil_modificar(Request $request){
