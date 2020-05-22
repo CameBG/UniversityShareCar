@@ -112,7 +112,7 @@ class PasajeroController extends Controller
 
         $reservas = $request->input('reservas');
         $slot_id = $request->input('slot_id');
-        $pasajero_correo = Auth::user()->correo;
+        $pasajero_correo = Auth::user()->email;
 
         $asientosLibres = LineaSlot::query()->where('slot_id', $slot_id)->where('pasajero_correo', null)->groupBy('slot_id')->select(DB::raw('count(*) as asientos'))->first()->asientos;
 
@@ -205,7 +205,7 @@ class PasajeroController extends Controller
 
         $cancelaciones = $request->input('cancelaciones');
         $id_reserva = $request->query('id_reserva');
-        $correo_reserva = Auth::user()->correo;
+        $correo_reserva = Auth::user()->email;
 
         // Cantidad de reservas actuales
         $cantidad = LineaSlot::query()->where('slot_id', $id_reserva)->where('pasajero_correo', $correo_reserva)->groupBy('slot_id', 'pasajero_correo')->select(DB::raw('count(*) as asientos'))->first()->asientos;
@@ -243,7 +243,7 @@ class PasajeroController extends Controller
     }
 
     public function perfil_borrar(Request $request){
-        $correo = Auth::user()->correo;
+        $correo = Auth::user()->email;
         $pasajero = Pasajero::query()->where('correo', $correo)->first();
 
         // Borrar imagen
@@ -259,7 +259,7 @@ class PasajeroController extends Controller
     }
 
     public function perfil_modificar(Request $request){
-        $correo = Auth::user()->correo;
+        $correo = Auth::user()->email;
 
         $pasajero = Pasajero::query()->where('correo', $correo)->first();
         return view('pasajero.configurarperfil_modificar', ['pasajero' => $pasajero]);
@@ -271,7 +271,7 @@ class PasajeroController extends Controller
             'fechaNacimiento' => 'required|date',
         ]);
 
-        $correo = Auth::user()->correo;
+        $correo = Auth::user()->email;
         $nombre = $request->input('nombre');
         $apellido1 = $request->input('apellido1');
         $apellido2 = $request->input('apellido2');

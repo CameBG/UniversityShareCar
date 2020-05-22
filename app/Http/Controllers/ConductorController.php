@@ -155,7 +155,7 @@ class ConductorController extends Controller
         $modelo = $request->input('modelo');
         $plazas = $request->input('plazas');
         $precio = $request->input('precio');
-        $correo =  $user->correo;
+        $correo =  $user->email;
 
         Coche::create(['matricula' => $matricula, 'nombre' => $nombre, 'marca' => $marca, 'modelo' => $modelo, 'plazas' => $plazas, 'precioViaje' => $precio, 'conductor_correo' => $correo]);
 
@@ -207,7 +207,7 @@ class ConductorController extends Controller
         $precio = $request->input('precio');
         
 
-        $correo =  $user->correo;
+        $correo =  $user->email;
         $coche = Coche::query()->where('matricula', $matricula)->first();
         $plazasAntigua = $coche->plazas;
 
@@ -268,7 +268,7 @@ class ConductorController extends Controller
 
         $coches = Conductor::query()
                         ->join('coches', 'conductors.correo', 'coches.conductor_correo')
-                        ->where('conductors.correo', $user->correo)
+                        ->where('conductors.correo', $user->email)
                         ->select('coches.nombre as nombreCoche')->get();
 
         $filas = Conductor::query()
@@ -276,7 +276,7 @@ class ConductorController extends Controller
             ->join('slots', 'coches.matricula', 'slots.coche_matricula')
             ->join('lineaSlots', 'slots.id', 'lineaSlots.slot_id')
             ->join('pasajeros', 'lineaSlots.pasajero_correo', 'pasajeros.correo')
-            ->where('conductors.correo', $user->correo);
+            ->where('conductors.correo', $user->email);
 
         if(isset($personaElegida)){
             $filas = $filas->where('pasajeros.nombre', 'like', '%'.$personaElegida.'%');
@@ -347,7 +347,7 @@ class ConductorController extends Controller
     }
 
     public function perfil_modificar(Request $request){
-        $correo = $request->query('correo');
+        $correo = Auth::user()->email;
 
         $conductor = Conductor::query()->where('correo', $correo)->first();
         return view('conductor.configurarperfil_modificar', ['conductor' => $conductor]);
@@ -359,7 +359,7 @@ class ConductorController extends Controller
             'fechaNacimiento' => 'required|date',
         ]);
 
-        $correo = $request->query('correo');
+        $correo = $request->Auth::user()->email;
         $nombre = $request->input('nombre');
         $apellido1 = $request->input('apellido1');
         $apellido2 = $request->input('apellido2');
@@ -406,7 +406,7 @@ class ConductorController extends Controller
     }
 
     public function ruta_modificar(Request $request){
-        $correo = $request->query('correo');
+        $correo = Auth::user()->email;
         $conductor = Conductor::query()->where('correo', $correo)->first();        
         return view('conductor.ruta_modificar', ['conductor' => $conductor]);
     }
@@ -439,7 +439,7 @@ class ConductorController extends Controller
             //borrar
             Slot::query()->join('coches', 'coche_matricula', 'coches.matricula')
                          ->join('conductors', 'coches.conductor_correo', 'conductors.correo')             
-                         ->where('conductors.correo', $user->correo)->delete();
+                         ->where('conductors.correo', $user->email)->delete();
             //darle esta ruta al conductor
             Conductor::query()->where('correo', $correo)->update(['ruta_id' => $ruta->id, 'puntoRecogida' => $puntoRecogida]);
         }

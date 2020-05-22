@@ -64,7 +64,7 @@
                 @else
                     <li>
                         <a href="{{ url('/index') }}" @if(($actual ?? -1) === 5) style="background:royalblue" @endif>
-                        <i class = "fas fa-cat"></i> Elegir usuario
+                        <i class = "fas fa-cat"></i> Elegir perfil
                         </a>
                     </li>
                     <li>

@@ -18,7 +18,7 @@
             <td>
                 <div style="margin-right: 50px;" class="form-group">
                     <label><i style="float:left" class="fas fa-calendar-week fa-2x"></i>&nbsp&nbsp Día: </label>               
-                    <input style="width:250px" type="date" name="dia" id="dia"  value="{{ old('fechaDesde') }}" placeholder="DD/MM/YYYY" class="form-control">
+                    <input style="width:250px" type="date" name="dia" id="dia"  value="{{ $dia }}" class="form-control">
                 </div>
             </td>
             <td>
@@ -43,8 +43,8 @@
                 <div class="form-group">
                     <label><i style="float:left" class="fas fa-clock fa-2x"></i>&nbsp&nbsp Hora de salida: </label>
                     <br>
-                    <input style="width:120px; display:inline-block" type="time" name="horaDesde" id="horaDesde" value="{{ old('horaDesde') }}" placeholder="Desde" class="form-control">
-                    <input style="width:120px; display:inline-block" type="time" name="horaHasta" id="horaHasta" value="{{ old('horaHasta') }}" placeholder="Hasta" placeholder="Hasta" class="form-control">
+                    <input style="width:120px; display:inline-block" type="time" name="horaDesde" id="horaDesde" value="{{ $horaDesde }}" placeholder="Desde" class="form-control">
+                    <input style="width:120px; display:inline-block" type="time" name="horaHasta" id="horaHasta" value="{{ $horaHasta }}" placeholder="Hasta" placeholder="Hasta" class="form-control">
                 </div>
             </td>
             <td rowspan="2">

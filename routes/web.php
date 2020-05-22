@@ -121,8 +121,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/administrador/rutas', 'AdministradorController@rutas');
     Route::post('/administrador/rutas', 'AdministradorController@rutas');
-    Route::get ('/administrador/rutas/borrar', 'AdministradorController@borrarRuta');
-    Route::post('/administrador/rutas/borrar', 'AdministradorController@borrarRuta');
     Route::get ('/administrador/rutas/crear', 'AdministradorController@nuevaRuta');
     Route::post('/administrador/rutas/crear', 'AdministradorController@nuevaRuta_crear');
 

@@ -14,55 +14,50 @@
         }
 </script>
 
-<h1> Usuarios </h1>
-<div style="height:100px">
-    <br><br>
-    
-
-    <form style="float:right" method="GET" action ="{{ action('AdministradorController@nuevaRuta') }}">
-            @csrf
-            <div style="float:left" class="form-group row">
-                <label for="rutaNuevo">Nueva Ruta</label>
-                &nbsp&nbsp&nbsp
+<div style="margin-left:25%">
+    <div class="col-md-6">
+        <div class="card w-100 my-4 mx-5">
+            <div class="card-header">
+                <h1 style="text-align:center; display:inline-block">Rutas</h1>
+                <form style="display:inline-block; float:right" method="GET" action ="{{ action('AdministradorController@nuevaRuta') }}">
+                    @csrf
+                    <button style="margin-right:10px" type="submit" class="btn btn-primary"><i class="fas fa-plus"></i>   Nueva ruta</button>
+                </form>
             </div>
-            <p style="float:left">&nbsp&nbsp&nbsp</p>
-            <button style="float:left" type="submit" class="btn btn-primary">➕</button>
-            <p style="float:left">&nbsp&nbsp&nbsp</p>
-    </form>
-
-    <table class = 'table table-striped'>
-        <tr align="center">
-            <th>
-                <a href="{{ action('AdministradorController@rutas', ['page' => $page,'sort' => 'id', 'sort2' => $sort]) }}">
-                    ID <i class="fas fa-arrows-alt-v"></i>
-                </a>
-            </th>
-            <th>
-                <a href="{{ action('AdministradorController@rutas', ['page' => $page,'sort' => 'localidad', 'sort2' => $sort]) }}">
-                    Localidad <i class="fas fa-arrows-alt-v"></i>
-                </a>
-            </th>
-            <th>
-                <a href="{{ action('AdministradorController@rutas', ['page' => $page,'sort' => 'universidad', 'sort2' => $sort]) }}">
-                    Universidad <i class="fas fa-arrows-alt-v"></i>
-                </a>
-            </th>
-        </tr>
-        @foreach ($result as $r)
-            <tr align="center">
-                <td>{{$r->id}}</td>
-                <td>{{$r->localidad}}</td>
-                <td>{{$r->universidad}}</td>
-                <td>
-                    <form method="POST" action ="{{ action('AdministradorController@borrarRuta',  ['id'=>$r->id]) }}">
-                        @csrf
-                        <button onclick="return ConfirmDelete()" style="float:left" type="submit" class="btn btn-primary">❌</button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-    </table>
-    {{$result->appends(['page' => $page,'sort' => $sort, 'sort2' => $sort2,])->links()}}
+            <div class="card-body">
+                <table class = 'table table-striped'>
+                    <tr align="center">
+                        <th>
+                            <a href="{{ action('AdministradorController@rutas', ['page' => $page,'sort' => 'id', 'sort2' => $sort]) }}">
+                                ID <i class="fas fa-arrows-alt-v"></i>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="{{ action('AdministradorController@rutas', ['page' => $page,'sort' => 'localidad', 'sort2' => $sort]) }}">
+                                Localidad <i class="fas fa-arrows-alt-v"></i>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="{{ action('AdministradorController@rutas', ['page' => $page,'sort' => 'universidad', 'sort2' => $sort]) }}">
+                                Universidad <i class="fas fa-arrows-alt-v"></i>
+                            </a>
+                        </th>
+                    </tr>
+                    @foreach ($result as $r)
+                        <tr align="center">
+                            <td>{{$r->id}}</td>
+                            <td>{{$r->localidad}}</td>
+                            <td>{{$r->universidad}}</td>
+    
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+            <div class="card-footer">
+                {{$result->appends(['page' => $page,'sort' => $sort, 'sort2' => $sort2,])->links()}}
+            </div>
+        </div>
+    </div>
 </div>
 
 

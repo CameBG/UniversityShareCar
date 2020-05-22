@@ -5,7 +5,7 @@
     <h1> Configurar Perfil </h1>
 
     <div style= "margin-left:33%">
-        <form method="POST" action = "{{ action('PasajeroController@perfil_modificado', ['correo'=>$pasajero->correo]) }}" enctype="multipart/form-data">
+        <form method="POST" action = "{{ action('PasajeroController@perfil_modificado') }}" enctype="multipart/form-data">
             @csrf
             <table>
                 <tr>

@@ -390,16 +390,7 @@ class AdministradorController extends Controller
 
     }
 
-    public function borrarRuta(Request $request){
-        $id = $request->query('id');
-        Ruta::query()->where('id', 'like', $id)->delete();
-
-        return redirect(action('AdministradorController@rutas'));
-    }
-
     public function nuevaRuta(Request $request){
-        
-        
         return view('administrador.nuevaRuta');
     }
 
