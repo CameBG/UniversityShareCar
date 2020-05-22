@@ -61,8 +61,13 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ url('/index') }}" @if(($actual ?? -1) === 7) style="background:royalblue" @endif>
+                        <i class = "fas fa-cat"></i> Elegir usuario
+                    </a>
+                </li>
+                <li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
-                    <a class="profile-submenu" @if(($actual ?? -1) === 7) style="background:royalblue" @endif href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >
+                    <a class="profile-submenu" @if(($actual ?? -1) === 8) style="background:royalblue" @endif href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >
                         <i class="fas fa-sign-out-alt"></i> Cerrar sesión 
                     </a>
                 </li>
