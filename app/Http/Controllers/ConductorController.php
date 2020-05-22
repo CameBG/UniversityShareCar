@@ -393,6 +393,7 @@ class ConductorController extends Controller
     ruta antigua, si nadie mas la está utilizando, se borra de la base de datos)
     */
     public function ruta() {
+        $user = Auth::user();
         $conductor =  Conductor::query()->where('correo', $user->email)->first();
         return view('conductor.ruta', ['conductor' => $conductor]);
     }
