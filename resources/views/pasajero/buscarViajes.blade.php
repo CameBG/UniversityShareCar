@@ -11,7 +11,7 @@
         </div>
     @endif
 
-<form method="POST" action = "{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'fecha', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
+<form autocomplete="off" method="POST" action = "{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'fecha', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}">
     @csrf
     <table>
         <tr>
@@ -21,19 +21,26 @@
                     <input style="width:250px" type="date" name="dia" id="dia"  value="{{ $dia }}" class="form-control">
                 </div>
             </td>
-            <td>
-                <div style="margin-right: 50px;" class="form-group">
+            <td style="vertical-align: top">
+                <div style="margin-right: 50px;" class="datalist">
                     <label><i style="float:left" class="fas fa-map-marker-alt fa-2x"></i>&nbsp&nbsp Localidad: </label>
-                    <input style="width:300px" type="text" class="form-control" name="localidad" id="localidad" value="{{ $localidad }}" placeholder="Localidad">
+                    <input style="width:300px" type="text" list="localidades" class="form-control" name="localidad" value="{{ $localidad }}" placeholder="Localidad">
+                    <datalist id="localidades">
+                        <option value="Todas"></option>
+                        @foreach($localidades as $loc)
+                        <option>{{$loc->localidad}}</option>
+                        @endforeach
+                    </datalist>
                 </div>
+                
             </td>
-            <td>
+            <td style="vertical-align: top">
                 <div class="form-group">
                     <label><i style="float:left" class="fas fa-map-signs fa-2x"></i>&nbsp&nbsp Ida/Vuelta: </label><br>
                     <select style="width:80%; margin-left: 15%" id="direccion" name="direccion">
-                        <option value="ambas">Ida/Vuelta</option>
-                        <option value="ida">Ida</option>
-                        <option value="vuelta">Vuelta</option> 
+                        <option value="ambas" @if ($direccion === "ambas") selected @endif>Ida/Vuelta</option>
+                        <option value="ida" @if ($direccion === "ida") selected @endif>Ida</option>
+                        <option value="vuelta"  @if ($direccion === "vuelta") selected @endif>Vuelta</option> 
                     </select>
                 </div>
             </td>
@@ -47,14 +54,14 @@
                     <input style="width:120px; display:inline-block" type="time" name="horaHasta" id="horaHasta" value="{{ $horaHasta }}" placeholder="Hasta" placeholder="Hasta" class="form-control">
                 </div>
             </td>
-            <td rowspan="2">
+            <td style="vertical-align: top">
                 <div class="datalist">
                     <label><i style="float:left" class="fas fa-university fa-2x"></i>&nbsp&nbsp Universidad: </label>
-                    <input style="width:300px" type="text" list="universidades" class="form-control" value="{{ $universidad }}" placeholder="Universidad">
+                    <input style="width:300px" type="text" list="universidades" class="form-control" name="universidad" value="{{ $universidad }}" placeholder="Universidad">
                     <datalist id="universidades">
-                        <option value="Todos"><a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'fecha', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>null, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}"> </a></option>
+                        <option value="Todas"></option>
                         @foreach($universidades as $uni)
-                        <option value={{ $uni->universidad }}><a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'fecha', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$uni->universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}"></a></option>
+                        <option>{{$uni->universidad}}</option>
                         @endforeach
                     </datalist>
                 </div>
