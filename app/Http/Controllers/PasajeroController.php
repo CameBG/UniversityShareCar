@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use DB;
 
@@ -14,6 +15,8 @@ use Image;
 class PasajeroController extends Controller
 {
     public function misReservas(Request $request){
+        $user = Auth::user();
+
         $borrado = $request->query('id_reserva');
         if (isset($borrado)){
             $borrado = true;
@@ -41,7 +44,7 @@ class PasajeroController extends Controller
                 ->join('coches', 'slots.coche_matricula', 'coches.matricula')
                 ->join('conductors', 'coches.conductor_correo', 'conductors.correo')
                 ->join('rutas', 'conductors.ruta_id', 'rutas.id')
-                ->where('pasajeros.correo', Pasajero::currentPasajero()->correo)
+                ->where('pasajeros.correo', $user->correo)
                 ->groupBy('slots.fecha', 'slots.hora', 'slots.direccion', 'conductors.puntoRecogida', 'rutas.localidad', 'coches.precioViaje', 'coches.nombre',
                           'conductors.apellido1', 'conductors.apellido2', 'conductors.nombre', 'rutas.universidad', 'lineaSlots.slot_id', 'lineaSlots.pasajero_correo');
 
@@ -124,7 +127,9 @@ class PasajeroController extends Controller
     }*/
 
     public function confperfil(){
-        $pasajero =  Pasajero::currentPasajero();
+        $user = Auth::user();
+
+        $pasajero =  Pasajero::query()->where('correo', $user->email)->first();;
         return view('pasajero.configurarperfil', ['pasajero' => $pasajero]);
     }
 
@@ -280,8 +285,10 @@ class PasajeroController extends Controller
     }
 
     public function reservarViaje(Request $request) {
+        $user = Auth::user();
+
         $slot_id = $request->input('slot_id');
-        $pasajero_correo = Pasajero::currentPasajero()->correo;
+        $pasajero_correo = $user->correo;
         $numAsiento = LineaSlot::query()->where('slot_id', $slot_id)->where('pasajero_correo', null)->first()->numAsiento;
         LineaSlot::query()->where('slot_id', $slot_id)->where('numAsiento', $numAsiento)->update(['pasajero_correo' => $pasajero_correo]);
         

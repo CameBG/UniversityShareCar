@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use DB;
 use App\Conductor;
@@ -15,6 +16,8 @@ use Image;
 class ConductorController extends Controller
 {
     public function misHorarios(Request $request){
+
+        $user = Auth::user();
         $sort = $request->query('sort');
         $sort2 = $request->query('sort2');
         $page = $request->query('page');
@@ -34,7 +37,7 @@ class ConductorController extends Controller
                 ->join('slots', 'coches.matricula', 'slots.coche_matricula')
                 ->join('lineaSlots', 'slots.id', 'lineaSlots.slot_id')
                 ->leftJoin('pasajeros', 'lineaSlots.pasajero_correo', 'pasajeros.correo')
-                ->where('conductors.correo', Conductor::currentConductor()->correo)
+                ->where('conductors.correo', $user->email)
                 ->groupBy('coches.nombre', 'coches.marca', 'coches.modelo', 'slots.fecha', 'slots.hora', 'slots.direccion', 'coches.plazas', 'slots.id');
 
 
@@ -75,7 +78,10 @@ class ConductorController extends Controller
     }
     
     public function nuevoHorario(Request $request){
-        $coches = Conductor::currentConductor()->coches()->get();
+        $user = Auth::user();
+        
+        $conductor = Conductor::query()->where('correo', $user->email)->first();
+        $coches = $conductor->coches()->get();
 
         return view('conductor.nuevohorario', ['coches' => $coches]);
     }
@@ -103,9 +109,11 @@ class ConductorController extends Controller
     }
 
     public function coches(Request $request){
+        $user = Auth::user();
+
         $page = $request->input('page');
         $coches = Coche::query()->join('conductors', 'coches.conductor_correo', 'conductors.correo')
-                ->where('conductors.correo', Conductor::currentConductor()->correo)
+                ->where('conductors.correo', $user->email)
                 ->orderBy('coches.nombre', 'asc')
                 ->select('coches.nombre as nombreCoche', 'matricula', 'marca', 'modelo', 'plazas', 'precioViaje', 'coches.rutaImagen as rutaImagen')->paginate(1);
 
@@ -130,6 +138,8 @@ class ConductorController extends Controller
     }
 
     public function coches_creado(Request $request){
+        $user = Auth::user();
+
         $request->validate([
             'nombre' => 'required|string',
             'matricula' => 'required|string',
@@ -145,7 +155,7 @@ class ConductorController extends Controller
         $modelo = $request->input('modelo');
         $plazas = $request->input('plazas');
         $precio = $request->input('precio');
-        $correo =  Conductor::currentConductor()->correo;
+        $correo =  $user->correo;
 
         Coche::create(['matricula' => $matricula, 'nombre' => $nombre, 'marca' => $marca, 'modelo' => $modelo, 'plazas' => $plazas, 'precioViaje' => $precio, 'conductor_correo' => $correo]);
 
@@ -176,6 +186,8 @@ class ConductorController extends Controller
     }
 
     public function coches_modificado(Request $request){
+        $user = Auth::user();
+
         $page = $request->query('page');
 
         $request->validate([
@@ -195,7 +207,7 @@ class ConductorController extends Controller
         $precio = $request->input('precio');
         
 
-        $correo =  Conductor::currentConductor()->correo;
+        $correo =  $user->correo;
         $coche = Coche::query()->where('matricula', $matricula)->first();
         $plazasAntigua = $coche->plazas;
 
@@ -227,6 +239,8 @@ class ConductorController extends Controller
     }
 
     public function pasajeros(Request $request){
+        $user = Auth::user();
+
         $fechaDesde = $request->input('fechaDesde');
         if (isset($fechaDesde)){
             $request->validate([
@@ -247,7 +261,7 @@ class ConductorController extends Controller
 
         $coches = Conductor::query()
                         ->join('coches', 'conductors.correo', 'coches.conductor_correo')
-                        ->where('conductors.correo', Conductor::currentConductor()->correo)
+                        ->where('conductors.correo', $user->correo)
                         ->select('coches.nombre as nombreCoche')->get();
 
         $filas = Conductor::query()
@@ -255,7 +269,7 @@ class ConductorController extends Controller
             ->join('slots', 'coches.matricula', 'slots.coche_matricula')
             ->join('lineaSlots', 'slots.id', 'lineaSlots.slot_id')
             ->join('pasajeros', 'lineaSlots.pasajero_correo', 'pasajeros.correo')
-            ->where('conductors.correo', Conductor::currentConductor()->correo);
+            ->where('conductors.correo', $user->correo);
 
         if(isset($personaElegida)){
             $filas = $filas->where('pasajeros.nombre', 'like', '%'.$personaElegida.'%');
@@ -296,7 +310,8 @@ class ConductorController extends Controller
     }
 
     public function confperfil(){
-        $conductor =  Conductor::currentConductor();
+        $user = Auth::user();
+        $conductor =  Conductor::query()->where('correo', $user->email)->first();
         return view('conductor.configurarperfil', ['conductor' => $conductor]);
     }
 
@@ -378,7 +393,7 @@ class ConductorController extends Controller
     ruta antigua, si nadie mas la está utilizando, se borra de la base de datos)
     */
     public function ruta() {
-        $conductor =  Conductor::currentConductor();
+        $conductor =  Conductor::query()->where('correo', $user->email)->first();
         return view('conductor.ruta', ['conductor' => $conductor]);
     }
 
@@ -388,6 +403,8 @@ class ConductorController extends Controller
         return view('conductor.ruta_modificar', ['conductor' => $conductor]);
     }
     public function ruta_modificada(Request $request){
+        $user = Auth::user();
+
         $request->validate([
             'localidad' => 'required|string',
             'universidad' => 'required|string'
@@ -414,7 +431,7 @@ class ConductorController extends Controller
             //borrar
             Slot::query()->join('coches', 'coche_matricula', 'coches.matricula')
                          ->join('conductors', 'coches.conductor_correo', 'conductors.correo')             
-                         ->where('conductors.correo', Conductor::currentConductor()->correo)->delete();
+                         ->where('conductors.correo', $user->correo)->delete();
             //darle esta ruta al conductor
             Conductor::query()->where('correo', $correo)->update(['ruta_id' => $ruta->id, 'puntoRecogida' => $puntoRecogida]);
         }
