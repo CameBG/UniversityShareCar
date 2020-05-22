@@ -16,7 +16,7 @@
         <form  method="POST" action = "{{ action('PasajeroController@misReservas',  ['page' => $page, 'sort' => $sort, 'sort2' => $sort2, 'fechaDesde'=>$fechaDesde, 'fechaHasta'=>$fechaHasta, 'personaElegida'=>$personaElegida]) }}">
             @csrf
             <p style="float:right">&nbsp&nbsp&nbsp</p>
-            <button style="float:right" type="submit" class="btn btn-primary">✔</button>
+            <button style="float:right" type="submit" class="btn btn-primary"><i  class="fas fa-check"> </i></button>
             <p style="float:right">&nbsp&nbsp&nbsp</p>
             <div style="float:right" class="form-group row">
                 <i style="float:right" class="fas fa-user fa-2x"></i>
@@ -39,7 +39,7 @@
                 &nbsp&nbsp&nbsp
             </div>
             <p style="float:left">&nbsp&nbsp&nbsp</p>
-            <button style="float:left" type="submit" class="btn btn-primary">✔</button>
+            <button style="float:left" type="submit" class="btn btn-primary"><i  class="fas fa-check"> </i></button>
         </form>
     </div>
 

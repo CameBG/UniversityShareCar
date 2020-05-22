@@ -41,7 +41,7 @@
                             <button onclick="return ConfirmDelete()" style="margin-right:10px" type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i>   Borrar</button>
                         </form>
 
-                        <button style="margin-right:10px"  type="submit" class="btn btn-primary" data-toggle="modal" data-target="#editar-coche-{{ $coche->matricula }}"><i class="fas fa-plus"></i>   Editar</button>
+                        <button style="margin-right:10px"  type="submit" class="btn btn-primary" data-toggle="modal" data-target="#editar-coche-{{ $coche->matricula }}"><i class="fas fa-edit"></i>   Editar</button>
                     </td>
                         
                         <!--<a onclick="return ConfirmDelete()" href="{{ action('ConductorController@coches_borrar',  ['matricula' => $coche->matricula]) }}"><i style="float:right" class="fas fa-trash-alt">Borrar</i></a>

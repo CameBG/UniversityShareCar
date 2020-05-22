@@ -32,7 +32,7 @@
                 &nbsp&nbsp&nbsp
             </div>
             <p style="float:left">&nbsp&nbsp&nbsp</p>
-            <button style="float:left" type="submit" class="btn btn-primary">✔</button>
+            <button style="float:left" type="submit" class="btn btn-primary"><i  class="fas fa-check"> </i></button>
         </form>
 
     <form style="float:right" method="GET" action ="{{ action('ConductorController@nuevoHorario') }}">
@@ -42,7 +42,7 @@
                 &nbsp&nbsp&nbsp
             </div>
             <p style="float:left">&nbsp&nbsp&nbsp</p>
-            <button style="float:left" type="submit" class="btn btn-primary">➕</button>
+            <button style="float:left" type="submit" class="btn btn-primary"><i  class="fas fa-plus"> </i></button>
             <p style="float:left">&nbsp&nbsp&nbsp</p>
         </form>
         
