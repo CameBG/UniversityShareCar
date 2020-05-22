@@ -6,13 +6,16 @@
     <div class="card w-100 my-4 mx-5">
         <div class="card-header">
             <h1 style="text-align:center; display:inline-block"> Ver Conductor </h1>
-            
-            <form style="display:inline-block" method="POST" action ="{{ action('AdministradorController@conductor_modificar', ['correo'=>$conductor->correo, 'localidad'=>$localidad, 'universidad'=>$universidad]) }}">
-                @csrf
-                <button type="submit" class="btn btn-success"><i class="fas fa-edit"></i></button>
-            </form>
+
             <div class="card-body">
                 <table class = 'table table-striped'>
+                    <tr align="center">
+                        <td>
+                            <a href="{{ action('AdministradorController@conductor_modificar', ['correo'=>$conductor->correo, 'localidad'=>$localidad, 'universidad'=>$universidad]) }}"><i style="float:right" class="fas fa-edit">Editar</i></a>
+                        </td>
+                        <td></td>
+                    </tr>
+
                     <tr>
                         <td rowspan="7" width="320px" height="20px">
                             @if (isset($conductor->rutaImagen))
