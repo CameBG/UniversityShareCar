@@ -45,7 +45,7 @@ Route::get ('/conductor/coches/modificar', 'ConductorController@coches_modificar
 Route::post('/conductor/coches/modificar', 'ConductorController@coches_modificado');
 Route::get ('/conductor/coches/borrar',    'ConductorController@coches_borrar');
 
-Route::get ('/conductor/pasajeros',           'ConductorController@confperfil');
+Route::get ('/conductor/confperfil',           'ConductorController@confperfil');
 Route::post ('/conductor/configurar-perfil/borrar',    'ConductorController@perfil_borrar');
 Route::get ('/conductor/configurar-perfil/modificar', 'ConductorController@perfil_modificar');
 Route::post('/conductor/configurar-perfil/modificar', 'ConductorController@perfil_modificado');
@@ -77,6 +77,16 @@ Route::post('/administrador/pasajeros/crear', 'AdministradorController@nuevoPasa
 Route::get ('/administrador/pasajeros/modificar', 'AdministradorController@pasajero_modificar');
 Route::post('/administrador/pasajeros/modificar', 'AdministradorController@pasajero_modificado');
 Route::get('/administrador/pasajero', 'AdministradorController@pasajero');
+
+Route::get('/administrador/conductores', 'AdministradorController@conductores');
+Route::post('/administrador/conductores', 'AdministradorController@conductores');
+Route::get ('/administrador/conductores/borrar', 'AdministradorController@borrarConductor');
+Route::post('/administrador/conductores/borrar', 'AdministradorController@borrarConductor');
+Route::get ('/administrador/conductores/crear', 'AdministradorController@nuevoConductor');
+Route::post('/administrador/conductores/crear', 'AdministradorController@nuevoConductor_crear');
+/*Route::get ('/administrador/conductores/modificar', 'AdministradorController@pasajero_modificar');
+Route::post('/administrador/conductores/modificar', 'AdministradorController@pasajero_modificado');
+Route::get('/administrador/pasajero', 'AdministradorController@pasajero');*/
 
 Auth::routes();
 

@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Pasajero;
+use App\Conductor;
 use App\User;
 use Image;
+use App\Ruta;
 
 class AdministradorController extends Controller
 {
-    //
+    //te muestra la tabla de los pasajeros
     public function pasajeros(Request $request){
 
         $sort = $request->query('sort');
@@ -36,8 +38,7 @@ class AdministradorController extends Controller
         
         
         return view('administrador.pasajeros', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2]);
-        
-        
+
     }
 
     public function borrarPasajero(Request $request){
@@ -48,8 +49,8 @@ class AdministradorController extends Controller
     }
 
     public function nuevoPasajero(Request $request){
+        //select email from user where not in (select correo from pasajero)
         $users = User::query()->whereNotIn('email', Pasajero::query()->pluck('correo'))->select('email')->get();
-
         return view('administrador.nuevoPasajero', ['users' => $users]);
     }
 
@@ -137,5 +138,103 @@ class AdministradorController extends Controller
 
         return redirect(action('AdministradorController@pasajeros'));
     }
+
+
+
+
+
+    //////////////////////////////////////////////////////////////CONDUCTORES//////////////////////////////////////////////////////////////////////////
+    public function conductores(Request $request){
+
+        $sort = $request->query('sort');
+        $sort2 = $request->query('sort2');
+        $page = $request->query('page');
+
+        $select = Conductor::query();
+
+        if(isset($sort)){
+            if(isset($sort2) && ($sort === $sort2)){
+                $sort = null;
+                $select = $select->orderBy($sort2, 'desc');
+            }
+            else{
+                $select = $select->orderBy($sort, 'asc');
+            }
+        }
+        elseif(isset($sort2)) {
+            $select = $select->orderBy($sort2, 'desc');
+        }
+
+        $select = $select->select('nombre', 'correo', 'fechaNacimiento', 'apellido1', 'apellido2', 'genero', 'telefono')->paginate(10);
+        
+        
+        return view('administrador.conductores', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2]);
+
+    }
     
+
+    public function borrarConductor(Request $request){
+        $correo = $request->query('correo');
+        Conductor::query()->where('correo', 'like', $correo)->delete();
+
+        return redirect(action('AdministradorController@conductores'));
+    }
+
+
+    public function nuevoConductor(Request $request){
+        //select email from user where not in (select correo from Conductor)
+        $users = User::query()->whereNotIn('email', Conductor::query()->pluck('correo'))->select('email')->get();
+        return view('administrador.nuevoConductor', ['users' => $users]);
+    }
+
+    public function nuevoConductor_crear(Request $request){
+        
+        $request->validate([
+            'nombre' => 'required|string',
+            'correo' => 'required|string',
+            'fechaNacimiento' => 'required|date',
+            'localidad' => 'required|string',
+            'universidad' => 'required|string',
+            'puntoRecogida' => 'required|string'
+        ]);
+        $nombre = $request->input('nombre');
+        $correo = $request->input('correo');
+        $fechaNacimiento = $request->input('fechaNacimiento');
+        $localidad = $request->input('localidad');
+        $universidad = $request->input('universidad');
+        $puntoRecogida = $request->input('puntoRecogida');
+
+        $ruta_posible = Ruta::query()->where('localidad', 'like', $localidad)
+                                ->where('universidad', 'like', $universidad)->first();
+        if(!isset($ruta_posible)){
+            $ruta = Ruta::create(['localidad' => $localidad, 'universidad' => $universidad]);
+        }
+        else{
+            $ruta = $ruta_posible;
+        }
+
+        $apellido1 = $request->input('apellido1');
+        if(isset($apellido1)){
+            $request->validate(['apellido1' => 'required|string']);
+        }
+
+        $apellido2 = $request->input('apellido2');
+        if(isset($apellido2)){
+            $request->validate(['apellido2' => 'required|string']);
+        }
+
+        $genero = $request->input('genero');
+        if(isset($fechaNacimiento)){
+            $request->validate(['genero' => 'required|string']);
+        }
+
+        $telefono = $request->input('telefono');
+        if(isset($telefono)){
+            $request->validate(['telefono' => 'required|int']);
+        }
+        
+        Conductor::create(['correo' => $correo, 'nombre' => $nombre, 'fechaNacimiento' => $fechaNacimiento, 'genero' => $genero , 'telefono' => $telefono, 'ruta_id' => $ruta->id, 'puntoRecogida' => $puntoRecogida]);
+
+        return redirect(action('AdministradorController@conductores'));
+    }
 }

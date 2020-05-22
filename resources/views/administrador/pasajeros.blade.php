@@ -84,12 +84,6 @@
                     </form>
                 </td>
                 <td>
-                    <form method="POST" action ="{{ action('AdministradorController@pasajero_modificar',  ['correo'=>$r->correo]) }}">
-                        @csrf
-                        <button style="float:left" type="submit" class="btn btn-primary">✏</button>
-                    </form>
-                </td>
-                <td>
                     <form method="POST" action ="{{ action('AdministradorController@pasajero',  ['correo'=>$r->correo]) }}">
                         @csrf
                         <button style="float:left" type="submit" class="btn btn-primary">🔍</button>

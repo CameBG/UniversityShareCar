@@ -23,7 +23,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" @if(($actual ?? -1) === 1) style="background:royalblue" @endif >
+                    <a href="{{ action('AdministradorController@conductores') }}" @if(($actual ?? -1) === 1) style="background:royalblue" @endif >
                         <i class="fas fa-user"></i>
                         Conductores    
                     </a>
