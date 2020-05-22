@@ -48,9 +48,15 @@
                 </div>
             </td>
             <td rowspan="2">
-                <div class="form-group">
+                <div class="datalist">
                     <label><i style="float:left" class="fas fa-university fa-2x"></i>&nbsp&nbsp Universidad: </label>
-                    <input style="width:300px" type="text" class="form-control" name="universidad" id="universidad" value="{{ $universidad }}" placeholder="Universidad">
+                    <input style="width:300px" type="text" list="universidades" class="form-control" value="{{ $universidad }}" placeholder="Universidad">
+                    <datalist id="universidades">
+                        <option value="Todos"><a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'fecha', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>null, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}"> </a></option>
+                        @foreach($universidades as $uni)
+                        <option value={{ $uni->universidad }}><a href="{{ action('PasajeroController@buscarViajes', ['page' => $page, 'sort' => 'fecha', 'sort2' => $sort, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$uni->universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta]) }}"></a></option>
+                        @endforeach
+                    </datalist>
                 </div>
             </td>
             <td>
