@@ -49,20 +49,20 @@
                     </li>
                 <li>
                 <li>
-                    <a href="#" @if(($actual ?? -1) === 5) style="background:royalblue" @endif>
+                    <a href="{{ action('AdministradorController@lineaslots') }}" @if(($actual ?? -1) === 5) style="background:royalblue" @endif>
                         <i class="fas fa-calendar-week"></i>
                             LineaSlots
                         </a>
                 </li>
                 <li>
-                    <a href="#" @if(($actual ?? -1) === 6) style="background:royalblue" @endif>
+                    <a href="{{ action('AdministradorController@coches') }}" @if(($actual ?? -1) === 6) style="background:royalblue" @endif>
                         <i class="fas fa-car"></i>
                         Coches
                     </a>
                 </li>
                 <li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
-                    <a class="profile-submenu" @if(($actual ?? -1) === 6) style="background:royalblue" @endif href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >
+                    <a class="profile-submenu" @if(($actual ?? -1) === 7) style="background:royalblue" @endif href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" >
                         <i class="fas fa-sign-out-alt"></i> Cerrar sesión 
                     </a>
                 </li>
