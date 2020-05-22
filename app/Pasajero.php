@@ -14,4 +14,8 @@ class Pasajero extends Model
     public static function currentPasajero() {
         return Pasajero::all()->first();
     }
+
+    public function user() {
+        return $this->belongsTo('App\User', 'correo', 'email');
+    }
 }

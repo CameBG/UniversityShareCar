@@ -28,6 +28,7 @@ class LineaSlotsTableSeeder extends Seeder
                 }
             }
         }
+        /*
         Slot::create(['fecha' => '2010-02-22', 'hora' => '08:15', 'direccion' => 'Vuelta',    'coche_matricula' => 'X5678YZ']);
         Slot::create(['fecha' => '2015-02-22', 'hora' => '08:15', 'direccion' => 'Vuelta',    'coche_matricula' => 'B1234CD']);
         Slot::create(['fecha' => '2015-03-22', 'hora' => '08:15', 'direccion' => 'Ida',    'coche_matricula' => 'B1234CD']);
@@ -60,7 +61,7 @@ class LineaSlotsTableSeeder extends Seeder
         LineaSlot::create(['slot_id' => $id_aux6, 'numAsiento' => 1, 'pasajero_correo' => 'alejandra@dss.com']);
         LineaSlot::create(['slot_id' => $id_aux6, 'numAsiento' => 2, 'pasajero_correo' => 'alejandra@dss.com']);
         
-        
+        */
         
     }
 }

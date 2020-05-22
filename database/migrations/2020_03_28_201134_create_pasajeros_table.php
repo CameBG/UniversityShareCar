@@ -20,6 +20,7 @@ class CreatePasajerosTable extends Migration
             $table->timestamps();
 
             $table->primary('correo');
+            $table->foreign('correo')->references('email')->on('users');
         });
     }
 

@@ -19,4 +19,8 @@ class Conductor extends Model
     public static function currentConductor() {
         return Conductor::all()->first();
     }
+
+    public function user() {
+        return $this->belongsTo('App\User', 'correo', 'email');
+    }
 }

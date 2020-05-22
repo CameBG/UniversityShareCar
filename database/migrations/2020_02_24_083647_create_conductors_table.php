@@ -22,6 +22,7 @@ class CreateConductorsTable extends Migration
             $table->timestamps();
 
             $table->primary('correo');
+            $table->foreign('correo')->references('email')->on('users');
             $table->foreign('ruta_id')->references('id')->on('rutas');
         });
     }

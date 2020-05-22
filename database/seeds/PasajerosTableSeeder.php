@@ -19,7 +19,7 @@ class PasajerosTableSeeder extends Seeder
         Pasajero::create(['rutaImagen' => 'pp5awtjsau.png', 'correo' => 'fran@dss.com',      'nombre' => 'Fran',      'fechaNacimiento' => '1990-01-18', 'genero' => 'Hombre']);
         Pasajero::create(['rutaImagen' => 'nyr4zsuvjj.png', 'correo' => 'sofia@dss.com',     'nombre' => 'Sofia',     'fechaNacimiento' => '1990-01-21', 'genero' => 'Hombre']);
         Pasajero::create(['rutaImagen' => 'wtdl44q9fp.png', 'correo' => 'felipe@dss.com',    'nombre' => 'Felipe',    'fechaNacimiento' => '1990-01-22', 'genero' => 'Hombre']);
-        Pasajero::create(['rutaImagen' => 'mqk3qd3dpp.png', 'correo' => 'daniel@dss.com',    'nombre' => 'Daniel',    'fechaNacimiento' => '1990-01-21', 'genero' => 'Hombre']);
+        Pasajero::create(['rutaImagen' => 'mqk3qd3dpp.png', 'correo' => 'dani@dss.com',      'nombre' => 'Daniel',    'fechaNacimiento' => '1990-01-21', 'genero' => 'Hombre']);
         Pasajero::create([                                  'correo' => 'estefania@dss.com', 'nombre' => 'Estefania', 'fechaNacimiento' => '1990-01-03', 'genero' => 'Mujer' ]);
         Pasajero::create([                                  'correo' => 'roberto@dss.com',   'nombre' => 'Roberto',   'fechaNacimiento' => '1990-01-23', 'genero' => 'Hombre']);
         Pasajero::create([                                  'correo' => 'fernando@dss.com',  'nombre' => 'Fernando',  'fechaNacimiento' => '1990-01-26', 'genero' => 'Hombre']);
