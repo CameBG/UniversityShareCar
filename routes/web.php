@@ -76,7 +76,9 @@ Route::get ('/administrador/pasajeros/crear', 'AdministradorController@nuevoPasa
 Route::post('/administrador/pasajeros/crear', 'AdministradorController@nuevoPasajero_crear');
 Route::get ('/administrador/pasajeros/modificar', 'AdministradorController@pasajero_modificar');
 Route::post('/administrador/pasajeros/modificar', 'AdministradorController@pasajero_modificado');
-Route::get('/administrador/pasajero', 'AdministradorController@pasajero');
+Route::get('/administrador/pasajero', 'AdministradorController@pasajero_ver');
+Route::post('/administrador/pasajero', 'AdministradorController@pasajero_ver');
+
 
 Route::get('/administrador/conductores', 'AdministradorController@conductores');
 Route::post('/administrador/conductores', 'AdministradorController@conductores');

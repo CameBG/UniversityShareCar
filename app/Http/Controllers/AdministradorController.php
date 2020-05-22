@@ -12,6 +12,8 @@ use App\Ruta;
 
 class AdministradorController extends Controller
 {
+
+    //////////////////////////////////////////////////////////////PASAJEROS//////////////////////////////////////////////////////////////////////////
     //te muestra la tabla de los pasajeros
     public function pasajeros(Request $request){
 
@@ -136,9 +138,15 @@ class AdministradorController extends Controller
             Pasajero::query()->where('correo', $correo)->update(['rutaImagen' => $nombreImagen]);
         }
 
-        return redirect(action('AdministradorController@pasajeros'));
+        return redirect(action('AdministradorController@pasajero_ver', ['correo' => $correo]));
     }
 
+    public function pasajero_ver(Request $request){
+        $correo = $request->query('correo');
+
+        $pasajero = Pasajero::query()->where('correo', $correo)->first();
+        return view('administrador.pasajero_ver', ['pasajero' => $pasajero]);
+    }
 
 
 
@@ -237,4 +245,7 @@ class AdministradorController extends Controller
 
         return redirect(action('AdministradorController@conductores'));
     }
+
+
+    
 }
