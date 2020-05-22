@@ -9,6 +9,7 @@ use DB;
 use App\Pasajero;
 use App\Slot;
 use App\LineaSlot;
+use App\Ruta;
 use Image;
 
 
@@ -50,6 +51,8 @@ class PasajeroController extends Controller
             $request->validate(['direccion' => 'required|string']);
         }
 
+        $universidades = Ruta::query()->select('universidad')->groupBy('universidad')->get();
+        
         $select = LineaSlot::query()->where('lineaSlots.pasajero_correo', null)        
                 ->join('slots', 'lineaSlots.slot_id', 'slots.id') 
                 ->join('coches', 'slots.coche_matricula', 'coches.matricula')
@@ -102,7 +105,7 @@ class PasajeroController extends Controller
                                   'conductors.nombre as nombre', 'rutas.universidad as uni', 'coches.plazas as plazas',
                                   'lineaSlots.slot_id as slot_id', DB::raw('count(numAsiento) as asientos'))->paginate(4);
 
-        return view('pasajero.buscarViajes', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta, 'reservado' => $reservado]);
+        return view('pasajero.buscarViajes', ['result' => $select, 'page' => $page, 'sort' => $sort, 'sort2' => $sort2, 'universidades' => $universidades, 'dia'=>$dia, 'localidad'=>$localidad, 'universidad'=>$universidad, 'direccion'=>$direccion, 'horaDesde'=>$horaDesde, 'horaHasta'=>$horaHasta, 'reservado' => $reservado]);
     }
     
     public function reservarViaje(Request $request) {
